@@ -28,7 +28,7 @@ public class AppModule extends AbstractModule {
         // Do this instead of @Singleton above @Provides which cause graalvm native image reflection error
         bind(RaylibSettings.class).toProvider(this::provideRaylibSettings).asEagerSingleton();
         bind(TaskQueueService.class).to(TaskQueue.class).asEagerSingleton();
-        bind(Scene.class).to(MainScene.class);
+        bind(Scene.class).to(MainScene.class).asEagerSingleton();
         bind(RaylibGame.class);
     }
 }

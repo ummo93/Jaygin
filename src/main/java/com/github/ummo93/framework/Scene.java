@@ -18,8 +18,9 @@ public abstract class Scene {
     @Getter
     private Camera2D camera2D;
 
-    public abstract void onInit();
+    public void onInit() {
 
+    }
     public void onUpdate() {
 
     }
@@ -37,6 +38,7 @@ public abstract class Scene {
         if (actorToDestroyQueue.isEmpty()) return;
         var actor = actorToDestroyQueue.remove();
         actor.onDestroy();
+        actor.setScene(null);
         actors.remove(actor);
     }
 

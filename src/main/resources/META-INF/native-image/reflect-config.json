@@ -246,7 +246,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.game.MainScene$$FastClassByGuice$$43da2e",
+    "name": "com.github.ummo93.game.MainScene$$FastClassByGuice$$430714",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -568,7 +568,7 @@
     ]
   },
   {
-    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x000001cd99091c00",
+    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x000001f22f091c00",
     "methods": [
       {
         "name": "<init>",

@@ -144,11 +144,9 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
     @Override
     protected void onDestroy() {
         var explosion = new ActorAnimated2D(Vector3SubtractValue(position, explosionAnimation.getFrameWidth()/2), rotation, explosionAnimation);
-        getScene().spawn(explosion);
-
-        TaskQueueService
-            .getInstance()
-            .enqueue(() -> getScene().remove(explosion), 1);
+        var scene = getScene();
+        scene.spawn(explosion);
+        TaskQueueService.getInstance().enqueue(() -> scene.remove(explosion), 1);
 
         super.onDestroy();
     }
@@ -180,8 +178,8 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
                 var info = infoOpt.get();
                 var other = info.getOther();
                 bullets.remove(bullet);
-                if (other instanceof Damagable) {
-                    ((Damagable) other).addDamage(damage);
+                if (other instanceof Damagable damagable) {
+                    damagable.addDamage(damage);
                 }
                 break;
             }

@@ -3,13 +3,11 @@ package com.github.ummo93.framework;
 import com.github.ummo93.config.RaylibSettings;
 import com.github.ummo93.framework.service.TaskQueueService;
 import com.google.inject.Inject;
-import lombok.NoArgsConstructor;
 
 
 import static com.raylib.Raylib.*;
 
 
-@NoArgsConstructor
 public class RaylibGame {
 
     @Inject

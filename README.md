@@ -1,4 +1,39 @@
-# Jaygin - Java + Raylib + Spring engine
+# Jaygin - Java + [Raylib](https://github.com/raysan5/raylib) JNI ([Jaylib](https://github.com/electronstudio/jaylib)) engine
+### Simple self-written framework for working with raylib using java
+
+#### List of features:
+- Object-oriented model (working with actors and scene)
+- Event loop for scene and the actors
+- Deferred tasks and timers (without blocking the game loop, but running in the game loop in main thread)
+- A set of utilities for convenient raycasting, animation playback (animated actor based on spritesheets)
+
+Example of creating a deferred task:
+
+```java
+// somewhere in the Actor successor class
+var scene = getScene();
+scene.spawn(explosion); // Spawn explosion animation
+
+// Deferred task, remove explosion after a second
+TaskQueueService.getInstance()
+                .enqueue(() -> scene.remove(explosion), 1);
+```
+
+Example of raycast based collision handling (bullet hitting a collider)
+
+```java
+//...
+Ray ray = ray(bullet.pos, bullet.fwd);
+var infoOpt = getScene().raycastOne(ray, 10, this); // detect first hit
+if (infoOpt.isPresent()) {
+    var info = infoOpt.get();
+    var other = info.getOther();
+    bullets.remove(bullet);
+    if(other instanceof Damagable damagable) {
+        damagable.addDamage(damage);
+    }
+}
+```
 
 ## Native image
 
@@ -25,7 +60,7 @@ Run python script to add "unsafeAllocated" to Raylib native classes:
 
 Then to build a native image:
 
-    mvn -Pnative spring-boot:build-image
+    native-image --target=windows-amd64 -jar jaygin-0.1.jar
 
 
 

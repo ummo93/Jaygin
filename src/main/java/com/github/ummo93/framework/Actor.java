@@ -23,6 +23,8 @@ public abstract class Actor {
     @Getter
     @Setter
     private BoundingBox collider;
+    @Getter
+    protected boolean destructed = false;
 
     public Actor() {
         synchronized (Actor.class) {
@@ -53,7 +55,9 @@ public abstract class Actor {
     protected abstract void onDraw();
     protected void onInit() {}
     protected void onUpdate() {}
-    protected void onDestroy() {}
+    protected void onDestroy() {
+        destructed = true;
+    }
     protected void onBeforeUpdatePhysic() {
         bodyLastPos = position;
     }
