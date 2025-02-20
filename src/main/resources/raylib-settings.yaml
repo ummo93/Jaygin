@@ -1,0 +1,19 @@
+targetFps: 60
+title: "Demo Game"
+window:
+    width: 1280
+    height: 900
+    resizable: true
+    vsync: false
+    fullscreen: false
+    undecorated: false
+    hidden: false
+    minimized: false
+    maximized: false
+    unfocused: false
+    topmost: false
+    alwaysRun: false
+    transparent: false
+    highDPI: false
+    mousePassthrough: false
+    borderlessWindowed: false
