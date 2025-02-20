@@ -13,18 +13,18 @@ public class GameContext {
     private int windowHeight;
 
     public int getFrameRate() {
-        return GetFPS();
+        return getFPS();
     }
 
     public boolean hasWindowFlag(int flag) {
-        return IsWindowState(flag);
+        return isWindowState(flag);
     }
 
     public void setWindowFlag(int flag) {
-        SetWindowState(flag);
+        setWindowState(flag);
     }
 
     public void clearWindowFlag(int flag) {
-        ClearWindowState(flag);
+        clearWindowState(flag);
     }
 }

@@ -5,8 +5,8 @@ import lombok.Getter;
 import java.util.*;
 import java.util.function.Predicate;
 
-import static com.raylib.Colors.RAYWHITE;
 import static com.raylib.Raylib.*;
+import com.raylib.*;
 
 
 public abstract class Scene {
@@ -70,7 +70,7 @@ public abstract class Scene {
             }
             var otherCollider = it.getCollider();
             if (otherCollider == null) continue;
-            var collision = GetRayCollisionBox(ray, otherCollider);
+            var collision = getRayCollisionBox(ray, otherCollider);
             if (collision.hit()) {
                 ref[n] = new CollisionInfo();
                 ref[n].setCollision(collision);

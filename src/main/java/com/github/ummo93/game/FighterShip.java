@@ -16,9 +16,8 @@ import java.util.Set;
 import static com.github.ummo93.game.ControlSignal2D.*;
 import static com.github.ummo93.utils.RaylibUtils.*;
 import static com.github.ummo93.utils.RaylibUtils.vector2;
-import static com.raylib.Colors.*;
+import com.raylib.*;
 import static com.raylib.Raylib.*;
-import static com.raylib.Raylib.Vector2Scale;
 
 public class FighterShip extends ActorTexture2D implements Controllable2D, Damagable {
 
@@ -29,7 +28,7 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
 
     @Getter
     @Setter
-    private Vector2 velocity = Vector2Zero();
+    private Vector2 velocity = vector2Zero();
     @Getter
     @Setter
     private float rotationVelocity = 0;
@@ -105,7 +104,7 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
 
     @Override
     protected void onInit() {
-        explosionAnimation = new AnimatedTexture(LoadTexture(ResourceUtils.getAssetPath("explosion-1.png")),
+        explosionAnimation = new AnimatedTexture(loadTexture(ResourceUtils.getAssetPath("explosion-1.png")),
             32, 32, 0, 7, 7, 1);
         super.onInit();
     }
@@ -116,7 +115,7 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
         var currentRotation = getRotation();
         setRotation(vector3(currentRotation.x(), currentRotation.y() + newRotation, currentRotation.z()));
         setVelocity(calculateVelocity());
-        var newTranslatedPos = translate2D(vector2(position), Vector2Scale(velocity, speed), 1.f);
+        var newTranslatedPos = translate2D(vector2(position), vector2Scale(velocity, speed), 1.f);
         setPosition(vector3(newTranslatedPos));
 
         if (controlSignals.contains(SHOOT)) {
@@ -143,7 +142,7 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
 
     @Override
     protected void onDestroy() {
-        var explosion = new ActorAnimated2D(Vector3SubtractValue(position, explosionAnimation.getFrameWidth()/2), rotation, explosionAnimation);
+        var explosion = new ActorAnimated2D(vector3SubtractValue(position, explosionAnimation.getFrameWidth()/2), rotation, explosionAnimation);
         var scene = getScene();
         scene.spawn(explosion);
         TaskQueueService.getInstance().enqueue(() -> scene.remove(explosion), 1);
@@ -160,15 +159,15 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
 
     protected void drawBullets() {
         for (var bullet : bullets) {
-            bullet.pos = translate2D(vector2(bullet.pos.x(), bullet.pos.y()), Vector2Scale(bullet.fwd, 10), 1.f);
-            DrawLineEx(bullet.pos, Vector2Add(bullet.pos, Vector2Scale(bullet.fwd, 8)), 2, RED);
+            bullet.pos = translate2D(vector2(bullet.pos.x(), bullet.pos.y()), vector2Scale(bullet.fwd, 10), 1.f);
+            drawLineEx(bullet.pos, vector2Add(bullet.pos, vector2Scale(bullet.fwd, 8)), 2, RED);
         }
     }
 
     protected void refreshBulletsState() {
         if (bullets.isEmpty()) return;
         for (var bullet : bullets) {
-            if (Vector2Distance(bullet.pos, vector2(position)) > distanceToBulletDestroy) {
+            if (vector2Distance(bullet.pos, vector2(position)) > distanceToBulletDestroy) {
                 bullets.remove(bullet);
                 break;
             }
@@ -189,37 +188,37 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
 
     private void drawHeadingVector() {
         var endPos = translate2D(vector2(position), velocity, 1);
-        DrawText("<>", (int)(endPos.x()) - 5, (int)(endPos.y() ) - 5, 14, DARKGREEN);
+        drawText("<>", (int)(endPos.x()) - 5, (int)(endPos.y() ) - 5, 14, DARKGREEN);
     }
 
     private void drawForwardExhaust(Vector2 origin, Vector2 fwd) {
-        var backward = Vector2Negate(fwd);
-        var endPosBezier = translate2D(origin, backward, GetRandomValue(15, 25));
-        var endPosBezier2 = translate2D(origin, backward, GetRandomValue(20, 30));
-        DrawLineEx(endPosBezier, origin, 6.f, color(112, 31, 126, 150));
-        DrawLineEx(endPosBezier2, origin, 2.f, color(0, 121, 241, 200));
+        var backward = vector2Negate(fwd);
+        var endPosBezier = translate2D(origin, backward, getRandomValue(15, 25));
+        var endPosBezier2 = translate2D(origin, backward, getRandomValue(20, 30));
+        drawLineEx(endPosBezier, origin, 6.f, color(112, 31, 126, 150));
+        drawLineEx(endPosBezier2, origin, 2.f, color(0, 121, 241, 200));
     }
 
     private void drawBackwardExhaust(Vector2 origin, Vector2 fwd) {
-        var endPosBezier = translate2D(origin, fwd, GetRandomValue(8, 13));
+        var endPosBezier = translate2D(origin, fwd, getRandomValue(8, 13));
         var endPosBezier2 = translate2D(origin, fwd, 13);
-        DrawLineEx(endPosBezier, origin, 18.f, color(0, 121, 241, 150));
-        DrawLineEx(endPosBezier2, origin, 14.f, BLACK);
+        drawLineEx(endPosBezier, origin, 18.f, color(0, 121, 241, 150));
+        drawLineEx(endPosBezier2, origin, 14.f, BLACK);
     }
 
     private float calculateRotation() {
         final float rotationSpeed = 0.5f;
         final float rotationMaxSpeed = 4.f;
         if (controlSignals.contains(ROTATE_COUNTERCLOCKWISE)) {
-            rotationVelocity = Clamp(rotationVelocity - rotationSpeed, -rotationMaxSpeed, rotationMaxSpeed);
+            rotationVelocity = clamp(rotationVelocity - rotationSpeed, -rotationMaxSpeed, rotationMaxSpeed);
         } else if (controlSignals.contains(ROTATE_CLOCKWISE)) {
-            rotationVelocity = Clamp(rotationVelocity + rotationSpeed, -rotationMaxSpeed, rotationMaxSpeed);
+            rotationVelocity = clamp(rotationVelocity + rotationSpeed, -rotationMaxSpeed, rotationMaxSpeed);
         } else {
             if (Math.abs(rotationVelocity) > 0.05f) {
                 if (rotationVelocity > 0) {
-                    rotationVelocity = Clamp(rotationVelocity - 0.1f, -rotationMaxSpeed, rotationMaxSpeed);
+                    rotationVelocity = clamp(rotationVelocity - 0.1f, -rotationMaxSpeed, rotationMaxSpeed);
                 } else {
-                    rotationVelocity = Clamp(rotationVelocity + 0.1f, -rotationMaxSpeed, rotationMaxSpeed);
+                    rotationVelocity = clamp(rotationVelocity + 0.1f, -rotationMaxSpeed, rotationMaxSpeed);
                 }
             }
         }
@@ -232,22 +231,22 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
         if (controlSignals.contains(MOVE_FORWARD)) {
             isForwardEngineActive = true;
             isBackwardEngineActive = false;
-            newVelocity = Vector2Add(newVelocity, fwd);
-            if (Vector2Length(newVelocity) > maxSpeed) {
-                newVelocity = Vector2Scale(Vector2Normalize(newVelocity), maxSpeed);
+            newVelocity = vector2Add(newVelocity, fwd);
+            if (vector2Length(newVelocity) > maxSpeed) {
+                newVelocity = vector2Scale(vector2Normalize(newVelocity), maxSpeed);
             }
         } else if (controlSignals.contains(MOVE_BACKWARD)) {
             isForwardEngineActive = false;
             isBackwardEngineActive = true;
-            newVelocity = Vector2Add(newVelocity, Vector2Negate(fwd));
-            if (Vector2Length(newVelocity) > maxSpeed) {
-                newVelocity = Vector2Scale(Vector2Normalize(newVelocity), maxSpeed);
+            newVelocity = vector2Add(newVelocity, vector2Negate(fwd));
+            if (vector2Length(newVelocity) > maxSpeed) {
+                newVelocity = vector2Scale(vector2Normalize(newVelocity), maxSpeed);
             }
         } else {
             isForwardEngineActive = false;
             isBackwardEngineActive = false;
-            if (Vector2Length(newVelocity) > 0.25f) {
-                newVelocity = Vector2Scale(newVelocity, 0.996f);
+            if (vector2Length(newVelocity) > 0.25f) {
+                newVelocity = vector2Scale(newVelocity, 0.996f);
             } else {
                 newVelocity = vector2(0, 0);
             }

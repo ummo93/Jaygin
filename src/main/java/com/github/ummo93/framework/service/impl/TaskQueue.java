@@ -17,7 +17,7 @@ public class TaskQueue extends TaskQueueService {
     }
 
     public long enqueue(Runnable task, double delay_sec) {
-        var elt = new EventLoopTask(task, Raylib.GetTime(), delay_sec);
+        var elt = new EventLoopTask(task, Raylib.getTime(), delay_sec);
         queue.add(elt);
         return elt.getId();
     }
@@ -31,7 +31,7 @@ public class TaskQueue extends TaskQueueService {
     }
 
     public void dequeSuitable() {
-        var now = Raylib.GetTime();
+        var now = Raylib.getTime();
         Iterator<EventLoopTask> iter = queue.iterator();
         while(iter.hasNext()){
             var it = iter.next();

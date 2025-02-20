@@ -8,15 +8,15 @@
     <artifactId>jaygin</artifactId>
     <version>0.1</version>
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
         <main.class>com.github.ummo93.Main</main.class>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>uk.co.electronstudio.jaylib</groupId>
-            <artifactId>jaylib</artifactId>
-            <version>[5.5.0,5.6)</version>
+            <groupId>io.github.electronstudio</groupId>
+            <artifactId>jaylib-ffm</artifactId>
+            <version>5.5.0-2</version>
         </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
