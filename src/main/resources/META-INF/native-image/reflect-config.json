@@ -8,7 +8,7 @@
     "queryAllDeclaredConstructors": true
   },
   {
-    "name": "com.github.ummo93.config.AppModule$$FastClassByGuice$$fc191",
+    "name": "com.github.ummo93.config.AppModule$$FastClassByGuice$$6f7b2",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -176,7 +176,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.framework.GameContext$$FastClassByGuice$$10ba90",
+    "name": "com.github.ummo93.framework.GameContext$$FastClassByGuice$$1561cf",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -196,7 +196,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.framework.RaylibGame$$FastClassByGuice$$2561cf",
+    "name": "com.github.ummo93.framework.RaylibGame$$FastClassByGuice$$2640d5",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -207,6 +207,31 @@
     "name": "com.github.ummo93.framework.Scene",
     "allDeclaredFields": true,
     "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "com.github.ummo93.framework.service.TaskQueueService",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "com.github.ummo93.framework.service.impl.TaskQueue",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "com.github.ummo93.framework.service.impl.TaskQueue$$FastClassByGuice$$3e586c",
+    "fields": [
+      {
+        "name": "GUICE$INVOKERS"
+      }
+    ]
   },
   {
     "name": "com.github.ummo93.game.MainScene",
@@ -221,7 +246,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.game.MainScene$$FastClassByGuice$$37227e",
+    "name": "com.github.ummo93.game.MainScene$$FastClassByGuice$$43da2e",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -543,7 +568,7 @@
     ]
   },
   {
-    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x0000027456091c00",
+    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x000001cd99091c00",
     "methods": [
       {
         "name": "<init>",

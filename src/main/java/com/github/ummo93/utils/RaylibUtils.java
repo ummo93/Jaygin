@@ -1,28 +1,30 @@
 package com.github.ummo93.utils;
 
 import com.raylib.Colors;
+import com.raylib.Helpers;
+import org.bytedeco.javacpp.Pointer;
 
 import static com.raylib.Raylib.*;
 
 public class RaylibUtils {
     public static Vector2 vector2(float x, float y) {
-        return new Vector2().x(x).y(y);
+        return com.raylib.Helpers.newVector2(x, y);
     }
 
     public static Vector2 vector2(Vector3 vec3) {
-        return vector2(vec3.x(), vec3.y());
+        return com.raylib.Helpers.newVector2(vec3.x(), vec3.y());
     }
 
     public static Vector3 vector3(float x, float y, float z) {
-        return new Vector3().x(x).y(y).z(z);
+        return com.raylib.Helpers.newVector3(x, y, z);
     }
 
     public static Vector3 vector3(Vector2 vec2) {
-        return vector3(vec2.x(), vec2.y(), 0);
+        return com.raylib.Helpers.newVector3(vec2.x(), vec2.y(), 0.f);
     }
 
     public static Rectangle rectangle(float x, float y, float width, float height) {
-        return new Rectangle().x(x).y(y).width(width).height(height);
+        return com.raylib.Helpers.newRectangle(x, y, width, height);
     }
 
     public static Vector2 getHeadingByRotation2D(Vector2 absoluteHeading, float rotation) {
@@ -37,7 +39,30 @@ public class RaylibUtils {
     }
 
     public static Color color(int r, int g, int b, int a) {
-        return (new Color()).r((byte)r).g((byte)g).b((byte)b).a((byte)a);
+        return com.raylib.Helpers.newColor(r, g, b, a);
+    }
+
+    public static Ray ray(Vector3 start, Vector3 end) {
+        return Helpers.newRay(vector3(start.x(), start.y(), start.z()), vector3(end.x(), end.y(), end.z()));
+    }
+
+    public static Ray ray(Vector2 start, Vector2 end) {
+        return Helpers.newRay(vector3(start.x(), start.y(), 0), vector3(end.x(), end.y(), 0));
+    }
+
+    public static <T extends Pointer> void putToCppArrayEx(T arrayRef, T[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            arrayRef.position(i);
+            arrayRef.put(arr[i]);
+        }
+        arrayRef.position(0);
+    }
+    public static <T extends Pointer> void putToCppArray(T arrayRef, T ...arr) {
+        for (int i = 0; i < arr.length; i++) {
+            arrayRef.position(i);
+            arrayRef.put(arr[i]);
+        }
+        arrayRef.position(0);
     }
 
     public static void drawTextureInCenter(Texture texture, Vector2 pos, float rotation) {

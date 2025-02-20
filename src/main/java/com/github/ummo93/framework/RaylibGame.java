@@ -1,6 +1,7 @@
 package com.github.ummo93.framework;
 
 import com.github.ummo93.config.RaylibSettings;
+import com.github.ummo93.framework.service.TaskQueueService;
 import com.google.inject.Inject;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,8 @@ public class RaylibGame {
     GameContext ctx;
     @Inject
     private Scene scene;
+    @Inject
+    private TaskQueueService taskService;
 
     private void refreshContext() {
         ctx.setWindowWidth(GetScreenWidth());
@@ -61,6 +64,9 @@ public class RaylibGame {
             }
             scene.onDraw();
             EndDrawing();
+
+            taskService.dequeSuitable();
+            scene.onEndFrame();
         }
 
         scene.onDestroy();

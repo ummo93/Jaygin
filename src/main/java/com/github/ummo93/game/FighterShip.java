@@ -1,61 +1,220 @@
 package com.github.ummo93.game;
 
+import com.github.ummo93.framework.ActorAnimated2D;
 import com.github.ummo93.framework.ActorTexture2D;
+import com.github.ummo93.framework.AnimatedTexture;
+import com.github.ummo93.framework.service.TaskQueueService;
+import com.github.ummo93.utils.ResourceUtils;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Queue;
+import java.util.Set;
 
 import static com.github.ummo93.game.ControlSignal2D.*;
 import static com.github.ummo93.utils.RaylibUtils.*;
 import static com.github.ummo93.utils.RaylibUtils.vector2;
-import static com.raylib.Colors.BLACK;
-import static com.raylib.Colors.RED;
+import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
 import static com.raylib.Raylib.Vector2Scale;
 
-@Getter
-public class FighterShip extends ActorTexture2D implements Controllable2D {
+public class FighterShip extends ActorTexture2D implements Controllable2D, Damagable {
 
+    private final Set<ControlSignal2D> controlSignals = new HashSet<>();
+    private AnimatedTexture explosionAnimation;
+    @Getter
     private final Queue<Bullet> bullets = new ArrayDeque<>();
 
+    @Getter
     @Setter
     private Vector2 velocity = Vector2Zero();
+    @Getter
     @Setter
     private float rotationVelocity = 0;
+    @Getter
     private final float speed = .1f;
+    @Getter
     private final float maxSpeed = 50.f;
-    private final double hp = 100.0;
+    @Getter
+    private final float damage = 45.f;
+    @Getter
+    private double hp = 100.0;
+    @Getter
     private final double maxHp = 100.0;
+    @Getter
     private final int maxBullets = 10;
+    @Getter
     private final float bulletSpeed = 15.f;
+    @Getter
     private final float distanceToBulletDestroy = 800.f;
+    @Getter
     boolean isForwardEngineActive = false;
+    @Getter
     boolean isBackwardEngineActive = false;
+
+    public void addCollider() {
+        var collider = new BoundingBox()
+            .max(vector3(position.x() + texture.width()/2.f, position.y() + texture.height()/2.f, 0.f))
+            .min(vector3(position.x() - texture.width()/2.f, position.y() - texture.height()/2.f, 0.f));
+        setCollider(collider);
+    }
 
     public FighterShip(Vector3 position, Vector3 rotation, Texture texture) {
         super(position, rotation, texture);
+        addCollider();
     }
     public FighterShip(Texture texture) {
         super(texture);
+        addCollider();
     }
 
-    public void emitBullet() {
+    @Override
+    public void moveForward() {
+        controlSignals.add(MOVE_FORWARD);
+    }
+
+    @Override
+    public void moveBackward() {
+        controlSignals.add(MOVE_BACKWARD);
+    }
+
+    @Override
+    public void rotateClockwise() {
+        controlSignals.add(ROTATE_CLOCKWISE);
+    }
+
+    @Override
+    public void rotateCounterClockwise() {
+        controlSignals.add(ROTATE_COUNTERCLOCKWISE);
+    }
+
+    @Override
+    public void shoot() {
+        controlSignals.add(SHOOT);
+    }
+
+    @Override
+    public void addDamage(double damage) {
+        hp = Math.clamp(hp - damage, 0f, maxHp);
+        if (hp == 0) {
+            getScene().remove(this);
+        }
+    }
+
+    @Override
+    protected void onInit() {
+        explosionAnimation = new AnimatedTexture(LoadTexture(ResourceUtils.getAssetPath("explosion-1.png")),
+            32, 32, 0, 7, 7, 1);
+        super.onInit();
+    }
+
+    @Override
+    protected void onUpdate() {
+        var newRotation = calculateRotation();
+        var currentRotation = getRotation();
+        setRotation(vector3(currentRotation.x(), currentRotation.y() + newRotation, currentRotation.z()));
+        setVelocity(calculateVelocity());
+        var newTranslatedPos = translate2D(vector2(position), Vector2Scale(velocity, speed), 1.f);
+        setPosition(vector3(newTranslatedPos));
+
+        if (controlSignals.contains(SHOOT)) {
+            emitBullet();
+        }
+
+        refreshBulletsState();
+        controlSignals.clear();
+    }
+
+    @Override
+    protected void onDraw() {
+        if (isForwardEngineActive) {
+            drawForwardExhaust(vector2(position), getForward2D());
+        }
+        if (isBackwardEngineActive) {
+            drawBackwardExhaust(vector2(position), getForward2D());
+        }
+
+        drawBullets();
+        drawHeadingVector();
+        super.onDraw();
+    }
+
+    @Override
+    protected void onDestroy() {
+        var explosion = new ActorAnimated2D(Vector3SubtractValue(position, explosionAnimation.getFrameWidth()/2), rotation, explosionAnimation);
+        getScene().spawn(explosion);
+
+        TaskQueueService
+            .getInstance()
+            .enqueue(() -> getScene().remove(explosion), 1);
+
+        super.onDestroy();
+    }
+
+    protected void emitBullet() {
         if (bullets.size() > maxBullets - 1) {
             bullets.remove();
         }
         bullets.add(new Bullet(vector2(position), getForward2D()));
     }
 
+    protected void drawBullets() {
+        for (var bullet : bullets) {
+            bullet.pos = translate2D(vector2(bullet.pos.x(), bullet.pos.y()), Vector2Scale(bullet.fwd, 10), 1.f);
+            DrawLineEx(bullet.pos, Vector2Add(bullet.pos, Vector2Scale(bullet.fwd, 8)), 2, RED);
+        }
+    }
+
+    protected void refreshBulletsState() {
+        if (bullets.isEmpty()) return;
+        for (var bullet : bullets) {
+            if (Vector2Distance(bullet.pos, vector2(position)) > distanceToBulletDestroy) {
+                bullets.remove(bullet);
+                break;
+            }
+            Ray ray = ray(bullet.pos, bullet.fwd);
+            var infoOpt = getScene().raycastOne(ray, 10, this);
+            if (infoOpt.isPresent()) {
+                var info = infoOpt.get();
+                var other = info.getOther();
+                bullets.remove(bullet);
+                if (other instanceof Damagable) {
+                    ((Damagable) other).addDamage(damage);
+                }
+                break;
+            }
+        }
+
+    }
+
+    private void drawHeadingVector() {
+        var endPos = translate2D(vector2(position), velocity, 1);
+        DrawText("<>", (int)(endPos.x()) - 5, (int)(endPos.y() ) - 5, 14, DARKGREEN);
+    }
+
+    private void drawForwardExhaust(Vector2 origin, Vector2 fwd) {
+        var backward = Vector2Negate(fwd);
+        var endPosBezier = translate2D(origin, backward, GetRandomValue(15, 25));
+        var endPosBezier2 = translate2D(origin, backward, GetRandomValue(20, 30));
+        DrawLineEx(endPosBezier, origin, 6.f, color(112, 31, 126, 150));
+        DrawLineEx(endPosBezier2, origin, 2.f, color(0, 121, 241, 200));
+    }
+
+    private void drawBackwardExhaust(Vector2 origin, Vector2 fwd) {
+        var endPosBezier = translate2D(origin, fwd, GetRandomValue(8, 13));
+        var endPosBezier2 = translate2D(origin, fwd, 13);
+        DrawLineEx(endPosBezier, origin, 18.f, color(0, 121, 241, 150));
+        DrawLineEx(endPosBezier2, origin, 14.f, BLACK);
+    }
+
     private float calculateRotation() {
         final float rotationSpeed = 0.5f;
         final float rotationMaxSpeed = 4.f;
-        if (CONTROL_SIGNALS.contains(ROTATE_COUNTERCLOCKWISE)) {
+        if (controlSignals.contains(ROTATE_COUNTERCLOCKWISE)) {
             rotationVelocity = Clamp(rotationVelocity - rotationSpeed, -rotationMaxSpeed, rotationMaxSpeed);
-        } else if (CONTROL_SIGNALS.contains(ROTATE_CLOCKWISE)) {
+        } else if (controlSignals.contains(ROTATE_CLOCKWISE)) {
             rotationVelocity = Clamp(rotationVelocity + rotationSpeed, -rotationMaxSpeed, rotationMaxSpeed);
         } else {
             if (Math.abs(rotationVelocity) > 0.05f) {
@@ -72,14 +231,14 @@ public class FighterShip extends ActorTexture2D implements Controllable2D {
     private Vector2 calculateVelocity() {
         var fwd = getForward2D();
         var newVelocity = velocity;
-        if (CONTROL_SIGNALS.contains(MOVE_FORWARD)) {
+        if (controlSignals.contains(MOVE_FORWARD)) {
             isForwardEngineActive = true;
             isBackwardEngineActive = false;
             newVelocity = Vector2Add(newVelocity, fwd);
             if (Vector2Length(newVelocity) > maxSpeed) {
                 newVelocity = Vector2Scale(Vector2Normalize(newVelocity), maxSpeed);
             }
-        } else if (CONTROL_SIGNALS.contains(MOVE_BACKWARD)) {
+        } else if (controlSignals.contains(MOVE_BACKWARD)) {
             isForwardEngineActive = false;
             isBackwardEngineActive = true;
             newVelocity = Vector2Add(newVelocity, Vector2Negate(fwd));
@@ -96,71 +255,5 @@ public class FighterShip extends ActorTexture2D implements Controllable2D {
             }
         }
         return newVelocity;
-    }
-
-    private void drawForwardExhaust(Vector2 origin, Vector2 fwd) {
-        var backward = Vector2Negate(fwd);
-        var endPosBezier = translate2D(vector2(origin.x(), origin.y()), backward, GetRandomValue(15, 25));
-        var endPosBezier2 = translate2D(vector2(origin.x(), origin.y()), backward, GetRandomValue(20, 30));
-        DrawLineEx(endPosBezier, vector2(origin.x(), origin.y()), 6.f, color(112, 31, 126, 150));
-        DrawLineEx(endPosBezier2, vector2(origin.x(), origin.y()), 2.f, color(0, 121, 241, 200));
-    }
-
-    private void drawBackwardExhaust(Vector2 origin, Vector2 fwd) {
-        var endPosBezier = translate2D(vector2( origin.x(), origin.y()), fwd, GetRandomValue(8, 13));
-        var endPosBezier2 = translate2D(vector2( origin.x(), origin.y()), fwd, 13);
-        DrawLineEx(endPosBezier, vector2( origin.x(), origin.y()), 18.f, color(0, 121, 241, 150));
-        DrawLineEx(endPosBezier2, vector2( origin.x(), origin.y()), 14.f, BLACK);
-    }
-
-    @Override
-    protected void onUpdate() {
-        var newRotation = calculateRotation();
-        var currentRotation = getRotation();
-        setRotation(vector3(currentRotation.x(), currentRotation.y() + newRotation, currentRotation.z()));
-        setVelocity(calculateVelocity());
-        var newTranslatedPos = translate2D(vector2(position), Vector2Scale(velocity, speed), 1.f);
-        setPosition(vector3(newTranslatedPos));
-
-        if (CONTROL_SIGNALS.contains(SHOOT)) {
-            emitBullet();
-        }
-
-        if (!bullets.isEmpty()) {
-            for (var bullet : bullets) {
-                var bulletPos = bullet.pos;
-//                var bulletFwd = bullet.fwd;
-                if (Vector2Distance(bulletPos, vector2(position)) > distanceToBulletDestroy) {
-                    bullets.remove(bullet);
-                    break;
-                }
-//                Ray ray = { {bulletPos.x, bulletPos.y, 0 }, {bulletFwd.x, bulletFwd.y, 0 } };
-//                if (auto info = Director::RaycastFirstByDist(ray, 10, this)) {
-//                    bullets.erase(it);
-//                    if (auto other = info->other.lock()) {
-//                        if (auto damagable = std::dynamic_pointer_cast<IDamagable>(other)) {
-//                            damagable->AddDamage(damage);
-//                        }
-//                    }
-//                    break;
-//                }
-            }
-        }
-    }
-
-    @Override
-    protected void onDraw() {
-        if (isForwardEngineActive) {
-            drawForwardExhaust(vector2(position), getForward2D());
-        }
-        if (isBackwardEngineActive) {
-            drawBackwardExhaust(vector2(position), getForward2D());
-        }
-        super.onDraw();
-
-        for (var bullet : bullets) {
-            bullet.pos = translate2D(vector2(bullet.pos.x(), bullet.pos.y()), Vector2Scale(bullet.fwd, 10), 1.f);
-            DrawLineEx(bullet.pos, Vector2Add(bullet.pos, Vector2Scale(bullet.fwd, 8)), 2, RED);
-        }
     }
 }

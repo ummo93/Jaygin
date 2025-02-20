@@ -18,6 +18,7 @@ public class MainScene extends Scene {
     private AnimatedTexture starAnimation;
     private Texture background;
     private FighterShip player;
+    private FighterShip enemy;
     @Inject
     private GameContext ctx;
 
@@ -33,9 +34,11 @@ public class MainScene extends Scene {
             1
         );
         player = new FighterShip(new Vector3(), new Vector3(), LoadTexture(ResourceUtils.getAssetPath("fighter.png")));
+        enemy = new FighterShip(new Vector3().x(50).y(25), new Vector3(), LoadTexture(ResourceUtils.getAssetPath("enemy.png")));
         var camera2D = new Camera2D().target(vector2(player.getPosition())).zoom(1.5f);
 
         spawn(player);
+        spawn(enemy);
         addCamera(camera2D);
     }
 
@@ -48,24 +51,26 @@ public class MainScene extends Scene {
 
         if (IsKeyDown(KEY_W)) {
             player.moveForward();
-        } else if (IsKeyDown(KEY_S)) {
+        }
+        if (IsKeyDown(KEY_S)) {
             player.moveBackward();
-        } else {
-            player.stopMove();
         }
 
         if (IsKeyDown(KEY_A)) {
             player.rotateCounterClockwise();
-        } else if (IsKeyDown(KEY_D)) {
+        }
+        if (IsKeyDown(KEY_D)) {
             player.rotateClockwise();
-        } else {
-            player.stopRotate();
         }
 
         if (IsKeyPressed(KEY_SPACE)) {
             player.shoot();
-        } else {
-            player.stopShoot();
+        }
+
+        enemy.rotateCounterClockwise();
+        if (enemy.getBullets().isEmpty()) {
+            enemy.shoot();
+            enemy.moveBackward();
         }
     }
 
@@ -77,7 +82,6 @@ public class MainScene extends Scene {
 
     @Override
     public void onDraw() {
-        DrawText("Player", ctx.getWindowWidth()/2 - 20, ctx.getWindowHeight()/2 - 40 - (20 * (int)getCamera2D().zoom()), 14, GREEN);
         DrawText("WASD to move", 20, ctx.getWindowHeight() - 40, 20, YELLOW);
         DrawText("SPACE to shoot", 20, ctx.getWindowHeight() - 65, 20, YELLOW);
         DrawFPS(20, 20);
