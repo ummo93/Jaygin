@@ -1,0 +1,441 @@
+[
+{
+  "name":"[Ljava.lang.invoke.MethodHandles$Lookup$ClassOption;"
+},
+{
+  "name":"com.github.ummo93.config.AppModule",
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true
+},
+{
+  "name":"com.github.ummo93.config.AppModule$$FastClassByGuice$$6f7b2",
+  "fields":[{"name":"GUICE$INVOKERS"}]
+},
+{
+  "name":"com.github.ummo93.config.RaylibSettings",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setTargetFps","parameterTypes":["int"] }, {"name":"setTitle","parameterTypes":["java.lang.String"] }, {"name":"setWindow","parameterTypes":["com.github.ummo93.config.RaylibSettings$WindowSettings"] }]
+},
+{
+  "name":"com.github.ummo93.config.RaylibSettings$WindowSettings",
+  "allDeclaredFields":true,
+  "queryAllPublicMethods":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }, {"name":"setAlwaysRun","parameterTypes":["boolean"] }, {"name":"setBorderlessWindowed","parameterTypes":["boolean"] }, {"name":"setFullscreen","parameterTypes":["boolean"] }, {"name":"setHeight","parameterTypes":["int"] }, {"name":"setHidden","parameterTypes":["boolean"] }, {"name":"setHighDPI","parameterTypes":["boolean"] }, {"name":"setMaximized","parameterTypes":["boolean"] }, {"name":"setMinimized","parameterTypes":["boolean"] }, {"name":"setMousePassthrough","parameterTypes":["boolean"] }, {"name":"setResizable","parameterTypes":["boolean"] }, {"name":"setTopmost","parameterTypes":["boolean"] }, {"name":"setTransparent","parameterTypes":["boolean"] }, {"name":"setUndecorated","parameterTypes":["boolean"] }, {"name":"setUnfocused","parameterTypes":["boolean"] }, {"name":"setVsync","parameterTypes":["boolean"] }, {"name":"setWidth","parameterTypes":["int"] }]
+},
+{
+  "name":"com.github.ummo93.config.RaylibSettings$WindowSettingsBeanInfo"
+},
+{
+  "name":"com.github.ummo93.config.RaylibSettings$WindowSettingsCustomizer"
+},
+{
+  "name":"com.github.ummo93.config.RaylibSettingsBeanInfo"
+},
+{
+  "name":"com.github.ummo93.config.RaylibSettingsCustomizer"
+},
+{
+  "name":"com.github.ummo93.framework.GameContext",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.ummo93.framework.GameContext$$FastClassByGuice$$1561cf",
+  "fields":[{"name":"GUICE$INVOKERS"}]
+},
+{
+  "name":"com.github.ummo93.framework.RaylibGame",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.ummo93.framework.RaylibGame$$FastClassByGuice$$2640d5",
+  "fields":[{"name":"GUICE$INVOKERS"}]
+},
+{
+  "name":"com.github.ummo93.framework.Scene",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.ummo93.framework.service.TaskQueueService",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.github.ummo93.framework.service.impl.TaskQueue",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.ummo93.framework.service.impl.TaskQueue$$FastClassByGuice$$3e586c",
+  "fields":[{"name":"GUICE$INVOKERS"}]
+},
+{
+  "name":"com.github.ummo93.game.MainScene",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllDeclaredConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"com.github.ummo93.game.MainScene$$FastClassByGuice$$430714",
+  "fields":[{"name":"GUICE$INVOKERS"}]
+},
+{
+  "name":"com.google.common.util.concurrent.AbstractFuture",
+  "fields":[{"name":"listeners"}, {"name":"value"}, {"name":"waiters"}]
+},
+{
+  "name":"com.google.common.util.concurrent.AbstractFuture$Waiter",
+  "fields":[{"name":"next"}, {"name":"thread"}]
+},
+{
+  "name":"com.google.inject.AbstractModule",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.google.inject.KotlinSupportImpl"
+},
+{
+  "name":"com.google.inject.internal.Annotations",
+  "methods":[{"name":"determineAnnotationToStringConfig","parameterTypes":[] }]
+},
+{
+  "name":"com.google.inject.internal.InjectorShell$RootModule",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.google.inject.internal.InternalProviderInstanceBindingImpl$CyclicFactory",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.google.inject.internal.InternalProviderInstanceBindingImpl$Factory",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.google.inject.internal.ProviderMethod",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.google.inject.internal.ProviderMethod$FastClassProviderMethod",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.google.inject.name.Named",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.google.inject.util.Modules$EmptyModule",
+  "queryAllDeclaredMethods":true
+},
+{
+  "name":"com.raylib.Raylib"
+},
+{
+  "name":"com.raylib.Raylib$AudioCallback"
+},
+{
+  "name":"com.raylib.Raylib$AudioStream"
+},
+{
+  "name":"com.raylib.Raylib$AutomationEvent"
+},
+{
+  "name":"com.raylib.Raylib$AutomationEventList"
+},
+{
+  "name":"com.raylib.Raylib$BoneInfo"
+},
+{
+  "name":"com.raylib.Raylib$BoundingBox"
+},
+{
+  "name":"com.raylib.Raylib$Camera2D"
+},
+{
+  "name":"com.raylib.Raylib$Camera3D"
+},
+{
+  "name":"com.raylib.Raylib$Color"
+},
+{
+  "name":"com.raylib.Raylib$FilePathList"
+},
+{
+  "name":"com.raylib.Raylib$Font"
+},
+{
+  "name":"com.raylib.Raylib$GlyphInfo"
+},
+{
+  "name":"com.raylib.Raylib$GuiStyleProp"
+},
+{
+  "name":"com.raylib.Raylib$Image"
+},
+{
+  "name":"com.raylib.Raylib$LoadFileDataCallback"
+},
+{
+  "name":"com.raylib.Raylib$LoadFileTextCallback"
+},
+{
+  "name":"com.raylib.Raylib$Material"
+},
+{
+  "name":"com.raylib.Raylib$MaterialMap"
+},
+{
+  "name":"com.raylib.Raylib$Matrix"
+},
+{
+  "name":"com.raylib.Raylib$Matrix2x2"
+},
+{
+  "name":"com.raylib.Raylib$Mesh"
+},
+{
+  "name":"com.raylib.Raylib$Model"
+},
+{
+  "name":"com.raylib.Raylib$ModelAnimation"
+},
+{
+  "name":"com.raylib.Raylib$Music"
+},
+{
+  "name":"com.raylib.Raylib$NPatchInfo"
+},
+{
+  "name":"com.raylib.Raylib$PhysicsBody"
+},
+{
+  "name":"com.raylib.Raylib$PhysicsManifoldData"
+},
+{
+  "name":"com.raylib.Raylib$PhysicsShape"
+},
+{
+  "name":"com.raylib.Raylib$PhysicsVertexData"
+},
+{
+  "name":"com.raylib.Raylib$Ray"
+},
+{
+  "name":"com.raylib.Raylib$RayCollision"
+},
+{
+  "name":"com.raylib.Raylib$Rectangle"
+},
+{
+  "name":"com.raylib.Raylib$RenderTexture"
+},
+{
+  "name":"com.raylib.Raylib$SaveFileDataCallback"
+},
+{
+  "name":"com.raylib.Raylib$SaveFileTextCallback"
+},
+{
+  "name":"com.raylib.Raylib$Shader"
+},
+{
+  "name":"com.raylib.Raylib$Sound"
+},
+{
+  "name":"com.raylib.Raylib$Texture"
+},
+{
+  "name":"com.raylib.Raylib$TraceLogCallback"
+},
+{
+  "name":"com.raylib.Raylib$Transform"
+},
+{
+  "name":"com.raylib.Raylib$Vector2"
+},
+{
+  "name":"com.raylib.Raylib$Vector3"
+},
+{
+  "name":"com.raylib.Raylib$Vector4"
+},
+{
+  "name":"com.raylib.Raylib$VrDeviceInfo"
+},
+{
+  "name":"com.raylib.Raylib$VrStereoConfig"
+},
+{
+  "name":"com.raylib.Raylib$Wave"
+},
+{
+  "name":"com.raylib.Raylib$float16"
+},
+{
+  "name":"com.raylib.Raylib$float3"
+},
+{
+  "name":"com.raylib.Raylib$rAudioBuffer"
+},
+{
+  "name":"com.raylib.Raylib$rAudioProcessor"
+},
+{
+  "name":"com.raylib.Raylib$rlDrawCall"
+},
+{
+  "name":"com.raylib.Raylib$rlRenderBatch"
+},
+{
+  "name":"com.raylib.Raylib$rlVertexBuffer"
+},
+{
+  "name":"java.beans.PropertyVetoException"
+},
+{
+  "name":"java.lang.Boolean",
+  "methods":[{"name":"parseBoolean","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.lang.Byte",
+  "methods":[{"name":"parseByte","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.lang.ClassLoader$$DefineAccessByGuice$$/0x000001d899091c00",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"java.lang.Double",
+  "methods":[{"name":"parseDouble","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.lang.Float",
+  "methods":[{"name":"parseFloat","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.lang.Integer",
+  "methods":[{"name":"parseInt","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.lang.Long",
+  "methods":[{"name":"parseLong","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.lang.NullPointerException"
+},
+{
+  "name":"java.lang.Object",
+  "allDeclaredFields":true,
+  "queryAllDeclaredMethods":true,
+  "queryAllPublicMethods":true
+},
+{
+  "name":"java.lang.ObjectBeanInfo"
+},
+{
+  "name":"java.lang.ObjectCustomizer"
+},
+{
+  "name":"java.lang.RuntimeException"
+},
+{
+  "name":"java.lang.Short",
+  "methods":[{"name":"parseShort","parameterTypes":["java.lang.String"] }]
+},
+{
+  "name":"java.lang.String"
+},
+{
+  "name":"java.lang.UnsatisfiedLinkError"
+},
+{
+  "name":"java.lang.invoke.MethodHandles$Lookup",
+  "fields":[{"name":"IMPL_LOOKUP"}],
+  "methods":[{"name":"defineHiddenClass","parameterTypes":["byte[]","boolean","java.lang.invoke.MethodHandles$Lookup$ClassOption[]"] }]
+},
+{
+  "name":"java.lang.invoke.MethodHandles$Lookup$ClassOption"
+},
+{
+  "name":"java.nio.Buffer"
+},
+{
+  "name":"java.nio.charset.Charset"
+},
+{
+  "name":"java.sql.Date"
+},
+{
+  "name":"java.sql.Timestamp"
+},
+{
+  "name":"org.bytedeco.javacpp.BoolPointer"
+},
+{
+  "name":"org.bytedeco.javacpp.BooleanPointer"
+},
+{
+  "name":"org.bytedeco.javacpp.BytePointer"
+},
+{
+  "name":"org.bytedeco.javacpp.CLongPointer"
+},
+{
+  "name":"org.bytedeco.javacpp.CharPointer"
+},
+{
+  "name":"org.bytedeco.javacpp.DoublePointer"
+},
+{
+  "name":"org.bytedeco.javacpp.FloatPointer"
+},
+{
+  "name":"org.bytedeco.javacpp.IntPointer"
+},
+{
+  "name":"org.bytedeco.javacpp.Loader"
+},
+{
+  "name":"org.bytedeco.javacpp.Loader$Helper"
+},
+{
+  "name":"org.bytedeco.javacpp.LongPointer"
+},
+{
+  "name":"org.bytedeco.javacpp.Pointer"
+},
+{
+  "name":"org.bytedeco.javacpp.Pointer$NativeDeallocator"
+},
+{
+  "name":"org.bytedeco.javacpp.PointerPointer"
+},
+{
+  "name":"org.bytedeco.javacpp.ShortPointer"
+},
+{
+  "name":"org.bytedeco.javacpp.SizeTPointer"
+},
+{
+  "name":"org.bytedeco.javacpp.presets.javacpp",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"sun.misc.Unsafe",
+  "allDeclaredFields":true,
+  "methods":[{"name":"defineAnonymousClass","parameterTypes":["java.lang.Class","byte[]","java.lang.Object[]"] }]
+}
+]
