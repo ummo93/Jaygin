@@ -97,7 +97,9 @@ public class WrapperGenerator {
     }
 
     public static void main(String[] args) throws Exception {
-        RaylibApiStructure.loadRaylibMethodInfos();
+        RaylibApiStructure.loadRaylibMethodInfos("raylib.json");
+        RaylibApiStructure.loadRaylibMethodInfos("raygui.json");
+        RaylibApiStructure.loadRaylibMethodInfos("raymath.json");
         generateWrapper(Raylib.class, args[0], args[1]);
     }
 }

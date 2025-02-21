@@ -3,9 +3,17 @@
 
 #### List of features:
 - Object-oriented model (working with actors and scene)
+- Automatically generated Java wrapper over Raylib API
 - Event loop for scene and the actors
 - Deferred tasks and timers (without blocking the game loop, but running in the game loop in main thread)
 - A set of utilities for convenient raycasting, animation playback (animated actor based on spritesheets)
+
+### Automatically generated Java wrapper over Raylib API
+
+This feature allows you to use the usual camelcase method names and hints of method arguments have normal names unlike default JNI bindings i0, var1... etc.
+
+![alt text]((https://github.com/ummo93/Jaygin/blob/master/example.jpg?raw=true))
+
 
 Example of creating a deferred task:
 

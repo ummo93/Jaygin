@@ -9,8 +9,8 @@ import org.json.*;
 public class RaylibApiStructure {
     public final static Map<String, String[]> infoMap = new HashMap<>();
 
-    public static void loadRaylibMethodInfos() {
-        try (var fis = new FileInputStream(new File("raylib/src/main/resources/raylib.json"))) {
+    public static void loadRaylibMethodInfos(String apiFileName) {
+        try (var fis = new FileInputStream("raylib/src/main/resources/" + apiFileName)) {
             var jsonStr = new String(fis.readAllBytes(), StandardCharsets.UTF_8);
             var jsonObj = new JSONObject(jsonStr);
             var functions = jsonObj.getJSONArray("functions");
@@ -35,6 +35,6 @@ public class RaylibApiStructure {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.printf("Load %d method infos with arguments", infoMap.size());
+        System.out.printf("Total methods in cache loaded: %d\n", infoMap.size());
     }
 }
