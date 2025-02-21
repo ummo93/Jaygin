@@ -31,7 +31,7 @@ public class WrapperGenerator {
             boolean isStatic = Modifier.isStatic(method.getModifiers());
             String comment = RaylibApiStructure.infoMap.get(methodName);
 
-            if (comment != null) {
+            if (comment != null && !comment.isBlank()) {
                 classContent
                     .append("    /**\n")
                     .append("     * ").append(comment).append("\n")
