@@ -4,7 +4,6 @@ import com.github.ummo93.framework.ActorAnimated2D;
 import com.github.ummo93.framework.ActorTexture2D;
 import com.github.ummo93.framework.AnimatedTexture;
 import com.github.ummo93.framework.service.TaskQueueService;
-import com.github.ummo93.utils.ResourceUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -111,8 +110,7 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
 
     @Override
     protected void onInit() {
-        explosionAnimation = new AnimatedTexture(loadTexture(ResourceUtils.getAssetPath("explosion-1.png")),
-            32, 32, 0, 7, 7, 1);
+        explosionAnimation = new AnimatedTexture(loadTextureResource("explosion-1.png"), 32, 32, 0, 7, 7, 1);
         super.onInit();
     }
 
@@ -120,16 +118,16 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
     protected void onUpdate(float dt) {
         var newRotation = calculateRotation();
         var currentRotation = getRotation();
-        setRotation(vector3(currentRotation.x(), currentRotation.y() + newRotation, currentRotation.z()));
+        setRotation(vector3(currentRotation.x(), currentRotation.y() + (dt*45f*newRotation), currentRotation.z()));
         setVelocity(calculateVelocity());
-        var newTranslatedPos = translate2D(vector2(position), vector2Scale(velocity, speed), 1.f);
+        var newTranslatedPos = translate2D(vector2(position), vector2Scale(velocity, dt*75f*speed), 1f);
         setPosition(vector3(newTranslatedPos));
 
         if (controlSignals.contains(SHOOT)) {
             emitBullet();
         }
 
-        refreshBulletsState();
+        refreshBulletsState(dt);
         controlSignals.clear();
     }
 
@@ -166,14 +164,14 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
 
     protected void drawBullets() {
         for (var bullet : bullets) {
-            bullet.pos = translate2D(vector2(bullet.pos.x(), bullet.pos.y()), vector2Scale(bullet.fwd, 10), 1.f);
             drawLineEx(bullet.pos, vector2Add(bullet.pos, vector2Scale(bullet.fwd, 8)), 2, RED);
         }
     }
 
-    protected void refreshBulletsState() {
+    protected void refreshBulletsState(float dt) {
         if (bullets.isEmpty()) return;
         for (var bullet : bullets) {
+            bullet.pos = translate2D(vector2(bullet.pos.x(), bullet.pos.y()), vector2Scale(bullet.fwd, dt*800f), 1.f);
             if (vector2Distance(bullet.pos, vector2(position)) > distanceToBulletDestroy) {
                 bullets.remove(bullet);
                 break;

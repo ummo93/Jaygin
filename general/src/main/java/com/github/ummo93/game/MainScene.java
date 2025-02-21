@@ -19,7 +19,6 @@ import com.github.ummo93.framework.AnimatedTexture;
 import com.github.ummo93.framework.GameContext;
 import com.github.ummo93.framework.Scene;
 import com.github.ummo93.framework.Timer;
-import com.github.ummo93.utils.ResourceUtils;
 import com.google.inject.Inject;
 import org.bytedeco.javacpp.FloatPointer;
 
@@ -36,17 +35,17 @@ public class MainScene extends Scene {
 
     @Override
     public void onInit() {
-        background = loadTexture(ResourceUtils.getAssetPath("background.png"));
+        background = loadTextureResource("background.png");
         starAnimation = new AnimatedTexture(
-            loadTexture(ResourceUtils.getAssetPath("star-spritesheet.png")),
+            loadTextureResource("star-spritesheet.png"),
             512, 512,
             0,
             10*10,
             10,
             1
         );
-        player = new FighterShip(new Vector3(), new Vector3(), loadTexture(ResourceUtils.getAssetPath("fighter.png")));
-        enemy = new FighterShip(new Vector3().x(50).y(25), new Vector3(), loadTexture(ResourceUtils.getAssetPath("enemy.png")));
+        player = new FighterShip(new Vector3(), new Vector3(), loadTextureResource("fighter.png"));
+        enemy = new FighterShip(new Vector3().x(50).y(25), new Vector3(), loadTextureResource("enemy.png"));
         var camera2D = new Camera2D().target(vector2(player.getPosition())).zoom(1.5f);
 
         spawn(player);

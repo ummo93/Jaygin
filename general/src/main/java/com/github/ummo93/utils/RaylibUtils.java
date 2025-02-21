@@ -35,6 +35,10 @@ public class RaylibUtils {
         return com.raylib.Helpers.newRectangle(x, y, width, height);
     }
 
+    public static Texture loadTextureResource(String resourceFileName) {
+        return loadTexture(ResourceUtils.getAssetPath(resourceFileName));
+    }
+
     public static Vector2 getHeadingByRotation2D(Vector2 absoluteHeading, float rotation) {
         absoluteHeading = vector2Rotate(absoluteHeading, rotation * (float)DEG2RAD);
         absoluteHeading = vector2Normalize(absoluteHeading);
