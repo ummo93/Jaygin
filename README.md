@@ -11,8 +11,10 @@
 ### Automatically generated Java wrapper over Raylib API
 
 This feature allows you to use the usual camelcase method names and hints of method arguments have normal names unlike default JNI bindings i0, var1... etc.
+Also moved original method comments from raylib, raymath, raygui .h files.
 
 ![Hints Example](https://github.com/ummo93/Jaygin/blob/master/example.jpg?raw=true)
+![Description Example](https://github.com/ummo93/Jaygin/blob/master/example2.jpg?raw=true)
 
 
 Example of creating a deferred task:

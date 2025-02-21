@@ -29,7 +29,14 @@ public class WrapperGenerator {
             String methodName = method.getName();
             String wrapperMethodName = Character.toLowerCase(methodName.charAt(0)) + methodName.substring(1);
             boolean isStatic = Modifier.isStatic(method.getModifiers());
+            String comment = RaylibApiStructure.infoMap.get(methodName);
 
+            if (comment != null) {
+                classContent
+                    .append("    /**\n")
+                    .append("     * ").append(comment).append("\n")
+                    .append("     */").append("\n");
+            }
             if (isStatic) {
                 // Gen static methods
                 classContent.append("    public static ").append(getTypeName(method.getReturnType())).append(" ").append(wrapperMethodName).append("(");
@@ -39,7 +46,7 @@ public class WrapperGenerator {
             }
 
             Class<?>[] parameterTypes = method.getParameterTypes();
-            String[] trueArgNames = RaylibApiStructure.infoMap.get(methodName);
+            String[] trueArgNames = RaylibApiStructure.argsMap.get(methodName);
 
             for (int i = 0; i < parameterTypes.length; i++) {
                 if (i > 0) classContent.append(", ");

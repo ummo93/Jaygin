@@ -7,7 +7,8 @@ import java.util.Map;
 import org.json.*;
 
 public class RaylibApiStructure {
-    public final static Map<String, String[]> infoMap = new HashMap<>();
+    public final static Map<String, String[]> argsMap = new HashMap<>();
+    public final static Map<String, String> infoMap = new HashMap<>();
 
     public static void loadRaylibMethodInfos(String apiFileName) {
         try (var fis = new FileInputStream("raylib/src/main/resources/" + apiFileName)) {
@@ -23,7 +24,13 @@ public class RaylibApiStructure {
                             var params = functionJson.getJSONArray("params");
                             var paramList = params.toList();
                             var argNames = paramList.stream().map(obj -> ((Map)obj).get("name").toString()).toArray(String[]::new);
-                            infoMap.put(methodName, argNames);
+                            argsMap.put(methodName, argNames);
+                        } catch (JSONException e) {}
+                        try {
+                            var info = functionJson.getString("description");
+                            if (info != null) {
+                                infoMap.put(methodName, info);
+                            }
                         } catch (JSONException e) {}
                     }
                 } catch (Exception e) {
@@ -35,6 +42,7 @@ public class RaylibApiStructure {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.printf("Total methods in cache loaded: %d\n", infoMap.size());
+        System.out.printf("Total methods in args cache loaded: %d\n", argsMap.size());
+        System.out.printf("Total methods in info cache loaded: %d\n", argsMap.size());
     }
 }
