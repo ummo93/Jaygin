@@ -3,7 +3,6 @@ package com.github.ummo93.config;
 import lombok.Data;
 
 import static com.raylib.Raylib.*;
-import static com.raylib.Raylib.FLAG_BORDERLESS_WINDOWED_MODE;
 
 @Data
 public class RaylibSettings {

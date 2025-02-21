@@ -102,6 +102,34 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>generate-wrappers</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <executions>
+              <execution>
+                <id>generate-classes</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+                <configuration>
+                  <mainClass>com.github.ummo93.framework.reflection.WrapperGenerator</mainClass>
+                  <arguments>
+                    <argument>src/main/java</argument>
+                  </arguments>
+                  <classpathScope>compile</classpathScope>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
   <properties>
     <maven.compiler.target>21</maven.compiler.target>

@@ -4,7 +4,10 @@ import com.raylib.Colors;
 import lombok.*;
 
 import static com.github.ummo93.utils.RaylibUtils.rectangle;
-import static com.raylib.Raylib.*;
+import static com.raylib.RaylibWrapper.*;
+import static com.raylib.Raylib.Texture;
+import static com.raylib.Raylib.Rectangle;
+import static com.raylib.Raylib.Vector2;
 
 @Getter
 @Setter
@@ -38,7 +41,7 @@ public class AnimatedTexture {
             (float)frameHeight
         );
         Rectangle destRec = rectangle(posX, posY, frameWidth * scale, frameHeight * scale);
-        DrawTexturePro(texture, sourceRec, destRec, new Vector2(), 0.0f, Colors.WHITE);
+        drawTexturePro(texture, sourceRec, destRec, new Vector2(), 0.0f, Colors.WHITE);
     }
 
     public void drawAnimation(int posX, int posY) {

@@ -1,10 +1,10 @@
 package com.github.ummo93.framework;
 
-import com.raylib.Raylib;
+import com.raylib.Raylib.RayCollision;
 import lombok.Data;
 
 @Data
 public class CollisionInfo {
-    Raylib.RayCollision collision;
+    RayCollision collision;
     Actor other;
 }

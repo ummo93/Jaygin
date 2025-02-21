@@ -1,7 +1,18 @@
 package com.github.ummo93.game;
 
 import static com.raylib.Colors.*;
-import static com.raylib.Raylib.*;
+import static com.raylib.RaylibWrapper.*;
+import static com.raylib.Raylib.Texture;
+import static com.raylib.Raylib.Vector3;
+import static com.raylib.Raylib.Vector2;
+import static com.raylib.Raylib.Camera2D;
+import static com.raylib.Raylib.Color;
+import static com.raylib.Raylib.Ray;
+import static com.raylib.Raylib.KEY_D;
+import static com.raylib.Raylib.KEY_A;
+import static com.raylib.Raylib.KEY_W;
+import static com.raylib.Raylib.KEY_S;
+import static com.raylib.Raylib.KEY_SPACE;
 import static com.github.ummo93.utils.RaylibUtils.*;
 
 import com.github.ummo93.framework.AnimatedTexture;
@@ -25,17 +36,17 @@ public class MainScene extends Scene {
 
     @Override
     public void onInit() {
-        background = LoadTexture(ResourceUtils.getAssetPath("background.png"));
+        background = loadTexture(ResourceUtils.getAssetPath("background.png"));
         starAnimation = new AnimatedTexture(
-            LoadTexture(ResourceUtils.getAssetPath("star-spritesheet.png")),
+            loadTexture(ResourceUtils.getAssetPath("star-spritesheet.png")),
             512, 512,
             0,
             10*10,
             10,
             1
         );
-        player = new FighterShip(new Vector3(), new Vector3(), LoadTexture(ResourceUtils.getAssetPath("fighter.png")));
-        enemy = new FighterShip(new Vector3().x(50).y(25), new Vector3(), LoadTexture(ResourceUtils.getAssetPath("enemy.png")));
+        player = new FighterShip(new Vector3(), new Vector3(), loadTexture(ResourceUtils.getAssetPath("fighter.png")));
+        enemy = new FighterShip(new Vector3().x(50).y(25), new Vector3(), loadTexture(ResourceUtils.getAssetPath("enemy.png")));
         var camera2D = new Camera2D().target(vector2(player.getPosition())).zoom(1.5f);
 
         spawn(player);
@@ -58,13 +69,13 @@ public class MainScene extends Scene {
 
     @Override
     public void onDraw() {
-        DrawText("WASD to move", 20, ctx.getWindowHeight() - 40, 20, YELLOW);
-        DrawText("SPACE to shoot", 20, ctx.getWindowHeight() - 65, 20, YELLOW);
-        DrawFPS(ctx.getWindowWidth() - 100, ctx.getWindowHeight() - 30);
+        drawText("WASD to move", 20, ctx.getWindowHeight() - 40, 20, YELLOW);
+        drawText("SPACE to shoot", 20, ctx.getWindowHeight() - 65, 20, YELLOW);
+        drawFPS(ctx.getWindowWidth() - 100, ctx.getWindowHeight() - 30);
         if (player.isDestructed()) {
-            DrawText("GAME OVER", ctx.getWindowWidth()/2 - 100, ctx.getWindowHeight()/2 - 20, 30, RED);
+            drawText("GAME OVER", ctx.getWindowWidth()/2 - 100, ctx.getWindowHeight()/2 - 20, 30, RED);
         } else {
-            GuiProgressBar(rectangle(24, 24, 120, 20), "", "HP", playerHpPtr, 0.0f, (float)player.getMaxHp());
+            guiProgressBar(rectangle(24, 24, 120, 20), "", "HP", playerHpPtr, 0.0f, (float)player.getMaxHp());
         }
     }
 
@@ -90,7 +101,7 @@ public class MainScene extends Scene {
         if (!enemyShootTimer.isDone())
             return;
 
-        Ray rayOnPlayer = ray(enemy.getPosition(), vector3(Vector2Scale(enemy.getForward2D(), 50)));
+        Ray rayOnPlayer = ray(enemy.getPosition(), vector3(vector2Scale(enemy.getForward2D(), 50)));
         var collisionInfo = raycastOne(rayOnPlayer, 50, enemy);
         if (collisionInfo.isPresent() && collisionInfo.get().getOther() instanceof Damagable) {
             enemy.shoot();
@@ -103,25 +114,25 @@ public class MainScene extends Scene {
         if (player.isDestructed()) return;
         playerHpPtr.put((float) player.getHp());
         var camera2D = getCamera2D();
-        camera2D.zoom(Clamp(camera2D.zoom() + GetMouseWheelMove() * .1f, 1f, 2.5f));
+        camera2D.zoom(clamp(camera2D.zoom() + getMouseWheelMove() * .1f, 1f, 2.5f));
         camera2D.target(vector2(player.getPosition().x(), player.getPosition().y()));
         camera2D.offset(vector2(ctx.getWindowWidth() / 2.f, ctx.getWindowHeight() / 2.f));
 
-        if (IsKeyDown(KEY_W)) {
+        if (isKeyDown(KEY_W)) {
             player.moveForward();
         }
-        if (IsKeyDown(KEY_S)) {
+        if (isKeyDown(KEY_S)) {
             player.moveBackward();
         }
 
-        if (IsKeyDown(KEY_A)) {
+        if (isKeyDown(KEY_A)) {
             player.rotateCounterClockwise();
         }
-        if (IsKeyDown(KEY_D)) {
+        if (isKeyDown(KEY_D)) {
             player.rotateClockwise();
         }
 
-        if (IsKeyPressed(KEY_SPACE)) {
+        if (isKeyPressed(KEY_SPACE)) {
             player.shoot();
         }
     }

@@ -2,7 +2,7 @@ package com.github.ummo93.framework;
 
 import lombok.Getter;
 
-import static com.raylib.Raylib.GetTime;
+import static com.raylib.RaylibWrapper.getTime;
 
 @Getter
 public class Timer {
@@ -14,11 +14,11 @@ public class Timer {
     }
 
     private Timer(double lifetime) {
-        this.startTime = GetTime();
+        this.startTime = getTime();
         this.lifetime = lifetime;
     }
 
     public boolean isDone() {
-        return startTime + lifetime < GetTime();
+        return startTime + lifetime < getTime();
     }
 }

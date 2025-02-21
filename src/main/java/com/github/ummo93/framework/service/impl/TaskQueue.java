@@ -7,7 +7,7 @@ import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.Queue;
 
-import com.raylib.Raylib;
+import static com.raylib.RaylibWrapper.getTime;
 
 public class TaskQueue extends TaskQueueService {
     private final Queue<EventLoopTask> queue = new ArrayDeque<>();
@@ -17,7 +17,7 @@ public class TaskQueue extends TaskQueueService {
     }
 
     public long enqueue(Runnable task, double delay_sec) {
-        var elt = new EventLoopTask(task, Raylib.GetTime(), delay_sec);
+        var elt = new EventLoopTask(task, getTime(), delay_sec);
         queue.add(elt);
         return elt.getId();
     }
@@ -31,7 +31,7 @@ public class TaskQueue extends TaskQueueService {
     }
 
     public void dequeSuitable() {
-        var now = Raylib.GetTime();
+        var now = getTime();
         Iterator<EventLoopTask> iter = queue.iterator();
         while(iter.hasNext()){
             var it = iter.next();

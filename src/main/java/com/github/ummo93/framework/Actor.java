@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import static com.github.ummo93.utils.RaylibUtils.*;
-import static com.raylib.Raylib.*;
+import static com.raylib.RaylibWrapper.*;
+import static com.raylib.Raylib.Vector3;
+import static com.raylib.Raylib.Vector2;
+import static com.raylib.Raylib.BoundingBox;
 
 public abstract class Actor {
     private static long id_couner = 0L;
@@ -63,8 +66,8 @@ public abstract class Actor {
     }
     protected void onUpdatePhysic() {
         if (collider == null) return;
-        Vector3 offsetSinceLastUpdate = Vector3Subtract(position, bodyLastPos);
-        collider.max(Vector3Add(collider.max(), offsetSinceLastUpdate));
-        collider.min(Vector3Add(collider.min(), offsetSinceLastUpdate));
+        Vector3 offsetSinceLastUpdate = vector3Subtract(position, bodyLastPos);
+        collider.max(vector3Add(collider.max(), offsetSinceLastUpdate));
+        collider.min(vector3Add(collider.min(), offsetSinceLastUpdate));
     }
 }

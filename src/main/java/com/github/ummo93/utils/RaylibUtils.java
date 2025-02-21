@@ -4,7 +4,15 @@ import com.raylib.Colors;
 import com.raylib.Helpers;
 import org.bytedeco.javacpp.Pointer;
 
-import static com.raylib.Raylib.*;
+import static com.raylib.RaylibWrapper.*;
+import static com.raylib.Raylib.Vector2;
+import static com.raylib.Raylib.Vector3;
+import static com.raylib.Raylib.Color;
+import static com.raylib.Raylib.Rectangle;
+import static com.raylib.Raylib.DEG2RAD;
+import static com.raylib.Raylib.Ray;
+import static com.raylib.Raylib.Texture;
+
 
 public class RaylibUtils {
     public static Vector2 vector2(float x, float y) {
@@ -28,14 +36,14 @@ public class RaylibUtils {
     }
 
     public static Vector2 getHeadingByRotation2D(Vector2 absoluteHeading, float rotation) {
-        absoluteHeading = Vector2Rotate(absoluteHeading, rotation * (float)DEG2RAD);
-        absoluteHeading = Vector2Normalize(absoluteHeading);
+        absoluteHeading = vector2Rotate(absoluteHeading, rotation * (float)DEG2RAD);
+        absoluteHeading = vector2Normalize(absoluteHeading);
         return absoluteHeading;
     }
 
     public static Vector2 translate2D(Vector2 origin, Vector2 dir, float strength)
     {
-        return Vector2Add(vector2(origin.x(), origin.y()), Vector2Scale(dir, strength));
+        return vector2Add(vector2(origin.x(), origin.y()), vector2Scale(dir, strength));
     }
 
     public static Color color(int r, int g, int b, int a) {
@@ -66,7 +74,7 @@ public class RaylibUtils {
     }
 
     public static void drawTextureInCenter(Texture texture, Vector2 pos, float rotation) {
-        DrawTexturePro(
+        drawTexturePro(
             texture,
             rectangle(0,0, texture.width(), texture.height()),
             rectangle(pos.x(),pos.y(), texture.width(), texture.height()),
@@ -78,7 +86,7 @@ public class RaylibUtils {
 
     public static void drawTextureInCenterRepeat(Texture texture, Vector2 pos, float scale, float rotation, Color tint) {
         var pivot = vector2(texture.width() / 2.f , texture.height() / 2.f);
-        DrawTexturePro(
+        drawTexturePro(
             texture,
             rectangle(0,0, texture.width() * scale, texture.height() * scale),
             rectangle(pos.x() - pivot.x(), pos.y() - pivot.y(), texture.width() * scale, texture.height() * scale),

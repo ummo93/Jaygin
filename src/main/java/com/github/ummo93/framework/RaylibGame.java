@@ -5,7 +5,7 @@ import com.github.ummo93.framework.service.TaskQueueService;
 import com.google.inject.Inject;
 
 
-import static com.raylib.Raylib.*;
+import static com.raylib.RaylibWrapper.*;
 
 
 public class RaylibGame {
@@ -20,14 +20,14 @@ public class RaylibGame {
     private TaskQueueService taskService;
 
     private void refreshContext() {
-        ctx.setWindowWidth(GetScreenWidth());
-        ctx.setWindowHeight(GetScreenHeight());
+        ctx.setWindowWidth(getScreenWidth());
+        ctx.setWindowHeight(getScreenHeight());
     }
 
     public RaylibGame init() {
-        InitWindow(settings.getWindow().getWidth(), settings.getWindow().getHeight(), settings.getTitle());
-        SetWindowState(settings.getWindow().getWindowStateFlags());
-        SetTargetFPS(settings.getTargetFps());
+        initWindow(settings.getWindow().getWidth(), settings.getWindow().getHeight(), settings.getTitle());
+        setWindowState(settings.getWindow().getWindowStateFlags());
+        setTargetFPS(settings.getTargetFps());
         refreshContext();
         return this;
     }
@@ -38,30 +38,30 @@ public class RaylibGame {
         var camera2D = scene.getCamera2D();
         var camera3D = scene.getCamera3D();
 
-        while (!WindowShouldClose()) {
+        while (!windowShouldClose()) {
             refreshContext();
             scene.updateHierarchy();
             scene.onUpdate();
 
-            BeginDrawing();
-            ClearBackground(scene.getBackgroundColor());
+            beginDrawing();
+            clearBackground(scene.getBackgroundColor());
 
             if (camera3D != null) {
-                BeginMode3D(camera3D);
+                beginMode3D(camera3D);
                 scene.beforeDraw();
                 scene.drawHierarchy();
-                EndMode3D();
+                endMode3D();
             } else if (camera2D != null) {
-                BeginMode2D(camera2D);
+                beginMode2D(camera2D);
                 scene.beforeDraw();
                 scene.drawHierarchy();
-                EndMode2D();
+                endMode2D();
             } else {
                 scene.beforeDraw();
                 scene.drawHierarchy();
             }
             scene.onDraw();
-            EndDrawing();
+            endDrawing();
 
             taskService.dequeSuitable();
             scene.onEndFrame();
@@ -69,6 +69,6 @@ public class RaylibGame {
 
         scene.onDestroy();
 
-        CloseWindow();
+        closeWindow();
     }
 }
