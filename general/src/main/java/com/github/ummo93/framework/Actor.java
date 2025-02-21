@@ -57,14 +57,14 @@ public abstract class Actor {
 
     protected abstract void onDraw();
     protected void onInit() {}
-    protected void onUpdate() {}
+    protected void onUpdate(float dt) {}
     protected void onDestroy() {
         destructed = true;
     }
-    protected void onBeforeUpdatePhysic() {
+    protected void onBeforeUpdatePhysic(float dt) {
         bodyLastPos = position;
     }
-    protected void onUpdatePhysic() {
+    protected void onUpdatePhysic(float dt) {
         if (collider == null) return;
         Vector3 offsetSinceLastUpdate = vector3Subtract(position, bodyLastPos);
         collider.max(vector3Add(collider.max(), offsetSinceLastUpdate));

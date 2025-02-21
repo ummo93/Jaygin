@@ -39,9 +39,15 @@ public class WrapperGenerator {
             }
 
             Class<?>[] parameterTypes = method.getParameterTypes();
+            String[] trueArgNames = RaylibApiStructure.infoMap.get(methodName);
+
             for (int i = 0; i < parameterTypes.length; i++) {
                 if (i > 0) classContent.append(", ");
-                classContent.append(getTypeName(parameterTypes[i])).append(" arg").append(i);
+                if (trueArgNames != null) {
+                    classContent.append(getTypeName(parameterTypes[i])).append(" ").append(trueArgNames[i]);
+                } else {
+                    classContent.append(getTypeName(parameterTypes[i])).append(" arg").append(i);
+                }
             }
             classContent.append(") {\n");
 
@@ -61,7 +67,11 @@ public class WrapperGenerator {
 
             for (int i = 0; i < parameterTypes.length; i++) {
                 if (i > 0) classContent.append(", ");
-                classContent.append("arg").append(i);
+                if (trueArgNames != null) {
+                    classContent.append(trueArgNames[i]);
+                } else {
+                    classContent.append("arg").append(i);
+                }
             }
             classContent.append(");\n");
 
@@ -87,6 +97,7 @@ public class WrapperGenerator {
     }
 
     public static void main(String[] args) throws Exception {
+        RaylibApiStructure.loadRaylibMethodInfos();
         generateWrapper(Raylib.class, args[0], args[1]);
     }
 }

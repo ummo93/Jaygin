@@ -25,7 +25,7 @@ public abstract class Scene {
     public void onInit() {
 
     }
-    public void onUpdate() {
+    public void onUpdate(float dt) {
 
     }
     public void onDraw() {
@@ -50,10 +50,10 @@ public abstract class Scene {
         actors.forEach(Actor::onDraw);
     }
 
-    public void updateHierarchy() {
-        actors.forEach(Actor::onBeforeUpdatePhysic);
-        actors.forEach(Actor::onUpdate);
-        actors.forEach(Actor::onUpdatePhysic);
+    public void updateHierarchy(float dt) {
+        actors.forEach((actor) -> actor.onBeforeUpdatePhysic(dt));
+        actors.forEach((actor) -> actor.onUpdate(dt));
+        actors.forEach((actor) -> actor.onUpdatePhysic(dt));
     }
 
     public Optional<Actor> findOne(Predicate<Actor> pred) {

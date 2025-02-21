@@ -56,7 +56,7 @@ public class MainScene extends Scene {
     }
 
     @Override
-    public void onUpdate() {
+    public void onUpdate(float dt) {
         enemyTurn();
         playerTurn();
     }

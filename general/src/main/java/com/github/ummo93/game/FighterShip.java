@@ -29,6 +29,7 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
 
     private final Set<ControlSignal2D> controlSignals = new HashSet<>();
     private AnimatedTexture explosionAnimation;
+
     @Getter
     private final Queue<Bullet> bullets = new ArrayDeque<>();
 
@@ -116,7 +117,7 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
     }
 
     @Override
-    protected void onUpdate() {
+    protected void onUpdate(float dt) {
         var newRotation = calculateRotation();
         var currentRotation = getRotation();
         setRotation(vector3(currentRotation.x(), currentRotation.y() + newRotation, currentRotation.z()));

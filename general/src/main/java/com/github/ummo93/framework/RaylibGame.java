@@ -3,6 +3,7 @@ package com.github.ummo93.framework;
 import com.github.ummo93.config.RaylibSettings;
 import com.github.ummo93.framework.service.TaskQueueService;
 import com.google.inject.Inject;
+import com.raylib.Raylib;
 
 
 import static com.raylib.Jaylib.*;
@@ -20,8 +21,10 @@ public class RaylibGame {
     private TaskQueueService taskService;
 
     private void refreshContext() {
-        ctx.setWindowWidth(getScreenWidth());
-        ctx.setWindowHeight(getScreenHeight());
+        ctx.windowWidth = getScreenWidth();
+        ctx.windowHeight = getScreenHeight();
+        ctx.fps = getFPS();
+        ctx.delta = getFrameTime();
     }
 
     public RaylibGame init() {
@@ -40,8 +43,8 @@ public class RaylibGame {
 
         while (!windowShouldClose()) {
             refreshContext();
-            scene.updateHierarchy();
-            scene.onUpdate();
+            scene.updateHierarchy(ctx.delta);
+            scene.onUpdate(ctx.delta);
 
             beginDrawing();
             clearBackground(scene.getBackgroundColor());
