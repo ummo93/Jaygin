@@ -1,7 +1,7 @@
 import json
 import os
 
-CONFIG_PATH = "src/main/resources/META-INF/native-image/reflect-config.json"
+CONFIG_PATH = "general/src/main/resources/META-INF/native-image/reflect-config.json"
 
 if os.path.exists(CONFIG_PATH):
     with open(CONFIG_PATH, "r", encoding="utf-8") as f:

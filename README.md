@@ -52,7 +52,7 @@ Then build a usual jar:
 
 And create reflection configs:
 
-    java -agentlib:native-image-agent=config-output-dir=src/main/resources/META-INF/native-image -jar target/**YOUR_JAR_NAME**.jar
+    java -agentlib:native-image-agent=config-output-dir=general/src/main/resources/META-INF/native-image -jar general/target/jaygin.jar
 
 Run python script to add "unsafeAllocated" to Raylib native classes:
 
@@ -60,7 +60,7 @@ Run python script to add "unsafeAllocated" to Raylib native classes:
 
 Then to build a native image:
 
-    native-image --target=windows-amd64 -jar jaygin-0.1.jar
+    native-image --target=windows-amd64 -jar jaygin.jar
 
 
 
