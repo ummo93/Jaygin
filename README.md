@@ -12,7 +12,7 @@
 
 This feature allows you to use the usual camelcase method names and hints of method arguments have normal names unlike default JNI bindings i0, var1... etc.
 
-![alt text]((https://github.com/ummo93/Jaygin/blob/master/example.jpg?raw=true))
+![Hints Example](https://github.com/ummo93/Jaygin/blob/master/example.jpg?raw=true)
 
 
 Example of creating a deferred task:
