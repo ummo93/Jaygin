@@ -1,7 +1,7 @@
 package com.github.ummo93.game;
 
 
-public interface Controllable2D {
+public interface Controllable {
     void moveForward();
     void moveBackward();
     void rotateClockwise();

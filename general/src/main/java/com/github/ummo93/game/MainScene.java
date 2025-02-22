@@ -2,24 +2,14 @@ package com.github.ummo93.game;
 
 import static com.raylib.Colors.*;
 import static com.raylib.Jaylib.*;
-import static com.raylib.Raylib.Texture;
-import static com.raylib.Raylib.Vector3;
-import static com.raylib.Raylib.Vector2;
-import static com.raylib.Raylib.Camera2D;
-import static com.raylib.Raylib.Color;
-import static com.raylib.Raylib.Ray;
-import static com.raylib.Raylib.KEY_D;
-import static com.raylib.Raylib.KEY_A;
-import static com.raylib.Raylib.KEY_W;
-import static com.raylib.Raylib.KEY_S;
-import static com.raylib.Raylib.KEY_SPACE;
 import static com.github.ummo93.utils.RaylibUtils.*;
+import static com.raylib.Raylib.*;
 
 import com.github.ummo93.framework.AnimatedTexture;
 import com.github.ummo93.framework.GameContext;
 import com.github.ummo93.framework.Scene;
-import com.github.ummo93.framework.Timer;
 import com.github.ummo93.framework.service.TaskQueueService;
+import com.github.ummo93.game.ai.AiBehaviourStrategy;
 import com.google.inject.Inject;
 import org.bytedeco.javacpp.FloatPointer;
 
@@ -30,7 +20,12 @@ public class MainScene extends Scene {
     private Texture background;
     private FighterShip player;
     private FighterShip enemy;
-    private Timer enemyShootTimer;
+    private int killedEnemiesCounter = 0;
+
+    private Texture enemyTexture;
+
+    @Inject
+    private AiBehaviourStrategy ai;
     @Inject
     private GameContext ctx;
     @Inject
@@ -38,31 +33,26 @@ public class MainScene extends Scene {
 
     @Override
     public void onInit() {
+        var starTexture = loadTextureResource("star-spritesheet.png");
+        enemyTexture = loadTextureResource("enemy.png");
         background = loadTextureResource("background.png");
-        starAnimation = new AnimatedTexture(
-            loadTextureResource("star-spritesheet.png"),
-            512, 512,
-            0,
-            10*10,
-            10,
-            1
-        );
+        starAnimation = new AnimatedTexture(starTexture, 512, 512, 0, 10*10, 10, 1);
         player = new FighterShip(new Vector3(), new Vector3(), loadTextureResource("fighter.png"));
-        enemy = new FighterShip(vector3(50f, 25f, 0), new Vector3(), loadTextureResource("enemy.png"));
+
         var camera2D = new Camera2D()
             .target(vector2(player.getPosition()))
             .zoom(1.5f);
 
         spawn(player);
-        spawn(enemy);
+        spawnEnemy(vector3(50f, 25f, 0f));
         addCamera(camera2D);
         playerHpPtr = new FloatPointer((float) player.getHp());
     }
 
     @Override
     public void onUpdate(float dt) {
-        enemyTurn();
-        playerTurn();
+        if (enemy != null) enemyTurn();
+        if (player != null) playerTurn();
     }
 
     @Override
@@ -75,8 +65,9 @@ public class MainScene extends Scene {
     public void onDraw() {
         drawText("WASD to move", 20, ctx.getWindowHeight() - 40, 20, YELLOW);
         drawText("SPACE to shoot", 20, ctx.getWindowHeight() - 65, 20, YELLOW);
+        drawText("SCORE: " + killedEnemiesCounter, ctx.getWindowWidth() - 120, 20, 20, GREEN);
         drawFPS(ctx.getWindowWidth() - 100, ctx.getWindowHeight() - 30);
-        if (player.isDestructed()) {
+        if (player == null || player.isDestructed()) {
             drawText("GAME OVER", ctx.getWindowWidth()/2 - 100, ctx.getWindowHeight()/2 - 20, 30, RED);
         } else {
             guiProgressBar(rectangle(24, 24, 120, 20), "", "HP", playerHpPtr, 0.0f, (float)player.getMaxHp());
@@ -88,34 +79,35 @@ public class MainScene extends Scene {
         return BLACK;
     }
 
-    private void refreshEnemyShootingTimer() {
-        if (enemyShootTimer == null) {
-            enemyShootTimer = Timer.start(2);
-        }
+    private void spawnEnemy(Vector3 spawnPoint) {
+        enemy = new FighterShip(spawnPoint, new Vector3(), enemyTexture);
+        enemy.setVelocity(vector2Scale(VECTOR_RIGHT, 20));
+        spawn(enemy);
+    }
+
+    private void onEnemyKilled() {
+        killedEnemiesCounter++;
+        final int offset = 1000;
+        var playerPos = player.getPosition();
+        var randomX = getRandomValue((int)playerPos.x() - offset, (int)playerPos.x() + offset);
+        var randomY = getRandomValue((int)playerPos.y() - offset, (int)playerPos.y() + offset);
+        spawnEnemy(vector3(randomX, randomY, 0f));
     }
 
     private void enemyTurn() {
-        if (enemy.isDestructed())
+        if (enemy.isDestructed()) {
+            enemy = null;
+            onEnemyKilled();
             return;
-
-        refreshEnemyShootingTimer();
-
-        enemy.rotateCounterClockwise();
-
-        if (!enemyShootTimer.isDone())
-            return;
-
-        Ray rayOnPlayer = ray(enemy.getPosition(), vector3(vector2Scale(enemy.getForward2D(), 50)));
-        var collisionInfo = raycastOne(rayOnPlayer, 50, enemy);
-        if (collisionInfo.isPresent() && collisionInfo.get().getOther() instanceof Damagable) {
-            enemy.shoot();
-            enemyShootTimer = null;
-            enemy.moveBackward();
         }
+        ai.turn(enemy, player, this);
     }
 
     private void playerTurn() {
-        if (player.isDestructed()) return;
+        if (player.isDestructed()) {
+            player = null;
+            return;
+        }
         playerHpPtr.put((float) player.getHp());
         var camera2D = getCamera2D();
         camera2D.zoom(clamp(camera2D.zoom() + getMouseWheelMove() * .1f, 1f, 2.5f));

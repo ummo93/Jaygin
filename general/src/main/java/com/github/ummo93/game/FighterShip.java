@@ -24,7 +24,7 @@ import static com.raylib.Raylib.Texture;
 import static com.raylib.Raylib.Ray;
 
 
-public class FighterShip extends ActorTexture2D implements Controllable2D, Damagable {
+public class FighterShip extends ActorTexture2D implements Controllable, Damagable {
 
     private final Set<ControlSignal2D> controlSignals = new HashSet<>();
     private AnimatedTexture explosionAnimation;
@@ -43,7 +43,7 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
     @Getter
     private final float maxSpeed = 50.f;
     @Getter
-    private final float damage = 45.f;
+    private final float damage = 25.f;
     @Getter
     private double hp = 100.0;
     @Getter

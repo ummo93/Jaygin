@@ -47,12 +47,12 @@ public abstract class Actor {
 
     public Vector2 getForward2D()
     {
-        return getHeadingByRotation2D(vector2(0.0f, -1.0f), rotation.y());
+        return getHeadingByRotation2D(VECTOR_UP, rotation.y());
     }
 
     public Vector2 getRight2D()
     {
-        return getHeadingByRotation2D(vector2(1.0f, 0.0f), rotation.y());
+        return getHeadingByRotation2D(VECTOR_RIGHT, rotation.y());
     }
 
     protected abstract void onDraw();

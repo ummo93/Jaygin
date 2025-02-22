@@ -15,6 +15,9 @@ import static com.raylib.Raylib.Texture;
 
 
 public class RaylibUtils {
+    public static final Vector2 VECTOR_UP = vector2(0.0f, -1.0f);
+    public static final Vector2 VECTOR_RIGHT = vector2(1.0f, 0.0f);
+
     public static Vector2 vector2(float x, float y) {
         return com.raylib.Helpers.newVector2(x, y);
     }
@@ -47,7 +50,7 @@ public class RaylibUtils {
 
     public static Vector2 translate2D(Vector2 origin, Vector2 dir, float strength)
     {
-        return vector2Add(vector2(origin.x(), origin.y()), vector2Scale(dir, strength));
+        return vector2Add(origin, vector2Scale(dir, strength));
     }
 
     public static Color color(int r, int g, int b, int a) {
