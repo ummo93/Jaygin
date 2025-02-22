@@ -108,6 +108,7 @@ public class WrapperGenerator {
         RaylibApiStructure.loadRaylibMethodInfos("raygui.json");
         RaylibApiStructure.loadRaylibMethodInfos("raymath.json");
         RaylibApiStructure.loadRaylibMethodInfos("rlgl.json");
+        RaylibApiStructure.loadRaylibMethodInfos("physac.json");
         generateWrapper(Raylib.class, args[0], args[1]);
     }
 }

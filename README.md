@@ -3,7 +3,7 @@
 
 #### List of features:
 - Object-oriented model (working with actors and scene)
-- Automatically generated Java wrapper over Raylib API
+- Automatically generated Java-style wrapper over Raylib API (including doc hints, comments)
 - Event loop for scene and the actors
 - Deferred tasks and timers (without blocking the game loop, but running in the game loop in main thread)
 - A set of utilities for convenient raycasting, animation playback (animated actor based on spritesheets)
@@ -11,7 +11,8 @@
 ### Automatically generated Java wrapper over Raylib API
 
 This feature allows you to use the usual camelcase method names and hints of method arguments have normal names unlike default JNI bindings i0, var1... etc.
-Also moved original method comments from raylib, raymath, raygui .h files.
+Also moved original method comments from raylib, raymath, raygui, rlgl, physac .h files.
+Additional data generation (like comments, arg. names over functions) is based on output json files of the [raylib_parser](https://github.com/raysan5/raylib/tree/master/parser) utility
 
 ![Hints Example](https://github.com/ummo93/Jaygin/blob/master/example.jpg?raw=true)
 ![Description Example](https://github.com/ummo93/Jaygin/blob/master/example2.jpg?raw=true)
