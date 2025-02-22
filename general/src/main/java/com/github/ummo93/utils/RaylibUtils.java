@@ -12,6 +12,7 @@ import static com.raylib.Raylib.Rectangle;
 import static com.raylib.Raylib.DEG2RAD;
 import static com.raylib.Raylib.Ray;
 import static com.raylib.Raylib.Texture;
+import com.raylib.Raylib.Sound;
 
 
 public class RaylibUtils {
@@ -40,6 +41,10 @@ public class RaylibUtils {
 
     public static Texture loadTextureResource(String resourceFileName) {
         return loadTexture(ResourceUtils.getAssetPath(resourceFileName));
+    }
+
+    public static Sound loadSoundResource(String resourceFileName) {
+        return loadSound(ResourceUtils.getAssetPath(resourceFileName));
     }
 
     public static Vector2 getHeadingByRotation2D(Vector2 absoluteHeading, float rotation) {

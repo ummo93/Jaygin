@@ -22,8 +22,9 @@ public class MainScene extends Scene {
     private FighterShip player;
     private FighterShip enemy;
     private int killedEnemiesCounter = 0;
-
     private Texture enemyTexture;
+    private Texture playerTexture;
+    private Sound playerEngineSound;
 
     @Inject
     private AiBehaviourStrategy ai;
@@ -42,14 +43,14 @@ public class MainScene extends Scene {
     public void onInit() {
         preloadResources();
 
-        player = new FighterShip(new Vector3(), new Vector3(), loadTextureResource("fighter.png"));
+        player = new FighterShip(new Vector3(), new Vector3(), playerTexture);
 
         var camera2D = new Camera2D()
             .target(vector2(player.getPosition()))
             .zoom(1.5f);
 
         spawn(player);
-        spawnEnemy(vector3(50f, 25f, 0f));
+        spawnEnemy(vector3(500f, 250f, 0f));
         addCamera(camera2D);
 
         if (playerHpPtr == null)
@@ -93,6 +94,12 @@ public class MainScene extends Scene {
         if (starAnimation == null) {
             var starTexture = loadTextureResource("star-spritesheet.png");
             starAnimation = new AnimatedTexture(starTexture, 512, 512, 0, 10*10, 10, 1);
+        }
+        if (playerEngineSound == null) {
+            playerEngineSound = loadSoundResource("engine.wav");
+        }
+        if (playerTexture == null) {
+            playerTexture = loadTextureResource("fighter.png");
         }
         if (enemyTexture == null) {
             enemyTexture = loadTextureResource("enemy.png");
@@ -139,9 +146,13 @@ public class MainScene extends Scene {
 
         if (isKeyDown(KEY_W)) {
             player.moveForward();
+            if (!isSoundPlaying(playerEngineSound))
+                playSound(playerEngineSound);
         }
         if (isKeyDown(KEY_S)) {
             player.moveBackward();
+            if (!isSoundPlaying(playerEngineSound))
+                playSound(playerEngineSound);
         }
 
         if (isKeyDown(KEY_A)) {

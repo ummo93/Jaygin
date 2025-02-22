@@ -4,6 +4,7 @@ import com.github.ummo93.framework.ActorAnimated2D;
 import com.github.ummo93.framework.ActorTexture2D;
 import com.github.ummo93.framework.AnimatedTexture;
 import com.github.ummo93.framework.service.TaskQueueService;
+import com.raylib.Raylib;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ import static com.raylib.Raylib.Vector2;
 import static com.raylib.Raylib.Vector3;
 import static com.raylib.Raylib.BoundingBox;
 import static com.raylib.Raylib.Texture;
+import static com.raylib.Raylib.Sound;
 import static com.raylib.Raylib.Ray;
 
 
@@ -58,6 +60,9 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
     boolean isForwardEngineActive = false;
     @Getter
     boolean isBackwardEngineActive = false;
+    private Sound killSound;
+    private Sound shootSound;
+    private Texture explosionTexture;
 
     public void addCollider() {
         var collider = new BoundingBox()
@@ -98,6 +103,7 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
     @Override
     public void shoot() {
         controlSignals.add(SHOOT);
+        playSound(shootSound);
     }
 
     @Override
@@ -110,7 +116,10 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
 
     @Override
     protected void onInit() {
-        explosionAnimation = new AnimatedTexture(loadTextureResource("explosion-1.png"), 32, 32, 0, 7, 7, 1);
+        explosionTexture = loadTextureResource("explosion-1.png");
+        explosionAnimation = new AnimatedTexture(explosionTexture, 32, 32, 0, 7, 7, 1);
+        killSound = loadSoundResource("blast.wav");
+        shootSound = loadSoundResource("lazer.wav");
         super.onInit();
     }
 
@@ -151,8 +160,13 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
         var explosion = new ActorAnimated2D(explosionPoint, rotation, explosionAnimation);
         var scene = getScene();
         scene.spawn(explosion);
-        TaskQueueService.getInstance().enqueue(() -> scene.remove(explosion), 1);
-
+        TaskQueueService.getInstance().enqueue(() -> {
+            scene.remove(explosion);
+            unloadTexture(explosionTexture);
+            unloadSound(killSound);
+        }, 1);
+        unloadSound(shootSound);
+        playSound(killSound);
         super.onDestroy();
     }
 

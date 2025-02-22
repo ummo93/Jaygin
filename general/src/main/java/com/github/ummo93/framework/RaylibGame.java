@@ -32,6 +32,7 @@ public class RaylibGame {
         setWindowState(settings.getWindow().getWindowStateFlags());
         setTargetFPS(settings.getTargetFps());
         refreshContext();
+        initAudioDevice();
         return this;
     }
 
@@ -73,5 +74,6 @@ public class RaylibGame {
         scene.onDestroy();
 
         closeWindow();
+        closeAudioDevice();
     }
 }
