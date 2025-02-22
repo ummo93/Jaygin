@@ -55,6 +55,23 @@
                 <version>3.3.1</version>
                 <executions>
                     <execution>
+                        <id>default-resources</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <excludes>
+                                        <exclude>assets/**</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>copy-assets</id>
                         <phase>package</phase>
                         <goals>
@@ -95,6 +112,14 @@
                 <version>3.5.3</version>
                 <configuration>
                     <finalName>${artefact.filename}</finalName>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>assets/**</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
                     <transformers>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
                             <resource>META-INF/MANIFEST.MF</resource>

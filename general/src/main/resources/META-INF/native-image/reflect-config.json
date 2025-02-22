@@ -8,7 +8,7 @@
     "queryAllDeclaredConstructors": true
   },
   {
-    "name": "com.github.ummo93.config.AppModule$$FastClassByGuice$$7f003",
+    "name": "com.github.ummo93.config.AppModule$$FastClassByGuice$$aafa6",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -176,7 +176,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.framework.GameContext$$FastClassByGuice$$27227e",
+    "name": "com.github.ummo93.framework.GameContext$$FastClassByGuice$$2047e6",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -196,7 +196,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.framework.RaylibGame$$FastClassByGuice$$478a76",
+    "name": "com.github.ummo93.framework.RaylibGame$$FastClassByGuice$$45dea7",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -226,7 +226,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.framework.service.impl.TaskQueueImpl$$FastClassByGuice$$187521",
+    "name": "com.github.ummo93.framework.service.impl.TaskQueueImpl$$FastClassByGuice$$165b77",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -246,7 +246,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.game.MainScene$$FastClassByGuice$$361df8",
+    "name": "com.github.ummo93.game.MainScene$$FastClassByGuice$$3856dd",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -568,7 +568,7 @@
     ]
   },
   {
-    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x000001f919091c00",
+    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x00000205a4091c00",
     "methods": [
       {
         "name": "<init>",
