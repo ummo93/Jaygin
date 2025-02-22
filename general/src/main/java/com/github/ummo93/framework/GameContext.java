@@ -1,7 +1,7 @@
 package com.github.ummo93.framework;
 
 
-import jakarta.inject.Singleton;
+import com.google.inject.Singleton;
 import lombok.Getter;
 
 import static com.raylib.Jaylib.*;

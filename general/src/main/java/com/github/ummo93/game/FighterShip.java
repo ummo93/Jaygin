@@ -102,7 +102,7 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
 
     @Override
     public void addDamage(double damage) {
-        hp = Math.clamp(hp - damage, 0f, maxHp);
+        hp = Math.clamp(hp - damage, 0.0, maxHp);
         if (hp == 0) {
             getScene().remove(this);
         }
@@ -147,7 +147,8 @@ public class FighterShip extends ActorTexture2D implements Controllable2D, Damag
 
     @Override
     protected void onDestroy() {
-        var explosion = new ActorAnimated2D(vector3SubtractValue(position, explosionAnimation.getFrameWidth()/2), rotation, explosionAnimation);
+        var explosionPoint = vector3SubtractValue(position, explosionAnimation.getFrameWidth()/2f);
+        var explosion = new ActorAnimated2D(explosionPoint, rotation, explosionAnimation);
         var scene = getScene();
         scene.spawn(explosion);
         TaskQueueService.getInstance().enqueue(() -> scene.remove(explosion), 1);

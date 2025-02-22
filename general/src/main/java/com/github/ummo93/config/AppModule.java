@@ -2,9 +2,8 @@ package com.github.ummo93.config;
 
 
 import com.github.ummo93.framework.service.TaskQueueService;
-import com.github.ummo93.framework.service.impl.TaskQueue;
+import com.github.ummo93.framework.service.impl.TaskQueueImpl;
 import com.github.ummo93.game.MainScene;
-import com.github.ummo93.framework.RaylibGame;
 import com.github.ummo93.framework.Scene;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -27,8 +26,7 @@ public class AppModule extends AbstractModule {
     protected void configure() {
         // Do this instead of @Singleton above @Provides which cause graalvm native image reflection error
         bind(RaylibSettings.class).toProvider(this::provideRaylibSettings).asEagerSingleton();
-        bind(TaskQueueService.class).to(TaskQueue.class).asEagerSingleton();
+        bind(TaskQueueService.class).to(TaskQueueImpl.class).asEagerSingleton();
         bind(Scene.class).to(MainScene.class).asEagerSingleton();
-        bind(RaylibGame.class);
     }
 }

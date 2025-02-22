@@ -19,6 +19,7 @@ import com.github.ummo93.framework.AnimatedTexture;
 import com.github.ummo93.framework.GameContext;
 import com.github.ummo93.framework.Scene;
 import com.github.ummo93.framework.Timer;
+import com.github.ummo93.framework.service.TaskQueueService;
 import com.google.inject.Inject;
 import org.bytedeco.javacpp.FloatPointer;
 
@@ -32,6 +33,8 @@ public class MainScene extends Scene {
     private Timer enemyShootTimer;
     @Inject
     private GameContext ctx;
+    @Inject
+    private TaskQueueService taskService;
 
     @Override
     public void onInit() {
@@ -45,8 +48,10 @@ public class MainScene extends Scene {
             1
         );
         player = new FighterShip(new Vector3(), new Vector3(), loadTextureResource("fighter.png"));
-        enemy = new FighterShip(new Vector3().x(50).y(25), new Vector3(), loadTextureResource("enemy.png"));
-        var camera2D = new Camera2D().target(vector2(player.getPosition())).zoom(1.5f);
+        enemy = new FighterShip(vector3(50f, 25f, 0), new Vector3(), loadTextureResource("enemy.png"));
+        var camera2D = new Camera2D()
+            .target(vector2(player.getPosition()))
+            .zoom(1.5f);
 
         spawn(player);
         spawn(enemy);

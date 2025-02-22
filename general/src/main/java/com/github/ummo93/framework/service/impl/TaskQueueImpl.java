@@ -9,7 +9,7 @@ import java.util.Queue;
 
 import static com.raylib.Jaylib.getTime;
 
-public class TaskQueue extends TaskQueueService {
+public class TaskQueueImpl extends TaskQueueService {
     private final Queue<EventLoopTask> queue = new ArrayDeque<>();
 
     public long enqueue(Runnable task) {

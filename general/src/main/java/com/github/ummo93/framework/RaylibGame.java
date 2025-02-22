@@ -3,13 +3,14 @@ package com.github.ummo93.framework;
 import com.github.ummo93.config.RaylibSettings;
 import com.github.ummo93.framework.service.TaskQueueService;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 
 import static com.raylib.Jaylib.*;
 
 
+@Singleton
 public class RaylibGame {
-
     @Inject
     private RaylibSettings settings;
     @Inject
