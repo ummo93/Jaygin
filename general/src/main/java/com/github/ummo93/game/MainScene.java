@@ -3,6 +3,7 @@ package com.github.ummo93.game;
 import static com.raylib.Colors.*;
 import static com.raylib.Jaylib.*;
 import static com.github.ummo93.utils.RaylibUtils.*;
+import static com.raylib.Jaylib.guiButton;
 import static com.raylib.Raylib.*;
 
 import com.github.ummo93.framework.AnimatedTexture;
@@ -32,11 +33,15 @@ public class MainScene extends Scene {
     private TaskQueueService taskService;
 
     @Override
+    public void reload() {
+        killedEnemiesCounter = 0;
+        super.reload();
+    }
+
+    @Override
     public void onInit() {
-        var starTexture = loadTextureResource("star-spritesheet.png");
-        enemyTexture = loadTextureResource("enemy.png");
-        background = loadTextureResource("background.png");
-        starAnimation = new AnimatedTexture(starTexture, 512, 512, 0, 10*10, 10, 1);
+        preloadResources();
+
         player = new FighterShip(new Vector3(), new Vector3(), loadTextureResource("fighter.png"));
 
         var camera2D = new Camera2D()
@@ -46,7 +51,9 @@ public class MainScene extends Scene {
         spawn(player);
         spawnEnemy(vector3(50f, 25f, 0f));
         addCamera(camera2D);
-        playerHpPtr = new FloatPointer((float) player.getHp());
+
+        if (playerHpPtr == null)
+            playerHpPtr = new FloatPointer((float) player.getHp());
     }
 
     @Override
@@ -69,6 +76,9 @@ public class MainScene extends Scene {
         drawFPS(ctx.getWindowWidth() - 100, ctx.getWindowHeight() - 30);
         if (player == null || player.isDestructed()) {
             drawText("GAME OVER", ctx.getWindowWidth()/2 - 100, ctx.getWindowHeight()/2 - 20, 30, RED);
+            if (guiButton(rectangle(ctx.getWindowWidth()/2f - 100, ctx.getWindowHeight()/2f + 130, 200, 30), "RESTART") != 0) {
+                this.reload();
+            }
         } else {
             guiProgressBar(rectangle(24, 24, 120, 20), "", "HP", playerHpPtr, 0.0f, (float)player.getMaxHp());
         }
@@ -77,6 +87,19 @@ public class MainScene extends Scene {
     @Override
     public Color getBackgroundColor() {
         return BLACK;
+    }
+
+    private void preloadResources() {
+        if (starAnimation == null) {
+            var starTexture = loadTextureResource("star-spritesheet.png");
+            starAnimation = new AnimatedTexture(starTexture, 512, 512, 0, 10*10, 10, 1);
+        }
+        if (enemyTexture == null) {
+            enemyTexture = loadTextureResource("enemy.png");
+        }
+        if (background == null) {
+            background = loadTextureResource("background.png");
+        }
     }
 
     private void spawnEnemy(Vector3 spawnPoint) {

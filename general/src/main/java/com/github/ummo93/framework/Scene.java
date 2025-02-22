@@ -22,6 +22,18 @@ public abstract class Scene {
     @Getter
     private Camera2D camera2D;
 
+    public void reload() {
+        if (!actors.isEmpty()) {
+            actors.forEach(this::remove);
+        }
+        onEndFrame();
+        actors.clear();
+        actorToDestroyQueue.clear();
+        camera3D = null;
+        camera2D = null;
+        this.onInit();
+    }
+
     public void onInit() {
 
     }

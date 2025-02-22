@@ -38,10 +38,10 @@ public class RaylibGame {
     public void startGameLoop() {
         scene.onInit();
 
-        var camera2D = scene.getCamera2D();
-        var camera3D = scene.getCamera3D();
-
         while (!windowShouldClose()) {
+            var camera2D = scene.getCamera2D();
+            var camera3D = scene.getCamera3D();
+
             refreshContext();
             scene.updateHierarchy(ctx.delta);
             scene.onUpdate(ctx.delta);
