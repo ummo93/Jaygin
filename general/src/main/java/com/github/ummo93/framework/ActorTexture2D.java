@@ -22,8 +22,7 @@ public class ActorTexture2D extends Actor {
         this.texture = texture;
     }
 
-    public Vector2 getScale()
-    {
+    public Vector2 getScale() {
         return vector2((float)texture.width(), (float)texture.height());
     }
 
