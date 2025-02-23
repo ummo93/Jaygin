@@ -114,4 +114,12 @@ public class GameContext {
         if (enabled) setWindowState(FLAG_WINDOW_MOUSE_PASSTHROUGH);
         else clearWindowState(FLAG_WINDOW_MOUSE_PASSTHROUGH);
     }
+
+    public void setCursorVisibility(boolean enabled) {
+        if (enabled) {
+            enableCursor();
+        } else {
+            disableCursor();
+        }
+    }
 }

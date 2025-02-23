@@ -7,17 +7,24 @@ import org.bytedeco.javacpp.Pointer;
 import static com.raylib.Jaylib.*;
 import static com.raylib.Raylib.Vector2;
 import static com.raylib.Raylib.Vector3;
+import static com.raylib.Raylib.Vector4;
 import static com.raylib.Raylib.Color;
 import static com.raylib.Raylib.Rectangle;
 import static com.raylib.Raylib.DEG2RAD;
 import static com.raylib.Raylib.Ray;
 import static com.raylib.Raylib.Texture;
+import static com.raylib.Raylib.Image;
+import static com.raylib.Raylib.Model;
+import static com.raylib.Raylib.Shader;
 import com.raylib.Raylib.Sound;
 
 
 public class RaylibUtils {
     public static final Vector2 VECTOR_UP = vector2(0.0f, -1.0f);
+    public static final Vector3 VECTOR_3_UP = vector3(0.0f, 1.0f, 0.0f);
     public static final Vector2 VECTOR_RIGHT = vector2(1.0f, 0.0f);
+    public static final Vector2 VECTOR_ZERO = vector2(0.0f, 0.0f);
+    public static final Vector3 VECTOR_3_ZERO = vector3(0.0f, 0.0f, 0.0f);
 
     public static Vector2 vector2(float x, float y) {
         return com.raylib.Helpers.newVector2(x, y);
@@ -34,6 +41,9 @@ public class RaylibUtils {
     public static Vector3 vector3(Vector2 vec2) {
         return com.raylib.Helpers.newVector3(vec2.x(), vec2.y(), 0.f);
     }
+    public static Vector4 vector4(float x, float y, float z, float w) {
+        return new Vector4().x(x).y(y).z(z).w(w);
+    }
 
     public static Rectangle rectangle(float x, float y, float width, float height) {
         return com.raylib.Helpers.newRectangle(x, y, width, height);
@@ -45,6 +55,18 @@ public class RaylibUtils {
 
     public static Sound loadSoundResource(String resourceFileName) {
         return loadSound(ResourceUtils.getAssetPath(resourceFileName));
+    }
+
+    public static Model loadModelResource(String resourceFileName) {
+        return loadModel(ResourceUtils.getAssetPath(resourceFileName));
+    }
+
+    public static Shader loadShaderResource(String vsFileName, String fsFileName) {
+        return loadShader(ResourceUtils.getAssetPath(vsFileName), ResourceUtils.getAssetPath(fsFileName));
+    }
+
+    public static Image loadImageResource(String resourceFileName) {
+        return loadImage(ResourceUtils.getAssetPath(resourceFileName));
     }
 
     public static Vector2 getHeadingByRotation2D(Vector2 absoluteHeading, float rotation) {

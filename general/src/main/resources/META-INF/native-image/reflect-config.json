@@ -176,7 +176,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.framework.GameContext$$FastClassByGuice$$38becc",
+    "name": "com.github.ummo93.framework.GameContext$$FastClassByGuice$$2856dd",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -196,7 +196,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.framework.RaylibGame$$FastClassByGuice$$59d8e2",
+    "name": "com.github.ummo93.framework.RaylibGame$$FastClassByGuice$$45090e",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -246,27 +246,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.game.MainScene$$FastClassByGuice$$40dcaa",
-    "fields": [
-      {
-        "name": "GUICE$INVOKERS"
-      }
-    ]
-  },
-  {
-    "name": "com.github.ummo93.game.ai.ChaserBehaviour",
-    "allDeclaredFields": true,
-    "queryAllDeclaredMethods": true,
-    "queryAllDeclaredConstructors": true,
-    "methods": [
-      {
-        "name": "<init>",
-        "parameterTypes": []
-      }
-    ]
-  },
-  {
-    "name": "com.github.ummo93.game.ai.ChaserBehaviour$$FastClassByGuice$$2d4eda",
+    "name": "com.github.ummo93.game.MainScene$$FastClassByGuice$$37227e",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -588,7 +568,7 @@
     ]
   },
   {
-    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x000001ea5a091c00",
+    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x0000017a22091c00",
     "methods": [
       {
         "name": "<init>",
