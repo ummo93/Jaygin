@@ -22,7 +22,7 @@ public abstract class Actor {
     protected Vector3 rotation;
     @Getter
     @Setter
-    private Scene scene;
+    protected Scene scene;
     @Getter
     @Setter
     private BoundingBox collider;
@@ -45,13 +45,11 @@ public abstract class Actor {
         this.rotation = rotation;
     }
 
-    public Vector2 getForward2D()
-    {
+    public Vector2 getForward2D() {
         return getHeadingByRotation2D(VECTOR_UP, rotation.y());
     }
 
-    public Vector2 getRight2D()
-    {
+    public Vector2 getRight2D() {
         return getHeadingByRotation2D(VECTOR_RIGHT, rotation.y());
     }
 

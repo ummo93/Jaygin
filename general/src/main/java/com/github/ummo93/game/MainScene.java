@@ -3,31 +3,23 @@ package com.github.ummo93.game;
 import static com.raylib.Colors.*;
 import static com.raylib.Jaylib.*;
 import static com.github.ummo93.utils.RaylibUtils.*;
-import static com.raylib.Jaylib.guiButton;
 import static com.raylib.Raylib.*;
 
-import com.github.ummo93.framework.AnimatedTexture;
 import com.github.ummo93.framework.GameContext;
+import com.github.ummo93.framework.Light;
 import com.github.ummo93.framework.Scene;
+import com.github.ummo93.framework.Skybox;
 import com.github.ummo93.framework.service.TaskQueueService;
-import com.github.ummo93.game.ai.AiBehaviourStrategy;
 import com.google.inject.Inject;
 import org.bytedeco.javacpp.FloatPointer;
 
 
 public class MainScene extends Scene {
-    private FloatPointer playerHpPtr;
-    private AnimatedTexture starAnimation;
-    private Texture background;
-    private FighterShip player;
-    private FighterShip enemy;
-    private int killedEnemiesCounter = 0;
-    private Texture enemyTexture;
-    private Texture playerTexture;
-    private Sound playerEngineSound;
-
-    @Inject
-    private AiBehaviourStrategy ai;
+    private static final Vector4 DEFAULT_AMBIENT_LEVEL = vector4(0.025f, 0.025f, 0.025f, 0f);
+    private static final Vector3 SUN_OFFSET_POS = vector3(-100, 1, -40);
+    private CelestialBody station;
+    private Light lightSource;
+    private Skybox skybox;
     @Inject
     private GameContext ctx;
     @Inject
@@ -35,54 +27,48 @@ public class MainScene extends Scene {
 
     @Override
     public void reload() {
-        killedEnemiesCounter = 0;
         super.reload();
     }
 
     @Override
     public void onInit() {
-        preloadResources();
+        ctx.setCursorVisibility(false);
 
-        player = new FighterShip(new Vector3(), new Vector3(), playerTexture);
+        lightSource = new Light(Light.LIGHT_TYPE_POINT, color(255, 255, 255, 255), VECTOR_3_ZERO, VECTOR_3_ZERO, 1f);
+        addLightSource(lightSource);
 
-        var camera2D = new Camera2D()
-            .target(vector2(player.getPosition()))
-            .zoom(1.5f);
+        Image img = loadImageResource("skybox.png");
+        skybox = new Skybox(img, CUBEMAP_LAYOUT_AUTO_DETECT, VECTOR_3_ZERO, VECTOR_3_ZERO, 500f);
+        station = new CelestialBody(loadModelResource("model/station.glb"), VECTOR_3_ZERO);
+        spawn(skybox);
+        spawn(station);
 
-        spawn(player);
-        spawnEnemy(vector3(500f, 250f, 0f));
-        addCamera(camera2D);
+        Vector3 cameraStartPos = vector3(-60f, -25, 13f);
 
-        if (playerHpPtr == null)
-            playerHpPtr = new FloatPointer((float) player.getHp());
+        var camera = new Camera3D()
+            ._position(cameraStartPos)
+            .target(vector3(0.0f, 0.0f, 0.0f))
+            .up(VECTOR_3_UP)
+            .fovy(45)
+            .projection(CAMERA_PERSPECTIVE);
+
+        addCamera(camera);
     }
 
     @Override
     public void onUpdate(float dt) {
-        if (enemy != null) enemyTurn();
-        if (player != null) playerTurn();
-    }
-
-    @Override
-    public void beforeDraw() {
-        drawTextureInCenterRepeat(background, new Vector2(), 1024, 0, WHITE);
-        starAnimation.drawAnimation(50, 50);
+        var camera = getCamera3D();
+        updateCamera(camera, CAMERA_FREE);
+        lightSource.setPosition(vector3Add(camera._position(), SUN_OFFSET_POS));
+        skybox.setPosition(camera._position());
     }
 
     @Override
     public void onDraw() {
         drawText("WASD to move", 20, ctx.getWindowHeight() - 40, 20, YELLOW);
-        drawText("SPACE to shoot", 20, ctx.getWindowHeight() - 65, 20, YELLOW);
-        drawText("SCORE: " + killedEnemiesCounter, ctx.getWindowWidth() - 120, 20, 20, GREEN);
+        drawText("Vel: 200m/s", ctx.getWindowWidth() - 150, 20, 20, GREEN);
         drawFPS(ctx.getWindowWidth() - 100, ctx.getWindowHeight() - 30);
-        if (player == null || player.isDestructed()) {
-            drawText("GAME OVER", ctx.getWindowWidth()/2 - 100, ctx.getWindowHeight()/2 - 20, 30, RED);
-            if (guiButton(rectangle(ctx.getWindowWidth()/2f - 100, ctx.getWindowHeight()/2f + 130, 200, 30), "RESTART") != 0) {
-                this.reload();
-            }
-        } else {
-            guiProgressBar(rectangle(24, 24, 120, 20), "", "HP", playerHpPtr, 0.0f, (float)player.getMaxHp());
-        }
+        guiProgressBar(rectangle(24, 24, 120, 20), "", "FUEL", new FloatPointer(90f), 0f, 100f);
     }
 
     @Override
@@ -90,80 +76,8 @@ public class MainScene extends Scene {
         return BLACK;
     }
 
-    private void preloadResources() {
-        if (starAnimation == null) {
-            var starTexture = loadTextureResource("star-spritesheet.png");
-            starAnimation = new AnimatedTexture(starTexture, 512, 512, 0, 10*10, 10, 1);
-        }
-        if (playerEngineSound == null) {
-            playerEngineSound = loadSoundResource("engine.wav");
-        }
-        if (playerTexture == null) {
-            playerTexture = loadTextureResource("fighter.png");
-        }
-        if (enemyTexture == null) {
-            enemyTexture = loadTextureResource("enemy.png");
-        }
-        if (background == null) {
-            background = loadTextureResource("background.png");
-        }
-    }
-
-    private void spawnEnemy(Vector3 spawnPoint) {
-        enemy = new FighterShip(spawnPoint, new Vector3(), enemyTexture);
-        enemy.setVelocity(vector2Scale(VECTOR_RIGHT, 20));
-        spawn(enemy);
-    }
-
-    private void onEnemyKilled() {
-        killedEnemiesCounter++;
-        final int offset = 1000;
-        var playerPos = player.getPosition();
-        var randomX = getRandomValue((int)playerPos.x() - offset, (int)playerPos.x() + offset);
-        var randomY = getRandomValue((int)playerPos.y() - offset, (int)playerPos.y() + offset);
-        spawnEnemy(vector3(randomX, randomY, 0f));
-    }
-
-    private void enemyTurn() {
-        if (enemy.isDestructed()) {
-            enemy = null;
-            onEnemyKilled();
-            return;
-        }
-        ai.turn(enemy, player, this);
-    }
-
-    private void playerTurn() {
-        if (player.isDestructed()) {
-            player = null;
-            return;
-        }
-        playerHpPtr.put((float) player.getHp());
-        var camera2D = getCamera2D();
-        camera2D.zoom(clamp(camera2D.zoom() + getMouseWheelMove() * .1f, 1f, 2.5f));
-        camera2D.target(vector2(player.getPosition().x(), player.getPosition().y()));
-        camera2D.offset(vector2(ctx.getWindowWidth() / 2.f, ctx.getWindowHeight() / 2.f));
-
-        if (isKeyDown(KEY_W)) {
-            player.moveForward();
-            if (!isSoundPlaying(playerEngineSound))
-                playSound(playerEngineSound);
-        }
-        if (isKeyDown(KEY_S)) {
-            player.moveBackward();
-            if (!isSoundPlaying(playerEngineSound))
-                playSound(playerEngineSound);
-        }
-
-        if (isKeyDown(KEY_A)) {
-            player.rotateCounterClockwise();
-        }
-        if (isKeyDown(KEY_D)) {
-            player.rotateClockwise();
-        }
-
-        if (isKeyPressed(KEY_SPACE)) {
-            player.shoot();
-        }
+    @Override
+    public Vector4 getDefaultAmbientLevel() {
+        return DEFAULT_AMBIENT_LEVEL;
     }
 }
