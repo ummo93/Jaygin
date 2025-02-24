@@ -73,25 +73,19 @@ public abstract class Scene {
 
     public void drawHierarchy() {
         lightSources.forEach(Light::onDraw);
-        if (hasLightSources()) {
-            beginShaderMode(shader);
-        }
         actors.forEach(Actor::onDraw);
-        if (hasLightSources()) {
-            endShaderMode();
-        }
     }
 
     public void updateHierarchy(float dt) {
-        if (hasLightSources()) {
-            updateLightSources();
-        }
         lightSources.forEach((actor) -> actor.onBeforeUpdatePhysic(dt));
         actors.forEach((actor) -> actor.onBeforeUpdatePhysic(dt));
         lightSources.forEach((actor) -> actor.onUpdate(dt));
         actors.forEach((actor) -> actor.onUpdate(dt));
         lightSources.forEach((actor) -> actor.onUpdatePhysic(dt));
         actors.forEach((actor) -> actor.onUpdatePhysic(dt));
+        if (hasLightSources()) {
+            updateLightSources();
+        }
     }
 
     private void updateLightSources() {
@@ -103,6 +97,10 @@ public abstract class Scene {
             int positionLoc = getShaderLocation(shader, "lights["+i+"].position");
             int targetLoc = getShaderLocation(shader, "lights["+i+"].target");
             int colorLoc = getShaderLocation(shader, "lights["+i+"].color");
+            if (enabledLoc == -1 || typeLoc == -1 || positionLoc == -1 || targetLoc == -1 || colorLoc == -1) {
+                traceLog(LOG_ERROR, "Failed to get shader location for light properties");
+                continue;
+            }
 
             // Send to shader light enabled state and type
             final IntPointer lightEnabled = new IntPointer(1).put(1);
@@ -220,14 +218,25 @@ public abstract class Scene {
     protected void loadLightShader() {
         // Load basic lighting shader
         shader = loadShaderResource("shader/lighting.vs", "shader/lighting.fs");
+        if (shader == null) {
+            traceLog(LOG_ERROR, "Failed to load light shader");
+            return;
+        }
+
         // Get some required shader locations
-        shader.locs().put(SHADER_LOC_VECTOR_VIEW, getShaderLocation(shader, "viewPos")) ;
-        // NOTE: "matModel" location name is automatically assigned on shader loading,
-        // no need to get the location again if using that uniform name
-        // shader.locs().put(SHADER_LOC_MATRIX_MODEL, getShaderLocation(shader, "matModel")) ;
+        shader.locs().put(SHADER_LOC_VECTOR_VIEW, getShaderLocation(shader, "viewPos"));
+        if (shader.locs().get(SHADER_LOC_VECTOR_VIEW) == -1) {
+            traceLog(LOG_ERROR, "Failed to get shader location for viewPos");
+            return;
+        }
 
         // Ambient light level (some basic lighting)
         int ambientLoc = getShaderLocation(shader, "ambient");
+        if (ambientLoc == -1) {
+            traceLog(LOG_ERROR, "Failed to get shader location for ambient");
+            return;
+        }
+
         var ambientLevel = getDefaultAmbientLevel();
         var val = new FloatPointer(4).put(ambientLevel.x(), ambientLevel.y(), ambientLevel.z(), ambientLevel.w());
         setShaderValue(shader, ambientLoc, val, SHADER_UNIFORM_VEC4);

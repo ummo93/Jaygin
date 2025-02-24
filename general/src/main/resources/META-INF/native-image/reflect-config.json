@@ -568,7 +568,7 @@
     ]
   },
   {
-    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x0000017a22091c00",
+    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x000001b9b1091c00",
     "methods": [
       {
         "name": "<init>",

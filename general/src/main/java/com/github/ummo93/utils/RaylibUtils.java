@@ -2,7 +2,6 @@ package com.github.ummo93.utils;
 
 import com.raylib.Colors;
 import com.raylib.Helpers;
-import com.raylib.Raylib;
 import org.bytedeco.javacpp.Pointer;
 
 import static com.raylib.Jaylib.*;
@@ -14,6 +13,7 @@ import static com.raylib.Raylib.Rectangle;
 import static com.raylib.Raylib.DEG2RAD;
 import static com.raylib.Raylib.Ray;
 import static com.raylib.Raylib.Texture;
+import static com.raylib.Raylib.Camera3D;
 import static com.raylib.Raylib.Image;
 import static com.raylib.Raylib.Model;
 import static com.raylib.Raylib.Shader;
@@ -79,6 +79,11 @@ public class RaylibUtils {
     public static Vector2 translate2D(Vector2 origin, Vector2 dir, float strength)
     {
         return vector2Add(origin, vector2Scale(dir, strength));
+    }
+
+    public static Vector3 translate3D(Vector3 origin, Vector3 dir, float strength)
+    {
+        return vector3Add(origin, vector3Scale(dir, strength));
     }
 
     public static Color color(int r, int g, int b, int a) {
