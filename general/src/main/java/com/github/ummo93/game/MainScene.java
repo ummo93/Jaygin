@@ -11,6 +11,7 @@ import com.github.ummo93.framework.Light;
 import com.github.ummo93.framework.Scene;
 import com.github.ummo93.framework.Skybox;
 import com.github.ummo93.framework.service.TaskQueueService;
+import com.github.ummo93.utils.RaylibUtils;
 import com.google.inject.Inject;
 
 import java.text.DecimalFormat;
@@ -23,8 +24,8 @@ public class MainScene extends Scene {
     private CelestialBody station;
     private Light lightSource;
     private Skybox skybox;
-    private Vector3 velocity = VECTOR_3_ZERO;
-    private Vector3 angularVelocity = VECTOR_3_ZERO;
+    private Vector3 velocity = RaylibUtils.clone(VECTOR_3_ZERO);
+    private Vector3 angularVelocity = RaylibUtils.clone(VECTOR_3_ZERO);
     @Inject
     private GameContext ctx;
     @Inject
@@ -34,9 +35,11 @@ public class MainScene extends Scene {
     public void onInit() {
         ctx.setCursorVisibility(false);
 
-        lightSource = new Light(Light.LIGHT_TYPE_POINT, color(255, 255, 255, 255), VECTOR_3_ZERO, VECTOR_3_ZERO, 1f);
-        skybox = new Skybox(loadImageResource("skybox.png"), CUBEMAP_LAYOUT_AUTO_DETECT, VECTOR_3_ZERO, VECTOR_3_ZERO, 500f);
-        station = new CelestialBody(loadModelResource("model/station.glb"), VECTOR_3_ZERO);
+        lightSource = new Light(Light.LIGHT_TYPE_POINT, color(255, 255, 255, 255),
+            RaylibUtils.clone(VECTOR_3_ZERO), RaylibUtils.clone(VECTOR_3_ZERO), 1f);
+        skybox = new Skybox(loadImageResource("skybox.png"), CUBEMAP_LAYOUT_AUTO_DETECT,
+            RaylibUtils.clone(VECTOR_3_ZERO), RaylibUtils.clone(VECTOR_3_ZERO), 500f);
+        station = new CelestialBody(loadModelResource("model/station.glb"), RaylibUtils.clone(VECTOR_3_ZERO));
 
         addLightSource(lightSource);
         spawn(skybox);
@@ -57,8 +60,8 @@ public class MainScene extends Scene {
     @Override
     public void onUpdate(float dt) {
         var camera = getCamera3D();
-        angularVelocity = updateFreeFlyCameraRotation(camera, angularVelocity, 0.1f, 0.1f, dt);
-        velocity = updateFreeFlyCameraVelocity(camera, velocity, 0.1f, dt);
+        angularVelocity = updateFreeFlyCameraRotation(camera, angularVelocity, 0.0001f, 0.01f, dt);
+        velocity = updateFreeFlyCameraVelocity(camera, velocity, 0.05f, 0.01f, dt);
         lightSource.setPosition(vector3Add(camera._position(), SUN_OFFSET_POS));
         skybox.setPosition(camera._position());
     }

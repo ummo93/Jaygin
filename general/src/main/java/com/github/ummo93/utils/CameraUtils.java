@@ -23,16 +23,20 @@ public class CameraUtils {
     private static final float DEFAULT_ROLL_SPEED = 0.5f;
 
     public static Vector3 updateFreeFlyCameraRotation(Camera3D camera, Vector3 angularVelocity, float mouseSensitivity, float rollSpeed, float dt) {
+        angularVelocity = RaylibUtils.clone(angularVelocity);
         Vector2 mouseDelta = getMouseDelta();
+
         float yaw = -mouseDelta.x() * mouseSensitivity * dt;
+        angularVelocity.x(angularVelocity.x() + yaw);
         float pitch = -mouseDelta.y() * mouseSensitivity * dt;
+        angularVelocity.y(angularVelocity.y() + pitch);
 
         Vector3 forward = vector3Subtract(camera.target(), camera._position());
         forward = vector3Normalize(forward);
 
-        Matrix rotationYaw = matrixRotate(camera.up(), yaw);
+        Matrix rotationYaw = matrixRotate(camera.up(), angularVelocity.x());
         Vector3 right = vector3CrossProduct(forward, camera.up());
-        Matrix rotationPitch = matrixRotate(right, pitch);
+        Matrix rotationPitch = matrixRotate(right, angularVelocity.y());
 
         forward = vector3Transform(forward, rotationYaw);
         forward = vector3Transform(forward, rotationPitch);
@@ -44,20 +48,6 @@ public class CameraUtils {
 
         Vector3 up = vector3CrossProduct(right, forward);
         camera.up(vector3Normalize(up));
-
-//        if (angularVelocity == VECTOR_3_ZERO) {
-//            Vector3 translation = angularVelocity;
-//            if (isKeyDown(KEY_Q)) {
-//                Matrix rotationRoll = matrixRotate(forward, -rollSpeed * dt);
-//                translation = vector3Transform(camera.up(), rotationRoll);
-//            }
-//            if (isKeyDown(KEY_E)) {
-//                Matrix rotationRoll = matrixRotate(forward, rollSpeed * dt);
-//                translation = vector3Transform(camera.up(), rotationRoll);
-//            }
-//            camera.up(vector3Add(camera.up(), translation));
-//            return angularVelocity;
-//        }
 
         if (isKeyDown(KEY_Q)) {
             angularVelocity.z(angularVelocity.z() - (rollSpeed * dt));
@@ -71,7 +61,7 @@ public class CameraUtils {
         return angularVelocity;
     }
 
-    public static Vector3 updateFreeFlyCameraVelocity(Camera3D camera, Vector3 velocity, float moveSpeed, float dt) {
+    public static Vector3 updateFreeFlyCameraVelocity(Camera3D camera, Vector3 velocity, float moveSpeed, float sideSpeed, float dt) {
         Vector3 forward = vector3Subtract(camera.target(), camera._position());
         forward = vector3Normalize(forward);
 
@@ -86,29 +76,27 @@ public class CameraUtils {
             translation = translate3D(translation, forward, moveSpeed * dt);
         }
         if (isKeyDown(KEY_A)) {
-            translation = translate3D(translation, right, -moveSpeed * dt);
+            translation = translate3D(translation, right, -sideSpeed * dt);
         }
         if (isKeyDown(KEY_S)) {
             translation = translate3D(translation, forward, -moveSpeed * dt);
         }
         if (isKeyDown(KEY_D)) {
-            translation = translate3D(translation, right, moveSpeed * dt);
+            translation = translate3D(translation, right, sideSpeed * dt);
         }
         if (isKeyDown(KEY_SPACE)) {
-            translation = translate3D(translation, up, moveSpeed * dt);
+            translation = translate3D(translation, up, sideSpeed * dt);
         }
         if (isKeyDown(KEY_LEFT_CONTROL)) {
-            translation = translate3D(translation, up, -moveSpeed * dt);
+            translation = translate3D(translation, up, -sideSpeed * dt);
         }
-
         camera._position(vector3Add(camera._position(), translation));
         camera.target(vector3Add(camera.target(), translation));
-
         return translation;
     }
 
     public static void updateDefaultCamera(Camera3D camera, float dt) {
         updateFreeFlyCameraRotation(camera, VECTOR_3_ZERO, DEFAULT_MOUSE_SENSITIVITY, DEFAULT_ROLL_SPEED, dt);
-        updateFreeFlyCameraVelocity(camera, VECTOR_3_ZERO, DEFAULT_MOVE_SPEED, dt);
+        updateFreeFlyCameraVelocity(camera, VECTOR_3_ZERO, DEFAULT_MOVE_SPEED, DEFAULT_MOVE_SPEED, dt);
     }
 }
