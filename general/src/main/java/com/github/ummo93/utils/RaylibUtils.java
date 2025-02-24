@@ -49,6 +49,14 @@ public class RaylibUtils {
         return com.raylib.Helpers.newRectangle(x, y, width, height);
     }
 
+    public static Vector2 clone(Vector2 vector2) {
+        return new Vector2().x(vector2.x()).y(vector2.y());
+    }
+
+    public static Vector3 clone(Vector3 vector3) {
+        return new Vector3().x(vector3.x()).y(vector3.y()).z(vector3.z());
+    }
+
     public static Texture loadTextureResource(String resourceFileName) {
         return loadTexture(ResourceUtils.getAssetPath(resourceFileName));
     }
@@ -78,6 +86,11 @@ public class RaylibUtils {
     public static Vector2 translate2D(Vector2 origin, Vector2 dir, float strength)
     {
         return vector2Add(origin, vector2Scale(dir, strength));
+    }
+
+    public static Vector3 translate3D(Vector3 origin, Vector3 dir, float strength)
+    {
+        return vector3Add(origin, vector3Scale(dir, strength));
     }
 
     public static Color color(int r, int g, int b, int a) {

@@ -25,7 +25,9 @@ public class Actor3D extends Actor {
     private void tryToGetLightShader() {
         if (scene != null && lightShader == null) {
             lightShader = scene.getLightShader();
-            tryToAssignLight();
+            if (lightShader != null) {
+                tryToAssignLight();
+            }
         }
     }
 
