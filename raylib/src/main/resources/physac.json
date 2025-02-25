@@ -1,0 +1,243 @@
+{
+    "functions": [
+        {
+            "name": "InitPhysics",
+            "description": "Initializes physics values, pointers and creates physics loop thread",
+            "returnType": "void"
+        },
+        {
+            "name": "RunPhysicsStep",
+            "description": "Run physics step, to be used if PHYSICS_NO_THREADS is set in your main loop",
+            "returnType": "void"
+        },
+        {
+            "name": "SetPhysicsTimeStep",
+            "description": "Sets physics fixed time step in milliseconds. 1.666666 by default",
+            "returnType": "void",
+            "params": [
+                {
+                    "type": "double",
+                    "name": "delta"
+                }
+            ]
+        },
+        {
+            "name": "IsPhysicsEnabled",
+            "description": "Returns true if physics thread is currently enabled",
+            "returnType": "bool"
+        },
+        {
+            "name": "SetPhysicsGravity",
+            "description": "Sets physics global gravity force",
+            "returnType": "void",
+            "params": [
+                {
+                    "type": "float",
+                    "name": "x"
+                },
+                {
+                    "type": "float",
+                    "name": "y"
+                }
+            ]
+        },
+        {
+            "name": "CreatePhysicsBodyCircle",
+            "description": "Creates a new circle physics body with generic parameters",
+            "returnType": "PhysicsBody",
+            "params": [
+                {
+                    "type": "Vector2",
+                    "name": "pos"
+                },
+                {
+                    "type": "float",
+                    "name": "radius"
+                },
+                {
+                    "type": "float",
+                    "name": "density"
+                }
+            ]
+        },
+        {
+            "name": "CreatePhysicsBodyRectangle",
+            "description": "Creates a new rectangle physics body with generic parameters",
+            "returnType": "PhysicsBody",
+            "params": [
+                {
+                    "type": "Vector2",
+                    "name": "pos"
+                },
+                {
+                    "type": "float",
+                    "name": "width"
+                },
+                {
+                    "type": "float",
+                    "name": "height"
+                },
+                {
+                    "type": "float",
+                    "name": "density"
+                }
+            ]
+        },
+        {
+            "name": "CreatePhysicsBodyPolygon",
+            "description": "Creates a new polygon physics body with generic parameters",
+            "returnType": "PhysicsBody",
+            "params": [
+                {
+                    "type": "Vector2",
+                    "name": "pos"
+                },
+                {
+                    "type": "float",
+                    "name": "radius"
+                },
+                {
+                    "type": "int",
+                    "name": "sides"
+                },
+                {
+                    "type": "float",
+                    "name": "density"
+                }
+            ]
+        },
+        {
+            "name": "PhysicsAddForce",
+            "description": "Adds a force to a physics body",
+            "returnType": "void",
+            "params": [
+                {
+                    "type": "PhysicsBody",
+                    "name": "body"
+                },
+                {
+                    "type": "Vector2",
+                    "name": "force"
+                }
+            ]
+        },
+        {
+            "name": "PhysicsAddTorque",
+            "description": "Adds an angular force to a physics body",
+            "returnType": "void",
+            "params": [
+                {
+                    "type": "PhysicsBody",
+                    "name": "body"
+                },
+                {
+                    "type": "float",
+                    "name": "amount"
+                }
+            ]
+        },
+        {
+            "name": "PhysicsShatter",
+            "description": "Shatters a polygon shape physics body to little physics bodies with explosion force",
+            "returnType": "void",
+            "params": [
+                {
+                    "type": "PhysicsBody",
+                    "name": "body"
+                },
+                {
+                    "type": "Vector2",
+                    "name": "position"
+                },
+                {
+                    "type": "float",
+                    "name": "force"
+                }
+            ]
+        },
+        {
+            "name": "GetPhysicsBodiesCount",
+            "description": "Returns the current amount of created physics bodies",
+            "returnType": "int"
+        },
+        {
+            "name": "GetPhysicsBody",
+            "description": "Returns a physics body of the bodies pool at a specific index",
+            "returnType": "PhysicsBody",
+            "params": [
+                {
+                    "type": "int",
+                    "name": "index"
+                }
+            ]
+        },
+        {
+            "name": "GetPhysicsShapeType",
+            "description": "Returns the physics body shape type (PHYSICS_CIRCLE or PHYSICS_POLYGON)",
+            "returnType": "int",
+            "params": [
+                {
+                    "type": "int",
+                    "name": "index"
+                }
+            ]
+        },
+        {
+            "name": "GetPhysicsShapeVerticesCount",
+            "description": "Returns the amount of vertices of a physics body shape",
+            "returnType": "int",
+            "params": [
+                {
+                    "type": "int",
+                    "name": "index"
+                }
+            ]
+        },
+        {
+            "name": "GetPhysicsShapeVertex",
+            "description": "Returns transformed position of a body shape (body position + vertex transformed position)",
+            "returnType": "Vector2",
+            "params": [
+                {
+                    "type": "PhysicsBody",
+                    "name": "body"
+                },
+                {
+                    "type": "int",
+                    "name": "vertex"
+                }
+            ]
+        },
+        {
+            "name": "SetPhysicsBodyRotation",
+            "description": "Sets physics body shape transform based on radians parameter",
+            "returnType": "void",
+            "params": [
+                {
+                    "type": "PhysicsBody",
+                    "name": "body"
+                },
+                {
+                    "type": "float",
+                    "name": "radians"
+                }
+            ]
+        },
+        {
+            "name": "DestroyPhysicsBody",
+            "description": "Unitializes and destroy a physics body",
+            "returnType": "void",
+            "params": [
+                {
+                    "type": "PhysicsBody",
+                    "name": "body"
+                }
+            ]
+        },
+        {
+            "name": "ClosePhysics",
+            "description": "Unitializes physics pointers and closes physics loop thread",
+            "returnType": "void"
+        }
+    ]
+}
