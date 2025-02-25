@@ -10,6 +10,20 @@
   <build>
     <plugins>
       <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>1.18.36</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.3.1</version>
         <executions>
@@ -120,6 +134,12 @@
               <fallback>false</fallback>
               <mainClass>${main.class}</mainClass>
               <imageName>${artefact.filename}</imageName>
+              <buildArgs>
+                <buildArg>--enable-native-access=ALL-UNNAMED</buildArg>
+                <buildArg>-H:+ForeignAPISupport</buildArg>
+                <buildArg>--initialize-at-build-time=com.raylib.jextract.raylib_h_1</buildArg>
+                <buildArg>-H:JNIConfigurationResources=META-INF/native-image/JNIConfiguration.json</buildArg>
+              </buildArgs>
             </configuration>
           </plugin>
         </plugins>
@@ -127,9 +147,9 @@
     </profile>
   </profiles>
   <properties>
-    <maven.compiler.target>21</maven.compiler.target>
-    <maven.compiler.source>21</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>23</maven.compiler.target>
     <artefact.filename>jaygin</artefact.filename>
+    <maven.compiler.source>23</maven.compiler.source>
   </properties>
 </project>
