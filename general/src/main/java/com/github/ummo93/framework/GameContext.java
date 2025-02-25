@@ -4,8 +4,9 @@ package com.github.ummo93.framework;
 import com.google.inject.Singleton;
 import lombok.Getter;
 
-import static com.raylib.Jaylib.*;
 import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.ConfigFlags.*;
+
 
 @Getter
 @Singleton

@@ -1,0 +1,438 @@
+{
+  "reflection": [
+    {
+      "type": "[Ljava.lang.invoke.MethodHandles$Lookup$ClassOption;"
+    },
+    {
+      "type": "com.github.ummo93.config.AppModule",
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.config.AppModule$$FastClassByGuice$$7c8c1",
+      "fields": [
+        {
+          "name": "GUICE$INVOKERS"
+        }
+      ],
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.config.RaylibSettings",
+      "allDeclaredFields": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setTargetFps",
+          "parameterTypes": [
+            "int"
+          ]
+        },
+        {
+          "name": "setTitle",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        },
+        {
+          "name": "setWindow",
+          "parameterTypes": [
+            "com.github.ummo93.config.RaylibSettings$WindowSettings"
+          ]
+        }
+      ],
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.config.RaylibSettings$WindowSettings",
+      "allDeclaredFields": true,
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        },
+        {
+          "name": "setAlwaysRun",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setBorderlessWindowed",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setFullscreen",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setHeight",
+          "parameterTypes": [
+            "int"
+          ]
+        },
+        {
+          "name": "setHidden",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setHighDPI",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setMaximized",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setMinimized",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setMousePassthrough",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setResizable",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setTopmost",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setTransparent",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setUndecorated",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setUnfocused",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setVsync",
+          "parameterTypes": [
+            "boolean"
+          ]
+        },
+        {
+          "name": "setWidth",
+          "parameterTypes": [
+            "int"
+          ]
+        }
+      ],
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.config.RaylibSettings$WindowSettingsBeanInfo",
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.config.RaylibSettings$WindowSettingsCustomizer",
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.config.RaylibSettingsBeanInfo",
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.config.RaylibSettingsCustomizer",
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.framework.GameContext",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.framework.GameContext$$FastClassByGuice$$36d5a6",
+      "fields": [
+        {
+          "name": "GUICE$INVOKERS"
+        }
+      ],
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.framework.RaylibGame",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.framework.RaylibGame$$FastClassByGuice$$5fc5a4",
+      "fields": [
+        {
+          "name": "GUICE$INVOKERS"
+        }
+      ],
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.framework.Scene",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.framework.service.TaskQueueService",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.framework.service.impl.TaskQueueImpl",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.framework.service.impl.TaskQueueImpl$$FastClassByGuice$$155565",
+      "fields": [
+        {
+          "name": "GUICE$INVOKERS"
+        }
+      ],
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.game.MainScene",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.game.MainScene$$FastClassByGuice$$445629",
+      "fields": [
+        {
+          "name": "GUICE$INVOKERS"
+        }
+      ],
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.game.ai.ChaserBehaviour",
+      "allDeclaredFields": true,
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.github.ummo93.game.ai.ChaserBehaviour$$FastClassByGuice$$242153",
+      "fields": [
+        {
+          "name": "GUICE$INVOKERS"
+        }
+      ],
+      "allDeclaredConstructors": true
+    },
+    {
+      "type": "com.google.common.util.concurrent.AbstractFuture",
+      "fields": [
+        {
+          "name": "listeners"
+        },
+        {
+          "name": "value"
+        },
+        {
+          "name": "waiters"
+        }
+      ]
+    },
+    {
+      "type": "com.google.common.util.concurrent.AbstractFuture$Waiter",
+      "fields": [
+        {
+          "name": "next"
+        },
+        {
+          "name": "thread"
+        }
+      ]
+    },
+    {
+      "type": "com.google.inject.AbstractModule"
+    },
+    {
+      "type": "com.google.inject.KotlinSupportImpl"
+    },
+    {
+      "type": "com.google.inject.internal.Annotations"
+    },
+    {
+      "type": "com.google.inject.internal.InjectorShell$RootModule"
+    },
+    {
+      "type": "com.google.inject.internal.InternalProviderInstanceBindingImpl$CyclicFactory",
+      "allDeclaredFields": true
+    },
+    {
+      "type": "com.google.inject.internal.InternalProviderInstanceBindingImpl$Factory",
+      "allDeclaredFields": true
+    },
+    {
+      "type": "com.google.inject.internal.ProviderMethod",
+      "allDeclaredFields": true
+    },
+    {
+      "type": "com.google.inject.internal.ProviderMethod$FastClassProviderMethod",
+      "allDeclaredFields": true
+    },
+    {
+      "type": "com.google.inject.name.Named"
+    },
+    {
+      "type": "com.google.inject.util.Modules$EmptyModule"
+    },
+    {
+      "type": "java.beans.PropertyVetoException"
+    },
+    {
+      "type": "java.lang.Boolean"
+    },
+    {
+      "type": "java.lang.Byte"
+    },
+    {
+      "type": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x000001a426096000",
+      "methods": [
+        {
+          "name": "<init>",
+          "parameterTypes": []
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Double"
+    },
+    {
+      "type": "java.lang.Float"
+    },
+    {
+      "type": "java.lang.Integer"
+    },
+    {
+      "type": "java.lang.Long"
+    },
+    {
+      "type": "java.lang.Object",
+      "allDeclaredFields": true
+    },
+    {
+      "type": "java.lang.ObjectBeanInfo"
+    },
+    {
+      "type": "java.lang.ObjectCustomizer"
+    },
+    {
+      "type": "java.lang.Short"
+    },
+    {
+      "type": "java.lang.invoke.MethodHandles$Lookup",
+      "fields": [
+        {
+          "name": "IMPL_LOOKUP"
+        }
+      ],
+      "methods": [
+        {
+          "name": "defineHiddenClass",
+          "parameterTypes": [
+            "byte[]",
+            "boolean",
+            "java.lang.invoke.MethodHandles$Lookup$ClassOption[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.invoke.MethodHandles$Lookup$ClassOption"
+    },
+    {
+      "type": "java.sql.Date"
+    },
+    {
+      "type": "java.sql.Timestamp"
+    },
+    {
+      "type": "sun.misc.Unsafe",
+      "allDeclaredFields": true
+    }
+  ],
+  "resources": [
+    {
+      "glob": "META-INF/services/java.lang.System$LoggerFinder"
+    },
+    {
+      "glob": "raylib-settings.yaml"
+    },
+    {
+      "glob": "raylib.dll"
+    }
+  ],
+  "bundles": [],
+  "jni": [
+    {
+      "type": "com.github.ummo93.Main",
+      "methods": [
+        {
+          "name": "main",
+          "parameterTypes": [
+            "java.lang.String[]"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "java.lang.Boolean",
+      "methods": [
+        {
+          "name": "getBoolean",
+          "parameterTypes": [
+            "java.lang.String"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "sun.launcher.LauncherHelper",
+      "fields": [
+        {
+          "name": "isStaticMain"
+        },
+        {
+          "name": "noArgMain"
+        }
+      ],
+      "methods": [
+        {
+          "name": "getApplicationClass",
+          "parameterTypes": []
+        }
+      ]
+    }
+  ]
+}

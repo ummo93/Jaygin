@@ -5,11 +5,11 @@ import com.github.ummo93.framework.Scene;
 import com.github.ummo93.framework.Timer;
 import com.github.ummo93.game.Controllable;
 import com.github.ummo93.game.Damagable;
-import com.raylib.Raylib;
 import lombok.NoArgsConstructor;
 
 import static com.github.ummo93.utils.RaylibUtils.*;
-import static com.raylib.Jaylib.*;
+import static com.raylib.Raylib.*;
+import com.raylib.*;
 
 
 @NoArgsConstructor
@@ -48,7 +48,7 @@ public class ChaserBehaviour implements AiBehaviourStrategy {
             subject.moveForward();
         }
 
-        Raylib.Ray rayOnTarget = ray(subject.getPosition(), vector3(vector2Scale(subject.getForward2D(), HIT_DISTANCE)));
+        Ray rayOnTarget = ray(subject.getPosition(), vector3(vector2Scale(subject.getForward2D(), HIT_DISTANCE)));
         var collisionInfo = scene.raycastOne(rayOnTarget, HIT_DISTANCE, subject);
         var subjectAlignedToTarget = collisionInfo.isPresent() && collisionInfo.get().getOther() instanceof Damagable;
 

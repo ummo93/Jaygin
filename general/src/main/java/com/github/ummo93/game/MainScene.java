@@ -1,10 +1,8 @@
 package com.github.ummo93.game;
 
-import static com.raylib.Colors.*;
-import static com.raylib.Jaylib.*;
 import static com.github.ummo93.utils.RaylibUtils.*;
-import static com.raylib.Jaylib.guiButton;
 import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.KeyboardKey.*;
 
 import com.github.ummo93.framework.AnimatedTexture;
 import com.github.ummo93.framework.GameContext;
@@ -12,11 +10,10 @@ import com.github.ummo93.framework.Scene;
 import com.github.ummo93.framework.service.TaskQueueService;
 import com.github.ummo93.game.ai.AiBehaviourStrategy;
 import com.google.inject.Inject;
-import org.bytedeco.javacpp.FloatPointer;
+import com.raylib.*;
 
 
 public class MainScene extends Scene {
-    private FloatPointer playerHpPtr;
     private AnimatedTexture starAnimation;
     private Texture background;
     private FighterShip player;
@@ -52,9 +49,6 @@ public class MainScene extends Scene {
         spawn(player);
         spawnEnemy(vector3(500f, 250f, 0f));
         addCamera(camera2D);
-
-        if (playerHpPtr == null)
-            playerHpPtr = new FloatPointer((float) player.getHp());
     }
 
     @Override
@@ -77,11 +71,11 @@ public class MainScene extends Scene {
         drawFPS(ctx.getWindowWidth() - 100, ctx.getWindowHeight() - 30);
         if (player == null || player.isDestructed()) {
             drawText("GAME OVER", ctx.getWindowWidth()/2 - 100, ctx.getWindowHeight()/2 - 20, 30, RED);
-            if (guiButton(rectangle(ctx.getWindowWidth()/2f - 100, ctx.getWindowHeight()/2f + 130, 200, 30), "RESTART") != 0) {
-                this.reload();
-            }
+//            if (guiButton(rectangle(ctx.getWindowWidth()/2f - 100, ctx.getWindowHeight()/2f + 130, 200, 30), "RESTART") != 0) {
+//                this.reload();
+//            }
         } else {
-            guiProgressBar(rectangle(24, 24, 120, 20), "", "HP", playerHpPtr, 0.0f, (float)player.getMaxHp());
+//            guiProgressBar(rectangle(24, 24, 120, 20), "", "HP", playerHpPtr, 0.0f, (float)player.getMaxHp());
         }
     }
 
@@ -138,7 +132,6 @@ public class MainScene extends Scene {
             player = null;
             return;
         }
-        playerHpPtr.put((float) player.getHp());
         var camera2D = getCamera2D();
         camera2D.zoom(clamp(camera2D.zoom() + getMouseWheelMove() * .1f, 1f, 2.5f));
         camera2D.target(vector2(player.getPosition().x(), player.getPosition().y()));

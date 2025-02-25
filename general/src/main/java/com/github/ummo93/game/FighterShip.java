@@ -4,7 +4,6 @@ import com.github.ummo93.framework.ActorAnimated2D;
 import com.github.ummo93.framework.ActorTexture2D;
 import com.github.ummo93.framework.AnimatedTexture;
 import com.github.ummo93.framework.service.TaskQueueService;
-import com.raylib.Raylib;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,14 +15,8 @@ import java.util.Set;
 import static com.github.ummo93.game.ControlSignal2D.*;
 import static com.github.ummo93.utils.RaylibUtils.*;
 import static com.github.ummo93.utils.RaylibUtils.vector2;
-import static com.raylib.Colors.*;
-import static com.raylib.Jaylib.*;
-import static com.raylib.Raylib.Vector2;
-import static com.raylib.Raylib.Vector3;
-import static com.raylib.Raylib.BoundingBox;
-import static com.raylib.Raylib.Texture;
-import static com.raylib.Raylib.Sound;
-import static com.raylib.Raylib.Ray;
+import static com.raylib.Raylib.*;
+import com.raylib.*;
 
 
 public class FighterShip extends ActorTexture2D implements Controllable, Damagable {

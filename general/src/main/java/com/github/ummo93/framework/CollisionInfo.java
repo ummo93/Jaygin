@@ -1,6 +1,6 @@
 package com.github.ummo93.framework;
 
-import com.raylib.Raylib.RayCollision;
+import com.raylib.*;
 import lombok.Data;
 
 @Data

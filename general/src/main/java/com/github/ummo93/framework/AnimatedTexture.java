@@ -1,13 +1,10 @@
 package com.github.ummo93.framework;
 
-import com.raylib.Colors;
 import lombok.*;
 
 import static com.github.ummo93.utils.RaylibUtils.rectangle;
-import static com.raylib.Jaylib.*;
-import static com.raylib.Raylib.Texture;
-import static com.raylib.Raylib.Rectangle;
-import static com.raylib.Raylib.Vector2;
+import static com.raylib.Raylib.*;
+import com.raylib.*;
 
 @Getter
 @Setter
@@ -41,7 +38,7 @@ public class AnimatedTexture {
             (float)frameHeight
         );
         Rectangle destRec = rectangle(posX, posY, frameWidth * scale, frameHeight * scale);
-        drawTexturePro(texture, sourceRec, destRec, new Vector2(), 0.0f, Colors.WHITE);
+        drawTexturePro(texture, sourceRec, destRec, new Vector2(), 0.0f, WHITE);
     }
 
     public void drawAnimation(int posX, int posY) {

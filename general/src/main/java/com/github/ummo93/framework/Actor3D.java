@@ -1,12 +1,10 @@
 package com.github.ummo93.framework;
 
-import com.raylib.Raylib;
 import lombok.Getter;
 import lombok.Setter;
 
-import static com.raylib.Colors.WHITE;
-import static com.raylib.Jaylib.*;
 import static com.raylib.Raylib.*;
+import com.raylib.*;
 
 public class Actor3D extends Actor {
     @Getter
@@ -14,7 +12,7 @@ public class Actor3D extends Actor {
     @Setter
     @Getter
     protected float scale = 1;
-    private Raylib.Shader lightShader;
+    private Shader lightShader;
     private boolean lightShaderAssigned;
 
     public Actor3D(Model model, Vector3 position) {
@@ -33,10 +31,10 @@ public class Actor3D extends Actor {
 
     private void tryToAssignLight() {
         if (!lightShaderAssigned && lightShader != null) {
-            for (var i = 0; i < model.materials().sizeof(); i++) {
-                model.materials().position(i).shader(lightShader);
+            for (var i = 0; i < model.materialCount(); i++) {
+                model.materials().getArrayElement(i).shader(lightShader);
             }
-            model.materials().position(0);
+            model.materials().getArrayElement(0);
             lightShaderAssigned = true;
         }
     }

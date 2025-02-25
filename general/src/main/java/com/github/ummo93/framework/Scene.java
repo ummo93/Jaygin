@@ -2,17 +2,18 @@ package com.github.ummo93.framework;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.bytedeco.javacpp.FloatPointer;
-import org.bytedeco.javacpp.IntPointer;
 
+import java.lang.foreign.MemorySegment;
 import java.util.*;
 import java.util.function.Predicate;
 
 import static com.github.ummo93.utils.RaylibUtils.loadShaderResource;
 import static com.github.ummo93.utils.RaylibUtils.vector4;
-import static com.raylib.Colors.RAYWHITE;
-import static com.raylib.Jaylib.*;
 import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.ShaderLocationIndex.SHADER_LOC_VECTOR_VIEW;
+import static com.raylib.Raylib.ShaderUniformDataType.*;
+
+import com.raylib.*;
 
 
 public abstract class Scene {
@@ -98,35 +99,31 @@ public abstract class Scene {
             int targetLoc = getShaderLocation(shader, "lights["+i+"].target");
             int colorLoc = getShaderLocation(shader, "lights["+i+"].color");
             if (enabledLoc == -1 || typeLoc == -1 || positionLoc == -1 || targetLoc == -1 || colorLoc == -1) {
-                traceLog(LOG_ERROR, "Failed to get shader location for light properties");
+                System.err.println("Failed to get shader location for light properties");
                 continue;
             }
 
             // Send to shader light enabled state and type
-            final IntPointer lightEnabled = new IntPointer(1).put(1);
-            final IntPointer lightType = new IntPointer(1).put(light.getLightType()); // 0 - dir, 1 - point
 
-            setShaderValue(shader, enabledLoc, lightEnabled, SHADER_UNIFORM_INT);
-            setShaderValue(shader, typeLoc, lightType, SHADER_UNIFORM_INT);
+            setShaderValue(shader, enabledLoc, MemorySegment.ofArray(new int[] {1}), SHADER_UNIFORM_INT);
+            setShaderValue(shader, typeLoc, MemorySegment.ofArray(new int[] {light.getLightType()}), SHADER_UNIFORM_INT);
 
-            final FloatPointer lightPos = new FloatPointer(3).put(light.position.x(), light.position.y(), light.position.z());
             // Send to shader light position values
-            setShaderValue(shader, positionLoc, lightPos, SHADER_UNIFORM_VEC3);
+            setShaderValue(shader, positionLoc, MemorySegment.ofArray(new float[] {light.position.x(), light.position.y(), light.position.z()}), SHADER_UNIFORM_VEC3);
 
             // Send to shader light target position values
-            final FloatPointer target = new FloatPointer(3).put(light.rotation.x(), light.rotation.y(), light.rotation.z());
-            setShaderValue(shader, targetLoc, target, SHADER_UNIFORM_VEC3);
+            setShaderValue(shader, targetLoc, MemorySegment.ofArray(new float[] {light.rotation.x(), light.rotation.y(), light.rotation.z()}), SHADER_UNIFORM_VEC3);
 
             // Send to shader light color values
             Color lightColor = light.getColor();
-            final FloatPointer color = new FloatPointer(4).put((lightColor.r() & 0xFF)/255f, (lightColor.g() & 0xFF)/255f, (lightColor.b()& 0xFF)/255f, (lightColor.a()& 0xFF) /255f);
+            MemorySegment color = MemorySegment.ofArray(new float[] {(lightColor.r() & 0xFF)/255f, (lightColor.g() & 0xFF)/255f, (lightColor.b()& 0xFF)/255f, (lightColor.a()& 0xFF) /255f});
             setShaderValue(shader, colorLoc, color, SHADER_UNIFORM_VEC4);
         }
 
         // Update shader point of view
         var camera = getCamera3D();
         if (camera != null) {
-            var cameraPosPtr = new FloatPointer(3).put(camera._position().x(), camera._position().y(), camera._position().z());
+            var cameraPosPtr = MemorySegment.ofArray(new float[] {camera.position().x(), camera.position().y(), camera.position().z()});
             setShaderValue(shader, shader.locs().get(SHADER_LOC_VECTOR_VIEW), cameraPosPtr, SHADER_UNIFORM_VEC3);
         }
     }
@@ -187,7 +184,7 @@ public abstract class Scene {
 
     public void spawn(Actor actor) {
         if (actor instanceof Light) {
-            traceLog(LOG_ERROR, "Light should be added via the \"addLightSource\" method");
+            System.err.println("Light should be added via the \"addLightSource\" method");
             return;
         }
         actors.add(actor);
@@ -219,26 +216,26 @@ public abstract class Scene {
         // Load basic lighting shader
         shader = loadShaderResource("shader/lighting.vs", "shader/lighting.fs");
         if (shader == null) {
-            traceLog(LOG_ERROR, "Failed to load light shader");
+            System.err.println("Failed to load light shader");
             return;
         }
 
         // Get some required shader locations
         shader.locs().put(SHADER_LOC_VECTOR_VIEW, getShaderLocation(shader, "viewPos"));
         if (shader.locs().get(SHADER_LOC_VECTOR_VIEW) == -1) {
-            traceLog(LOG_ERROR, "Failed to get shader location for viewPos");
+            System.err.println("Failed to get shader location for viewPos");
             return;
         }
 
         // Ambient light level (some basic lighting)
         int ambientLoc = getShaderLocation(shader, "ambient");
         if (ambientLoc == -1) {
-            traceLog(LOG_ERROR, "Failed to get shader location for ambient");
+            System.err.println("Failed to get shader location for ambient");
             return;
         }
 
         var ambientLevel = getDefaultAmbientLevel();
-        var val = new FloatPointer(4).put(ambientLevel.x(), ambientLevel.y(), ambientLevel.z(), ambientLevel.w());
+        var val = MemorySegment.ofArray(new float[] {ambientLevel.x(), ambientLevel.y(), ambientLevel.z(), ambientLevel.w()});
         setShaderValue(shader, ambientLoc, val, SHADER_UNIFORM_VEC4);
     }
 

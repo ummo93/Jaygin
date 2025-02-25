@@ -7,7 +7,7 @@ import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.Queue;
 
-import static com.raylib.Jaylib.getTime;
+import static com.raylib.Raylib.getTime;
 
 public class TaskQueueImpl extends TaskQueueService {
     private final Queue<EventLoopTask> queue = new ArrayDeque<>();

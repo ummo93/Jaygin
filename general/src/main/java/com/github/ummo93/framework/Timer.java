@@ -2,7 +2,7 @@ package com.github.ummo93.framework;
 
 import lombok.Getter;
 
-import static com.raylib.Jaylib.getTime;
+import static com.raylib.Raylib.*;
 
 @Getter
 public class Timer {

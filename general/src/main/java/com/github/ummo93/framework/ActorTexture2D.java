@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import static com.github.ummo93.utils.RaylibUtils.*;
-import static com.raylib.Raylib.*;
+import com.raylib.*;
 
 public class ActorTexture2D extends Actor {
     @Getter

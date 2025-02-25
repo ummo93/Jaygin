@@ -3,7 +3,7 @@ package com.github.ummo93.framework;
 import lombok.Getter;
 
 import static com.raylib.Raylib.*;
-import static com.raylib.Jaylib.*;
+import com.raylib.*;
 
 public class Light extends Actor {
     public static final int LIGHT_TYPE_DIRECTIONAL = 0;

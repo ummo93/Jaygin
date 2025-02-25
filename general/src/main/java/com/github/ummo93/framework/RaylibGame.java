@@ -5,8 +5,7 @@ import com.github.ummo93.framework.service.TaskQueueService;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-
-import static com.raylib.Jaylib.*;
+import static com.raylib.Raylib.*;
 
 
 @Singleton

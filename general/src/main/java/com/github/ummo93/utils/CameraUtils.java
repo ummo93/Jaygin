@@ -1,20 +1,14 @@
 package com.github.ummo93.utils;
 
+import com.raylib.Camera3D;
+import com.raylib.Matrix;
+import com.raylib.Vector2;
+import com.raylib.Vector3;
+
 import static com.github.ummo93.utils.RaylibUtils.VECTOR_3_ZERO;
 import static com.github.ummo93.utils.RaylibUtils.translate3D;
-import static com.raylib.Raylib.KEY_E;
-import static com.raylib.Raylib.KEY_W;
-import static com.raylib.Raylib.KEY_A;
-import static com.raylib.Raylib.KEY_S;
-import static com.raylib.Raylib.KEY_SPACE;
-import static com.raylib.Raylib.KEY_LEFT_CONTROL;
-import static com.raylib.Raylib.KEY_D;
-import static com.raylib.Raylib.KEY_Q;
-import static com.raylib.Raylib.Vector2;
-import static com.raylib.Raylib.Vector3;
-import static com.raylib.Raylib.Camera3D;
-import static com.raylib.Raylib.Matrix;
-import static com.raylib.Jaylib.*;
+import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.KeyboardKey.*;
 
 public class CameraUtils {
 
@@ -31,7 +25,7 @@ public class CameraUtils {
         float pitch = -mouseDelta.y() * mouseSensitivity * dt;
         angularVelocity.y(angularVelocity.y() + pitch);
 
-        Vector3 forward = vector3Subtract(camera.target(), camera._position());
+        Vector3 forward = vector3Subtract(camera.target(), camera.position());
         forward = vector3Normalize(forward);
 
         Matrix rotationYaw = matrixRotate(camera.up(), angularVelocity.x());
@@ -41,7 +35,7 @@ public class CameraUtils {
         forward = vector3Transform(forward, rotationYaw);
         forward = vector3Transform(forward, rotationPitch);
 
-        camera.target(vector3Add(camera._position(), forward));
+        camera.target(vector3Add(camera.position(), forward));
 
         right = vector3CrossProduct(forward, camera.up());
         right = vector3Normalize(right);
@@ -62,7 +56,7 @@ public class CameraUtils {
     }
 
     public static Vector3 updateFreeFlyCameraVelocity(Camera3D camera, Vector3 velocity, float moveSpeed, float sideSpeed, float dt) {
-        Vector3 forward = vector3Subtract(camera.target(), camera._position());
+        Vector3 forward = vector3Subtract(camera.target(), camera.position());
         forward = vector3Normalize(forward);
 
         Vector3 right = vector3CrossProduct(forward, camera.up());
@@ -90,7 +84,7 @@ public class CameraUtils {
         if (isKeyDown(KEY_LEFT_CONTROL)) {
             translation = translate3D(translation, up, -sideSpeed * dt);
         }
-        camera._position(vector3Add(camera._position(), translation));
+        camera.position(vector3Add(camera.position(), translation));
         camera.target(vector3Add(camera.target(), translation));
         return translation;
     }

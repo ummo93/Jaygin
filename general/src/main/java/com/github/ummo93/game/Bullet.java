@@ -1,12 +1,12 @@
 package com.github.ummo93.game;
 
-import com.raylib.Raylib;
+import com.raylib.Vector2;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
 public class Bullet {
-    Raylib.Vector2 pos;
-    Raylib.Vector2 fwd;
+    Vector2 pos;
+    Vector2 fwd;
 }

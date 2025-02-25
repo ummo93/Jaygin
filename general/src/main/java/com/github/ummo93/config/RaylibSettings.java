@@ -2,7 +2,7 @@ package com.github.ummo93.config;
 
 import lombok.Data;
 
-import static com.raylib.Raylib.*;
+import static com.raylib.Raylib.ConfigFlags.*;
 
 @Data
 public class RaylibSettings {
