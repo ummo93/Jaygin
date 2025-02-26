@@ -25,6 +25,30 @@
         "parameterTypes": []
       },
       {
+        "name": "setMultiplayer",
+        "parameterTypes": [
+          "boolean"
+        ]
+      },
+      {
+        "name": "setServer",
+        "parameterTypes": [
+          "boolean"
+        ]
+      },
+      {
+        "name": "setServerHost",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      },
+      {
+        "name": "setServerPort",
+        "parameterTypes": [
+          "int"
+        ]
+      },
+      {
         "name": "setTargetFps",
         "parameterTypes": [
           "int"
@@ -176,7 +200,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.framework.GameContext$$FastClassByGuice$$2856dd",
+    "name": "com.github.ummo93.framework.GameContext$$FastClassByGuice$$495560",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -196,7 +220,7 @@
     ]
   },
   {
-    "name": "com.github.ummo93.framework.RaylibGame$$FastClassByGuice$$41433e",
+    "name": "com.github.ummo93.framework.RaylibGame$$FastClassByGuice$$76426d",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -212,6 +236,46 @@
     "name": "com.github.ummo93.framework.service.TaskQueueService",
     "allDeclaredFields": true,
     "queryAllDeclaredMethods": true
+  },
+  {
+    "name": "com.github.ummo93.framework.service.impl.PollingGameClient",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "com.github.ummo93.framework.service.impl.PollingGameClient$$FastClassByGuice$$3e5409",
+    "fields": [
+      {
+        "name": "GUICE$INVOKERS"
+      }
+    ]
+  },
+  {
+    "name": "com.github.ummo93.framework.service.impl.SimpleServer",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "com.github.ummo93.framework.service.impl.SimpleServer$$FastClassByGuice$$56aeea",
+    "fields": [
+      {
+        "name": "GUICE$INVOKERS"
+      }
+    ]
   },
   {
     "name": "com.github.ummo93.framework.service.impl.TaskQueueImpl",
@@ -246,7 +310,27 @@
     ]
   },
   {
-    "name": "com.github.ummo93.game.MainScene$$FastClassByGuice$$37227e",
+    "name": "com.github.ummo93.game.MainScene$$FastClassByGuice$$6b82ae",
+    "fields": [
+      {
+        "name": "GUICE$INVOKERS"
+      }
+    ]
+  },
+  {
+    "name": "com.github.ummo93.game.ai.ChaserBehaviour",
+    "allDeclaredFields": true,
+    "queryAllDeclaredMethods": true,
+    "queryAllDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "com.github.ummo93.game.ai.ChaserBehaviour$$FastClassByGuice$$247b92",
     "fields": [
       {
         "name": "GUICE$INVOKERS"
@@ -568,7 +652,7 @@
     ]
   },
   {
-    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x00000192b0091c00",
+    "name": "java.lang.ClassLoader$$DefineAccessByGuice$$/0x0000023f24091c00",
     "methods": [
       {
         "name": "<init>",

@@ -9,6 +9,10 @@ public class RaylibSettings {
 
     private String title;
     private int targetFps;
+    private boolean multiplayer = false;
+    private boolean server = false;
+    private String serverHost = "localhost";
+    private int serverPort = 8080;
     private WindowSettings window;
 
     @Data

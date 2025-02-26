@@ -29,7 +29,7 @@ public class ChaserBehaviour implements AiBehaviourStrategy {
 
     private void refreshEnemyShootingTimer() {
         if (shootTimer == null) {
-            shootTimer = Timer.start(1);
+            shootTimer = Timer.start(0.5);
         }
     }
 

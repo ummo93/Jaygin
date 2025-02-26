@@ -6,13 +6,19 @@ import static com.github.ummo93.utils.RaylibUtils.*;
 import static com.raylib.Jaylib.guiButton;
 import static com.raylib.Raylib.*;
 
+import com.github.ummo93.config.RaylibSettings;
 import com.github.ummo93.framework.AnimatedTexture;
 import com.github.ummo93.framework.GameContext;
 import com.github.ummo93.framework.Scene;
+import com.github.ummo93.framework.service.GameClient;
+import com.github.ummo93.framework.service.GameServer;
 import com.github.ummo93.framework.service.TaskQueueService;
 import com.github.ummo93.game.ai.AiBehaviourStrategy;
 import com.google.inject.Inject;
 import org.bytedeco.javacpp.FloatPointer;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 
 public class MainScene extends Scene {
@@ -31,6 +37,12 @@ public class MainScene extends Scene {
     @Inject
     private GameContext ctx;
     @Inject
+    private RaylibSettings settings;
+    @Inject
+    private GameServer server;
+    @Inject
+    private GameClient client;
+    @Inject
     private TaskQueueService taskService;
 
     @Override
@@ -42,15 +54,31 @@ public class MainScene extends Scene {
     @Override
     public void onInit() {
         preloadResources();
+        var playerStartPos = new Vector3();
+        var enemyStartPos = vector3(500f, 250f, 0f);
+        var playerTextureTemp = playerTexture;
+        var enemyTextureTemp = enemyTexture;
 
-        player = new FighterShip(new Vector3(), new Vector3(), playerTexture);
+        if (settings.isMultiplayer()) {
+            if (settings.isServer()) {
+                setUpServer();
+            } else {
+                setUpClient();
+                playerTexture = enemyTextureTemp;
+                enemyTexture = playerTextureTemp;
+                playerStartPos = vector3(500f, 250f, 0f);
+                enemyStartPos = new Vector3();
+            }
+        }
+
+        player = new FighterShip(playerStartPos, new Vector3(), playerTexture);
 
         var camera2D = new Camera2D()
             .target(vector2(player.getPosition()))
             .zoom(1.5f);
 
         spawn(player);
-        spawnEnemy(vector3(500f, 250f, 0f));
+        spawnEnemy(enemyStartPos);
         addCamera(camera2D);
 
         if (playerHpPtr == null)
@@ -59,8 +87,11 @@ public class MainScene extends Scene {
 
     @Override
     public void onUpdate(float dt) {
-        if (enemy != null) enemyTurn();
         if (player != null) playerTurn();
+        if (settings.isMultiplayer()) {
+            return;
+        }
+        if (enemy != null) enemyTurn();
     }
 
     @Override
@@ -90,6 +121,47 @@ public class MainScene extends Scene {
         return BLACK;
     }
 
+    private String[] serializePlayerData() {
+        if (player == null) return new String[5];
+        var data = new Float[] {
+            player.getVelocity().x(),
+            player.getVelocity().y(),
+            player.getPosition().x(),
+            player.getPosition().y(),
+            player.getRotation().y()
+        };
+        return Arrays.stream(data).map(String::valueOf).toArray(String[]::new);
+    }
+
+    private void deserializeEnemyData(String[] data) {
+        if (enemy == null) return;
+        var enemyVelX = Float.parseFloat(data[0]);
+        var enemyVelY = Float.parseFloat(data[1]);
+        var enemyPosX = Float.parseFloat(data[2]);
+        var enemyPosY = Float.parseFloat(data[3]);
+        var enemyRot = Float.parseFloat(data[4]);
+
+        enemy.setVelocity(vector2(enemyVelX, enemyVelY));
+        enemy.setPosition(vector3(enemyPosX, enemyPosY, 0f));
+        enemy.setRotation(vector3(0f, enemyRot, 0f));
+    }
+
+    private void setUpServer() {
+        server.setOnMessageHandler(this::deserializeEnemyData);
+        server.setOnResponseHandler(this::serializePlayerData);
+        try {
+            server.start(settings.getServerPort());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setUpClient() {
+        client.setRequestHandler(this::serializePlayerData);
+        client.setOnResponseHandler(this::deserializeEnemyData);
+        client.connect(settings.getServerHost(), settings.getServerPort(), 150);
+    }
+
     private void preloadResources() {
         if (starAnimation == null) {
             var starTexture = loadTextureResource("star-spritesheet.png");
@@ -111,7 +183,6 @@ public class MainScene extends Scene {
 
     private void spawnEnemy(Vector3 spawnPoint) {
         enemy = new FighterShip(spawnPoint, new Vector3(), enemyTexture);
-        enemy.setVelocity(vector2Scale(VECTOR_RIGHT, 20));
         spawn(enemy);
     }
 

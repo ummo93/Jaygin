@@ -10,7 +10,10 @@ import com.google.inject.Provides;
 import com.google.inject.name.Named;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.IOException;
 import java.io.InputStream;
+
+import com.github.ummo93.utils.StreamUtils;
 
 public class AppModule extends AbstractModule {
 
@@ -19,7 +22,12 @@ public class AppModule extends AbstractModule {
     public RaylibSettings provideRaylibSettings() {
         Yaml yaml = new Yaml();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("raylib-settings.yaml");
-        return yaml.loadAs(inputStream, RaylibSettings.class);
+        try {
+            String yamlString = StreamUtils.replaceInYamlInputStream(inputStream, System.getenv());
+            return yaml.loadAs(yamlString, RaylibSettings.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

@@ -5,6 +5,6 @@ call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevC
 mvn clean package ^
 && java -agentlib:native-image-agent=config-output-dir=general/src/main/resources/META-INF/native-image -jar general/target/jaygin.jar ^
 && python update_reflect_config.py ^
-&& cd general/target & native-image --target=windows-amd64 -jar jaygin.jar
+&& cd general/target & native-image --enable-url-protocols=http,https --target=windows-amd64 -jar jaygin.jar
 :: or with mvn
 ::mvn -Pnative native:compile
