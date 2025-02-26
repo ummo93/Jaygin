@@ -49,35 +49,10 @@ if (infoOpt.isPresent()) {
 }
 ```
 
-## Native image
+## Build executable
+### Windows
 
-You will need to download [Graal](https://www.graalvm.org/downloads/) and extract the archive.  Set an env variable
-with the location, e.g.
+    mvn clean install -Pwindows-profile
 
-    export GRAALVM_HOME=/home/richard/Downloads/graalvm-jdk-22+36.1/
-
-Then build a usual jar:
-
-    mvn clean package
-
-[For windows] open VS developer console
-
-    call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat" -arch=amd64 -host_arch=amd64
-
-And create reflection configs:
-
-    java -agentlib:native-image-agent=config-output-dir=general/src/main/resources/META-INF/native-image -jar general/target/jaygin.jar
-
-Run python script to add "unsafeAllocated" to Raylib native classes:
-
-    python update_reflect_config.py
-
-Then to build a native image:
-
-    native-image --target=windows-amd64 -jar jaygin.jar
-
-
-
-
-
-
+And then - just run general/jaygin-win/jaygin.exe
+The assembly method uses the standard jlink utility to assemble a stripped-down jre, then the [packr](https://github.com/libgdx/packr) utility (config is located in the packaging) folder, to create an executable file.

@@ -1,0 +1,16 @@
+{
+    "platform": "windows64",
+    "jdk": "../general/target/jlink/image",
+    "executable": "jaygin",
+    "classpath": [
+        "../general/target/jaygin.jar"
+    ],
+    "mainclass": "com.github.ummo93.Main",
+    "vmargs": [
+        "-Xmx1G"
+    ],
+    "resources": [
+    ],
+    "minimizejre": "hard",
+    "output": "../general/target/jaygin-win"
+}
