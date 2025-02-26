@@ -34,7 +34,7 @@ public class PollingGameClient implements GameClient {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                send(host, port);
+                send(SimpleServer.ENDPOINT_PATH, host, port, sender, receiver);
             }
         }, 0, pollInterval_millis);
         isConnected = true;
@@ -58,14 +58,14 @@ public class PollingGameClient implements GameClient {
         timer.cancel();
     }
 
-    private void send(String host, int port) {
+    private void send(String endpoint, String host, int port, Supplier<String[]> sender, Consumer<String[]> receiver) {
         try {
             var request = new StringBuilder()
                 .append(host.equals(LOCALHOST) ? URL_PROTOCOL: URL_SECURED_PROTOCOL)
                 .append(host)
                 .append(URL_PORT_DELIM)
                 .append(port)
-                .append(SimpleServer.ENDPOINT_PATH)
+                .append(endpoint)
                 .append(URL_PATH_DELIM)
                 .append(URL_REQUEST_START_SIGN)
                 .append(String.join(SimpleServer.DELIM, sender.get()))

@@ -108,7 +108,7 @@ public class MainScene extends Scene {
         drawFPS(ctx.getWindowWidth() - 100, ctx.getWindowHeight() - 30);
         if (player == null || player.isDestructed()) {
             drawText("GAME OVER", ctx.getWindowWidth()/2 - 100, ctx.getWindowHeight()/2 - 20, 30, RED);
-            if (guiButton(rectangle(ctx.getWindowWidth()/2f - 100, ctx.getWindowHeight()/2f + 130, 200, 30), "RESTART") != 0) {
+            if (!settings.isMultiplayer() && guiButton(rectangle(ctx.getWindowWidth()/2f - 100, ctx.getWindowHeight()/2f + 130, 200, 30), "RESTART") != 0) {
                 this.reload();
             }
         } else {
@@ -122,28 +122,62 @@ public class MainScene extends Scene {
     }
 
     private String[] serializePlayerData() {
-        if (player == null) return new String[5];
+        if (player == null) return new String[7];
+        var bullets = player.getBullets().toArray();
+        var lastBullet = bullets.length > 0 ? (Bullet)bullets[bullets.length - 1]: null;
         var data = new Float[] {
             player.getVelocity().x(),
             player.getVelocity().y(),
             player.getPosition().x(),
             player.getPosition().y(),
-            player.getRotation().y()
+            player.getRotation().y(),
+            player.isForwardEngineActive ? 1f: -1f,
+            player.isBackwardEngineActive ? 1f: -1f,
+            (float)bullets.length,
+            lastBullet != null ? lastBullet.pos.x(): 0,
+            lastBullet != null ? lastBullet.pos.y(): 0,
+            lastBullet != null ? lastBullet.fwd.x(): 0,
+            lastBullet != null ? lastBullet.fwd.y(): 0,
+
         };
         return Arrays.stream(data).map(String::valueOf).toArray(String[]::new);
     }
 
     private void deserializeEnemyData(String[] data) {
         if (enemy == null) return;
-        var enemyVelX = Float.parseFloat(data[0]);
-        var enemyVelY = Float.parseFloat(data[1]);
-        var enemyPosX = Float.parseFloat(data[2]);
-        var enemyPosY = Float.parseFloat(data[3]);
-        var enemyRot = Float.parseFloat(data[4]);
-
-        enemy.setVelocity(vector2(enemyVelX, enemyVelY));
-        enemy.setPosition(vector3(enemyPosX, enemyPosY, 0f));
-        enemy.setRotation(vector3(0f, enemyRot, 0f));
+        try {
+            var enemyVelX = Float.parseFloat(data[0]);
+            var enemyVelY = Float.parseFloat(data[1]);
+            var enemyPosX = Float.parseFloat(data[2]);
+            var enemyPosY = Float.parseFloat(data[3]);
+            var enemyRot = Float.parseFloat(data[4]);
+            var isForwardEngineActive = Float.parseFloat(data[5]) > 0;
+            var isBackwardEngineActive = Float.parseFloat(data[6]) > 0;
+            var bulletCount = (int)Float.parseFloat(data[7]);
+            var bulletPosX = Float.parseFloat(data[8]);
+            var bulletPosY = Float.parseFloat(data[9]);
+            var bulletFwdX = Float.parseFloat(data[10]);
+            var bulletFwdY = Float.parseFloat(data[11]);
+            if (isForwardEngineActive) {
+                enemy.moveForward();
+            }
+            if (isBackwardEngineActive) {
+                enemy.moveBackward();
+            }
+            enemy.setVelocity(vector2(enemyVelX, enemyVelY));
+            enemy.setPosition(vector3(enemyPosX, enemyPosY, 0f));
+            enemy.setRotation(vector3(0f, enemyRot, 0f));
+            if (bulletCount > 0 && bulletCount > enemy.getBullets().size()) {
+                enemy.emitBullet();
+                var bullets = enemy.getBullets().toArray();
+                var bullet = bullets.length == 0 ? null: (Bullet)bullets[bullets.length - 1];
+                if (bullet == null) return;
+                bullet.pos = vector2(bulletPosX, bulletPosY);
+                bullet.fwd = vector2(bulletFwdX, bulletFwdY);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setUpServer() {
@@ -159,7 +193,7 @@ public class MainScene extends Scene {
     private void setUpClient() {
         client.setRequestHandler(this::serializePlayerData);
         client.setOnResponseHandler(this::deserializeEnemyData);
-        client.connect(settings.getServerHost(), settings.getServerPort(), 150);
+        client.connect(settings.getServerHost(), settings.getServerPort(), 33); //33ms it's ~ 30fps
     }
 
     private void preloadResources() {
