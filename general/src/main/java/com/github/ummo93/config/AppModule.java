@@ -3,11 +3,7 @@ package com.github.ummo93.config;
 
 import com.github.ummo93.framework.GameContext;
 import com.github.ummo93.framework.RaylibGame;
-import com.github.ummo93.framework.service.GameClient;
-import com.github.ummo93.framework.service.GameServer;
 import com.github.ummo93.framework.service.TaskQueueService;
-import com.github.ummo93.framework.service.impl.PollingGameClient;
-import com.github.ummo93.framework.service.impl.SimpleServer;
 import com.github.ummo93.framework.service.impl.TaskQueueImpl;
 import com.github.ummo93.game.MainScene;
 import com.github.ummo93.framework.Scene;
@@ -39,8 +35,6 @@ public class AppModule extends AbstractModule {
         bind(RaylibGame.class).asEagerSingleton();
         bind(GameContext.class).asEagerSingleton();
         bind(TaskQueueService.class).to(TaskQueueImpl.class).asEagerSingleton();
-        bind(GameClient.class).to(PollingGameClient.class).asEagerSingleton();
-        bind(GameServer.class).to(SimpleServer.class).asEagerSingleton();
         bind(Scene.class).to(MainScene.class).asEagerSingleton();
     }
 }

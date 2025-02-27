@@ -131,6 +131,23 @@ public class RaylibUtils {
         );
     }
 
+    public static void drawTextureInCenterEx(Texture texture, Vector2 pos, float rotation, float scale, Color tint) {
+        drawTextureInCenterEx(texture, pos, rotation, vector2(scale, scale), tint);
+    }
+
+    public static void drawTextureInCenterEx(Texture texture, Vector2 pos, float rotation, Vector2 scale, Color tint) {
+        var scaledWidth = texture.width() * scale.x();
+        var scaledHeight = texture.height() * scale.x();
+        drawTexturePro(
+            texture,
+            rectangle(0,0, texture.width(), texture.height()),
+            rectangle(pos.x(),pos.y(), scaledWidth, scaledHeight),
+            vector2(scaledWidth/2.f, scaledHeight/2.f),
+            rotation,
+            tint
+        );
+    }
+
     public static void drawTextureInCenterRepeat(Texture texture, Vector2 pos, float scale, float rotation, Color tint) {
         var pivot = vector2(texture.width() / 2.f , texture.height() / 2.f);
         drawTexturePro(

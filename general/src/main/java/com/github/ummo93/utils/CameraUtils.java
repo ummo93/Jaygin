@@ -22,6 +22,11 @@ public class CameraUtils {
     private static final float DEFAULT_MOVE_SPEED = 4f;
     private static final float DEFAULT_ROLL_SPEED = 0.5f;
 
+    public static Vector3 getCameraForward(Camera3D camera) {
+        Vector3 forward = vector3Subtract(camera.target(), camera._position());
+        return vector3Normalize(forward);
+    }
+
     public static Vector3 updateFreeFlyCameraRotation(Camera3D camera, Vector3 angularVelocity, float mouseSensitivity, float rollSpeed, float dt) {
         angularVelocity = RaylibUtils.clone(angularVelocity);
         Vector2 mouseDelta = getMouseDelta();
