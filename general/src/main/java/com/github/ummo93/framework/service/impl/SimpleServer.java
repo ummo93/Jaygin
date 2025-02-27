@@ -1,7 +1,6 @@
 package com.github.ummo93.framework.service.impl;
 
 import com.github.ummo93.framework.service.GameServer;
-import com.google.inject.Singleton;
 import com.sun.net.httpserver.HttpServer;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +10,6 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-@Singleton
 @NoArgsConstructor
 public class SimpleServer implements GameServer {
     public static final String ENDPOINT_PATH = "/gamedata";

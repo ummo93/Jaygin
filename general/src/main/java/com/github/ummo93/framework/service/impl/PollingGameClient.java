@@ -1,7 +1,6 @@
 package com.github.ummo93.framework.service.impl;
 
 import com.github.ummo93.framework.service.GameClient;
-import com.google.inject.Singleton;
 import lombok.NoArgsConstructor;
 
 import java.io.ByteArrayOutputStream;
@@ -14,7 +13,6 @@ import java.util.TimerTask;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-@Singleton
 @NoArgsConstructor
 public class PollingGameClient implements GameClient {
     private static final String  URL_PROTOCOL = "http://";

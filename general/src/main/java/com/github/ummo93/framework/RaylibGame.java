@@ -5,13 +5,11 @@ import com.github.ummo93.framework.service.GameClient;
 import com.github.ummo93.framework.service.GameServer;
 import com.github.ummo93.framework.service.TaskQueueService;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 
 import static com.raylib.Jaylib.*;
 
 
-@Singleton
 public class RaylibGame {
     @Inject
     private RaylibSettings settings;
