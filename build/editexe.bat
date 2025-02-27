@@ -1,1 +1,0 @@
-editbin /SUBSYSTEM:WINDOWS ../general/target/jaygin.exe

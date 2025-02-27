@@ -8,7 +8,55 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>general</artifactId>
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.github.akman</groupId>
+          <artifactId>jlink-maven-plugin</artifactId>
+          <version>0.1.11</version>
+          <configuration>
+            <modulepath>
+              <dependencysets>
+                <dependencyset>
+                  <includeoutput>true</includeoutput>
+                  <excludeautomatic>true</excludeautomatic>
+                </dependencyset>
+              </dependencysets>
+            </modulepath>
+            <noheaderfiles>true</noheaderfiles>
+            <nomanpages>true</nomanpages>
+            <compress>
+              <compression>ZIP</compression>
+            </compress>
+            <stripdebug>true</stripdebug>
+            <addmodules>
+              <addmodule>java.base</addmodule>
+              <addmodule>java.compiler</addmodule>
+              <addmodule>java.desktop</addmodule>
+              <addmodule>java.instrument</addmodule>
+              <addmodule>java.logging</addmodule>
+              <addmodule>java.management</addmodule>
+              <addmodule>jdk.compiler</addmodule>
+              <addmodule>jdk.httpserver</addmodule>
+              <addmodule>jdk.unsupported</addmodule>
+            </addmodules>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>com.github.akman</groupId>
+        <artifactId>jlink-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jlink</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.3.1</version>
@@ -32,12 +80,12 @@
           </execution>
           <execution>
             <id>copy-assets</id>
-            <phase>package</phase>
+            <phase>install</phase>
             <goals>
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/assets</outputDirectory>
+              <outputDirectory>${project.build.directory}/jaygin-win/assets</outputDirectory>
               <resources>
                 <resource>
                   <directory>src/main/resources/assets</directory>
@@ -100,26 +148,29 @@
   </build>
   <profiles>
     <profile>
-      <id>native</id>
+      <id>windows-profile</id>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.graalvm.buildtools</groupId>
-            <artifactId>native-maven-plugin</artifactId>
-            <version>0.10.2</version>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.5.0</version>
             <executions>
               <execution>
-                <id>build-native</id>
-                <phase>package</phase>
+                <phase>verify</phase>
                 <goals>
-                  <goal>compile-no-fork</goal>
+                  <goal>exec</goal>
                 </goals>
               </execution>
             </executions>
             <configuration>
-              <fallback>false</fallback>
-              <mainClass>${main.class}</mainClass>
-              <imageName>${artefact.filename}</imageName>
+              <basedir>${project.basedir}</basedir>
+              <executable>java</executable>
+              <arguments>
+                <argument>-jar</argument>
+                <argument>${project.basedir}/../packaging/packr-all-4.0.0.jar</argument>
+                <argument>${project.basedir}/../packaging/build-win.json</argument>
+              </arguments>
             </configuration>
           </plugin>
         </plugins>

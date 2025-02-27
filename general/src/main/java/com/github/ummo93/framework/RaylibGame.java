@@ -1,15 +1,15 @@
 package com.github.ummo93.framework;
 
 import com.github.ummo93.config.RaylibSettings;
+import com.github.ummo93.framework.service.GameClient;
+import com.github.ummo93.framework.service.GameServer;
 import com.github.ummo93.framework.service.TaskQueueService;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 
 import static com.raylib.Jaylib.*;
 
 
-@Singleton
 public class RaylibGame {
     @Inject
     private RaylibSettings settings;
@@ -19,6 +19,10 @@ public class RaylibGame {
     private Scene scene;
     @Inject
     private TaskQueueService taskService;
+    @Inject
+    private GameServer server;
+    @Inject
+    private GameClient client;
 
     private void refreshContext() {
         ctx.windowWidth = getScreenWidth();
@@ -75,5 +79,7 @@ public class RaylibGame {
 
         closeWindow();
         closeAudioDevice();
+        client.disconnect();
+        server.stop();
     }
 }

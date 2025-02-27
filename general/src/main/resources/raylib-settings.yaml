@@ -1,5 +1,9 @@
 targetFps: 60
 title: "Demo Game"
+multiplayer: ${MULTIPLAYER:false}
+server: ${SERVER:true}
+serverHost: ${SERVER_HOST:localhost}
+serverPort: ${SERVER_PORT:8080}
 window:
     width: 1280
     height: 900
