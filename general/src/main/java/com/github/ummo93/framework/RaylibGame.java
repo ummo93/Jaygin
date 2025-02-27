@@ -19,9 +19,9 @@ public class RaylibGame {
     private Scene scene;
     @Inject
     private TaskQueueService taskService;
-    @Inject
+    @Inject(optional=true)
     private GameServer server;
-    @Inject
+    @Inject(optional=true)
     private GameClient client;
 
     private void refreshContext() {
@@ -79,7 +79,9 @@ public class RaylibGame {
 
         closeWindow();
         closeAudioDevice();
-        client.disconnect();
-        server.stop();
+        if (settings.isMultiplayer()) {
+            client.disconnect();
+            server.stop();
+        }
     }
 }

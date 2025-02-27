@@ -38,9 +38,9 @@ public class MainScene extends Scene {
     private GameContext ctx;
     @Inject
     private RaylibSettings settings;
-    @Inject
+    @Inject(optional=true)
     private GameServer server;
-    @Inject
+    @Inject(optional=true)
     private GameClient client;
     @Inject
     private TaskQueueService taskService;
