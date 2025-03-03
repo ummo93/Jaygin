@@ -57,6 +57,10 @@ public class RaylibUtils {
         return new Vector3().x(vector3.x()).y(vector3.y()).z(vector3.z());
     }
 
+    public static void loadGuiStyleResource(String pathToStyleFile) {
+        guiLoadStyle(ResourceUtils.getAssetPath(pathToStyleFile));
+    }
+
     public static Texture loadTextureResource(String resourceFileName) {
         return loadTexture(ResourceUtils.getAssetPath(resourceFileName));
     }

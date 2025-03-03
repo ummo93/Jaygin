@@ -197,6 +197,7 @@ public class MainScene extends Scene {
     }
 
     private void preloadResources() {
+        loadGuiStyleResource("styles/terminal/style_terminal.rgs");
         if (starAnimation == null) {
             var starTexture = loadTextureResource("star-spritesheet.png");
             starAnimation = new AnimatedTexture(starTexture, 512, 512, 0, 10*10, 10, 1);
