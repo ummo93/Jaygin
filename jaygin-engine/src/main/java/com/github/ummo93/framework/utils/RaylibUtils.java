@@ -14,8 +14,6 @@ import static com.raylib.Raylib.DEG2RAD;
 import static com.raylib.Raylib.Ray;
 import static com.raylib.Raylib.Texture;
 import static com.raylib.Raylib.Image;
-import static com.raylib.Raylib.Model;
-import static com.raylib.Raylib.Shader;
 import com.raylib.Raylib.Sound;
 
 
@@ -67,14 +65,6 @@ public class RaylibUtils {
 
     public static Sound loadSoundResource(String resourceFileName) {
         return loadSound(ResourceUtils.getAssetPath(resourceFileName));
-    }
-
-    public static Model loadModelResource(String resourceFileName) {
-        return loadModel(ResourceUtils.getAssetPath(resourceFileName));
-    }
-
-    public static Shader loadShaderResource(String vsFileName, String fsFileName) {
-        return loadShader(ResourceUtils.getAssetPath(vsFileName), ResourceUtils.getAssetPath(fsFileName));
     }
 
     public static Image loadImageResource(String resourceFileName) {
