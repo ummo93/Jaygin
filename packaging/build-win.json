@@ -1,9 +1,9 @@
 {
     "platform": "windows64",
-    "jdk": "../general/target/jlink/image",
+    "jdk": "../sample-game/target/jlink/image",
     "executable": "jaygin",
     "classpath": [
-        "../general/target/jaygin.jar"
+        "../sample-game/target/jaygin.jar"
     ],
     "mainclass": "com.github.ummo93.Application",
     "vmargs": [
@@ -12,5 +12,5 @@
     "resources": [
     ],
     "minimizejre": "hard",
-    "output": "../general/target/jaygin-win"
+    "output": "../sample-game/target/jaygin-win"
 }

@@ -54,5 +54,5 @@ if (infoOpt.isPresent()) {
 
     mvn clean install -Pwindows-profile
 
-And then - just run general/jaygin-win/jaygin.exe
+And then - just run sample-game/target/jaygin-win/jaygin.exe
 The assembly method uses the standard jlink utility to assemble a stripped-down jre, then the [packr](https://github.com/libgdx/packr) utility (config is located in the packaging) folder, to create an executable file.

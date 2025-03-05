@@ -1,4 +1,4 @@
-package com.github.ummo93;
+package com.github.ummo93.config;
 
 import com.github.ummo93.framework.Scene;
 import com.github.ummo93.game.MainScene;

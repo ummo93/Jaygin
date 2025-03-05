@@ -9,7 +9,7 @@
         <version>0.1</version>
     </parent>
 
-    <artifactId>raylib</artifactId>
+    <artifactId>raylib-wrapper-gen</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
