@@ -44,8 +44,8 @@ public class RaylibGame {
         scene.onInit();
 
         while (!windowShouldClose()) {
-            var camera2D = scene.getCamera2D();
-            var camera3D = scene.getCamera3D();
+            var camera2D = scene.getCamera();
+            var isCameraMode = camera2D != null;
 
             refreshContext();
             scene.updateHierarchy(ctx.delta);
@@ -54,20 +54,17 @@ public class RaylibGame {
             beginDrawing();
             clearBackground(scene.getBackgroundColor());
 
-            if (camera3D != null) {
-                beginMode3D(camera3D);
-                scene.beforeDraw();
-                scene.drawHierarchy();
-                endMode3D();
-            } else if (camera2D != null) {
+            if (isCameraMode) {
                 beginMode2D(camera2D);
-                scene.beforeDraw();
-                scene.drawHierarchy();
-                endMode2D();
-            } else {
-                scene.beforeDraw();
-                scene.drawHierarchy();
             }
+
+            scene.beforeDraw();
+            scene.drawHierarchy();
+
+            if (isCameraMode) {
+                endMode2D();
+            }
+
             scene.onDraw();
             endDrawing();
 

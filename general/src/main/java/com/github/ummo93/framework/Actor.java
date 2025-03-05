@@ -1,25 +1,25 @@
 package com.github.ummo93.framework;
 
+import com.raylib.Raylib;
 import lombok.Getter;
 import lombok.Setter;
 
 import static com.github.ummo93.utils.RaylibUtils.*;
 import static com.raylib.Jaylib.*;
-import static com.raylib.Raylib.Vector3;
 import static com.raylib.Raylib.Vector2;
 import static com.raylib.Raylib.BoundingBox;
 
 public abstract class Actor {
     private static long id_couner = 0L;
-    private Vector3 bodyLastPos;
+    private Vector2 bodyLastPos;
     @Getter
     private long id;
     @Getter
     @Setter
-    protected Vector3 position;
+    protected Vector2 position;
     @Getter
     @Setter
-    protected Vector3 rotation;
+    protected Vector2 rotation;
     @Getter
     @Setter
     protected Scene scene;
@@ -36,7 +36,7 @@ public abstract class Actor {
         }
     }
 
-    public Actor(Vector3 position, Vector3 rotation) {
+    public Actor(Vector2 position, Vector2 rotation) {
         synchronized (Actor.class) {
             id_couner++;
             id = id_couner;
@@ -45,11 +45,11 @@ public abstract class Actor {
         this.rotation = rotation;
     }
 
-    public Vector2 getForward2D() {
+    public Vector2 getForward() {
         return getHeadingByRotation2D(VECTOR_UP, rotation.y());
     }
 
-    public Vector2 getRight2D() {
+    public Vector2 getRight() {
         return getHeadingByRotation2D(VECTOR_RIGHT, rotation.y());
     }
 
@@ -64,7 +64,7 @@ public abstract class Actor {
     }
     protected void onUpdatePhysic(float dt) {
         if (collider == null) return;
-        Vector3 offsetSinceLastUpdate = vector3Subtract(position, bodyLastPos);
+        Raylib.Vector3 offsetSinceLastUpdate = vector3(vector2Subtract(position, bodyLastPos));
         collider.max(vector3Add(collider.max(), offsetSinceLastUpdate));
         collider.min(vector3Add(collider.min(), offsetSinceLastUpdate));
     }

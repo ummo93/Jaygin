@@ -21,7 +21,7 @@ public class ChaserBehaviour implements AiBehaviourStrategy {
     private boolean isTargetObjectClockwise(Actor subject, Actor target) {
         var selfPos = subject.getPosition();
         var targetPos = target.getPosition();
-        var selfFwd = subject.getForward2D();
+        var selfFwd = subject.getForward();
         var toTargetX = targetPos.x() - selfPos.x();
         var toTargetY = targetPos.y() - selfPos.y();
         return (selfFwd.x() * toTargetY - selfFwd.y() * toTargetX) < 0;
@@ -44,11 +44,11 @@ public class ChaserBehaviour implements AiBehaviourStrategy {
             subject.rotateClockwise();
         }
 
-        if (vector3Distance(subject.getPosition(), target.getPosition()) > DISTANCE_TO_CONTACT) {
+        if (vector2Distance(subject.getPosition(), target.getPosition()) > DISTANCE_TO_CONTACT) {
             subject.moveForward();
         }
 
-        Raylib.Ray rayOnTarget = ray(subject.getPosition(), vector3(vector2Scale(subject.getForward2D(), HIT_DISTANCE)));
+        Raylib.Ray rayOnTarget = ray(subject.getPosition(), vector2Scale(subject.getForward(), HIT_DISTANCE));
         var collisionInfo = scene.raycastOne(rayOnTarget, HIT_DISTANCE, subject);
         var subjectAlignedToTarget = collisionInfo.isPresent() && collisionInfo.get().getOther() instanceof Damagable;
 

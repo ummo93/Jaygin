@@ -54,8 +54,8 @@ public class MainScene extends Scene {
     @Override
     public void onInit() {
         preloadResources();
-        var playerStartPos = new Vector3();
-        var enemyStartPos = vector3(500f, 250f, 0f);
+        var playerStartPos = new Vector2();
+        var enemyStartPos = vector2(500f, 250f);
         var playerTextureTemp = playerTexture;
         var enemyTextureTemp = enemyTexture;
 
@@ -66,15 +66,15 @@ public class MainScene extends Scene {
                 setUpClient();
                 playerTexture = enemyTextureTemp;
                 enemyTexture = playerTextureTemp;
-                playerStartPos = vector3(500f, 250f, 0f);
-                enemyStartPos = new Vector3();
+                playerStartPos = vector2(500f, 250f);
+                enemyStartPos = new Vector2();
             }
         }
 
-        player = new FighterShip(playerStartPos, new Vector3(), playerTexture);
+        player = new FighterShip(playerStartPos, new Vector2(), playerTexture);
 
         var camera2D = new Camera2D()
-            .target(vector2(player.getPosition()))
+            .target(player.getPosition())
             .zoom(1.5f);
 
         spawn(player);
@@ -165,8 +165,8 @@ public class MainScene extends Scene {
                 enemy.moveBackward();
             }
             enemy.setVelocity(vector2(enemyVelX, enemyVelY));
-            enemy.setPosition(vector3(enemyPosX, enemyPosY, 0f));
-            enemy.setRotation(vector3(0f, enemyRot, 0f));
+            enemy.setPosition(vector2(enemyPosX, enemyPosY));
+            enemy.setRotation(vector2(0f, enemyRot));
             if (bulletCount > 0 && bulletCount > enemy.getBullets().size()) {
                 enemy.emitBullet();
                 var bullets = enemy.getBullets().toArray();
@@ -216,8 +216,8 @@ public class MainScene extends Scene {
         }
     }
 
-    private void spawnEnemy(Vector3 spawnPoint) {
-        enemy = new FighterShip(spawnPoint, new Vector3(), enemyTexture);
+    private void spawnEnemy(Vector2 spawnPoint) {
+        enemy = new FighterShip(spawnPoint, new Vector2(), enemyTexture);
         spawn(enemy);
     }
 
@@ -227,7 +227,7 @@ public class MainScene extends Scene {
         var playerPos = player.getPosition();
         var randomX = getRandomValue((int)playerPos.x() - offset, (int)playerPos.x() + offset);
         var randomY = getRandomValue((int)playerPos.y() - offset, (int)playerPos.y() + offset);
-        spawnEnemy(vector3(randomX, randomY, 0f));
+        spawnEnemy(vector2(randomX, randomY));
     }
 
     private void enemyTurn() {
@@ -245,7 +245,7 @@ public class MainScene extends Scene {
             return;
         }
         playerHpPtr.put((float) player.getHp());
-        var camera2D = getCamera2D();
+        var camera2D = getCamera();
         camera2D.zoom(clamp(camera2D.zoom() + getMouseWheelMove() * .1f, 1f, 2.5f));
         camera2D.target(vector2(player.getPosition().x(), player.getPosition().y()));
         camera2D.offset(vector2(ctx.getWindowWidth() / 2.f, ctx.getWindowHeight() / 2.f));

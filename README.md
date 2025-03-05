@@ -1,4 +1,4 @@
-# Jaygin - Java + [Raylib](https://github.com/raysan5/raylib) JNI ([Jaylib](https://github.com/electronstudio/jaylib)) engine
+# Jaygin - Java + [Raylib](https://github.com/raysan5/raylib) JNI ([Jaylib](https://github.com/electronstudio/jaylib)) 2D game engine
 ### Simple game engine based on raylib (JNI jaylib) using java
 
 ## List of features:

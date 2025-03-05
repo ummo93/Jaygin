@@ -1,10 +1,9 @@
 package com.github.ummo93.game;
 
-import com.github.ummo93.framework.ActorAnimated2D;
-import com.github.ummo93.framework.ActorTexture2D;
+import com.github.ummo93.framework.actors.AnimatedActor;
+import com.github.ummo93.framework.actors.TexturedActor;
 import com.github.ummo93.framework.AnimatedTexture;
 import com.github.ummo93.framework.service.TaskQueueService;
-import com.raylib.Raylib;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,14 +18,13 @@ import static com.github.ummo93.utils.RaylibUtils.vector2;
 import static com.raylib.Colors.*;
 import static com.raylib.Jaylib.*;
 import static com.raylib.Raylib.Vector2;
-import static com.raylib.Raylib.Vector3;
 import static com.raylib.Raylib.BoundingBox;
 import static com.raylib.Raylib.Texture;
 import static com.raylib.Raylib.Sound;
 import static com.raylib.Raylib.Ray;
 
 
-public class FighterShip extends ActorTexture2D implements Controllable, Damagable {
+public class FighterShip extends TexturedActor implements Controllable, Damagable {
 
     private final Set<ControlSignal2D> controlSignals = new HashSet<>();
     private AnimatedTexture explosionAnimation;
@@ -71,7 +69,7 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
         setCollider(collider);
     }
 
-    public FighterShip(Vector3 position, Vector3 rotation, Texture texture) {
+    public FighterShip(Vector2 position, Vector2 rotation, Texture texture) {
         super(position, rotation, texture);
         addCollider();
     }
@@ -127,10 +125,10 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
     protected void onUpdate(float dt) {
         var newRotation = calculateRotation();
         var currentRotation = getRotation();
-        setRotation(vector3(currentRotation.x(), currentRotation.y() + (dt*45f*newRotation), currentRotation.z()));
+        setRotation(vector2(currentRotation.x(), currentRotation.y() + (dt*45f*newRotation)));
         setVelocity(calculateVelocity());
-        var newTranslatedPos = translate2D(vector2(position), vector2Scale(velocity, dt*75f*speed), 1f);
-        setPosition(vector3(newTranslatedPos));
+        var newTranslatedPos = translate2D(position, vector2Scale(velocity, dt*75f*speed), 1f);
+        setPosition(newTranslatedPos);
 
         if (controlSignals.contains(SHOOT)) {
             emitBullet();
@@ -143,10 +141,10 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
     @Override
     protected void onDraw() {
         if (isForwardEngineActive) {
-            drawForwardExhaust(vector2(position), getForward2D());
+            drawForwardExhaust(position, getForward());
         }
         if (isBackwardEngineActive) {
-            drawBackwardExhaust(vector2(position), getForward2D());
+            drawBackwardExhaust(position, getForward());
         }
 
         drawBullets();
@@ -156,8 +154,8 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
 
     @Override
     protected void onDestroy() {
-        var explosionPoint = vector3SubtractValue(position, explosionAnimation.getFrameWidth()/2f);
-        var explosion = new ActorAnimated2D(explosionPoint, rotation, explosionAnimation);
+        var explosionPoint = vector2SubtractValue(position, explosionAnimation.getFrameWidth()/2f);
+        var explosion = new AnimatedActor(explosionPoint, rotation, explosionAnimation);
         var scene = getScene();
         scene.spawn(explosion);
         TaskQueueService.getInstance().enqueue(() -> {
@@ -174,7 +172,7 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
         if (bullets.size() > maxBullets - 1) {
             bullets.remove();
         }
-        bullets.add(new Bullet(vector2(position), getForward2D()));
+        bullets.add(new Bullet(position, getForward()));
     }
 
     protected void drawBullets() {
@@ -186,8 +184,8 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
     protected void refreshBulletsState(float dt) {
         if (bullets.isEmpty()) return;
         for (var bullet : bullets) {
-            bullet.pos = translate2D(vector2(bullet.pos.x(), bullet.pos.y()), vector2Scale(bullet.fwd, dt*800f), 1.f);
-            if (vector2Distance(bullet.pos, vector2(position)) > distanceToBulletDestroy) {
+            bullet.pos = translate2D(bullet.pos, vector2Scale(bullet.fwd, dt*800f), 1.f);
+            if (vector2Distance(bullet.pos, position) > distanceToBulletDestroy) {
                 bullets.remove(bullet);
                 break;
             }
@@ -207,7 +205,7 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
     }
 
     private void drawHeadingVector() {
-        var endPos = translate2D(vector2(position), velocity, 1);
+        var endPos = translate2D(position, velocity, 1);
         drawText("<>", (int)(endPos.x()) - 5, (int)(endPos.y() ) - 5, 14, DARKGREEN);
     }
 
@@ -246,7 +244,7 @@ public class FighterShip extends ActorTexture2D implements Controllable, Damagab
     }
 
     private Vector2 calculateVelocity() {
-        var fwd = getForward2D();
+        var fwd = getForward();
         var newVelocity = velocity;
         if (controlSignals.contains(MOVE_FORWARD)) {
             isForwardEngineActive = true;

@@ -1,23 +1,24 @@
-package com.github.ummo93.framework;
+package com.github.ummo93.framework.actors;
 
 
+import com.github.ummo93.framework.Actor;
 import lombok.Getter;
 import lombok.Setter;
 
 import static com.github.ummo93.utils.RaylibUtils.*;
 import static com.raylib.Raylib.*;
 
-public class ActorTexture2D extends Actor {
+public class TexturedActor extends Actor {
     @Getter
     @Setter
     protected Texture texture;
 
-    public ActorTexture2D(Vector3 position, Vector3 rotation, Texture texture) {
+    public TexturedActor(Vector2 position, Vector2 rotation, Texture texture) {
         super(position, rotation);
         this.texture = texture;
     }
 
-    public ActorTexture2D(Texture texture) {
+    public TexturedActor(Texture texture) {
         super();
         this.texture = texture;
     }
@@ -28,6 +29,6 @@ public class ActorTexture2D extends Actor {
 
     @Override
     protected void onDraw() {
-        drawTextureInCenter(texture, vector2(position), rotation.y());
+        drawTextureInCenter(texture, position, rotation.y());
     }
 }
