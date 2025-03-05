@@ -5,7 +5,7 @@ import com.github.ummo93.framework.Actor;
 import lombok.Getter;
 import lombok.Setter;
 
-import static com.github.ummo93.utils.RaylibUtils.*;
+import static com.github.ummo93.framework.utils.RaylibUtils.*;
 import static com.raylib.Raylib.*;
 
 public class TexturedActor extends Actor {

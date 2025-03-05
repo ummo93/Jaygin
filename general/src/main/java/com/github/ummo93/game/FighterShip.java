@@ -13,8 +13,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import static com.github.ummo93.game.ControlSignal2D.*;
-import static com.github.ummo93.utils.RaylibUtils.*;
-import static com.github.ummo93.utils.RaylibUtils.vector2;
+import static com.github.ummo93.framework.utils.RaylibUtils.*;
 import static com.raylib.Colors.*;
 import static com.raylib.Jaylib.*;
 import static com.raylib.Raylib.Vector2;

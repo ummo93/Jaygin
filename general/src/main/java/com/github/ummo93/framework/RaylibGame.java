@@ -1,6 +1,6 @@
 package com.github.ummo93.framework;
 
-import com.github.ummo93.config.RaylibSettings;
+import com.github.ummo93.framework.config.RaylibSettings;
 import com.github.ummo93.framework.service.GameClient;
 import com.github.ummo93.framework.service.GameServer;
 import com.github.ummo93.framework.service.TaskQueueService;

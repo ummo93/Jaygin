@@ -1,4 +1,4 @@
-package com.github.ummo93.utils;
+package com.github.ummo93.framework.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

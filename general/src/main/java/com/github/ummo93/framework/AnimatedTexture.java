@@ -3,7 +3,7 @@ package com.github.ummo93.framework;
 import com.raylib.Colors;
 import lombok.*;
 
-import static com.github.ummo93.utils.RaylibUtils.rectangle;
+import static com.github.ummo93.framework.utils.RaylibUtils.rectangle;
 import static com.raylib.Jaylib.*;
 import static com.raylib.Raylib.Texture;
 import static com.raylib.Raylib.Rectangle;

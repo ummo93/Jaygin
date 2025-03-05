@@ -2,11 +2,11 @@ package com.github.ummo93.game;
 
 import static com.raylib.Colors.*;
 import static com.raylib.Jaylib.*;
-import static com.github.ummo93.utils.RaylibUtils.*;
 import static com.raylib.Jaylib.guiButton;
 import static com.raylib.Raylib.*;
 
-import com.github.ummo93.config.RaylibSettings;
+import static com.github.ummo93.framework.utils.RaylibUtils.*;
+import com.github.ummo93.framework.config.RaylibSettings;
 import com.github.ummo93.framework.AnimatedTexture;
 import com.github.ummo93.framework.GameContext;
 import com.github.ummo93.framework.Scene;

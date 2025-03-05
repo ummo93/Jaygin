@@ -1,4 +1,4 @@
-package com.github.ummo93.config;
+package com.github.ummo93.framework.config;
 
 
 import com.github.ummo93.framework.GameContext;
@@ -9,17 +9,13 @@ import com.github.ummo93.framework.service.TaskQueueService;
 import com.github.ummo93.framework.service.impl.PollingGameClient;
 import com.github.ummo93.framework.service.impl.SimpleServer;
 import com.github.ummo93.framework.service.impl.TaskQueueImpl;
-import com.github.ummo93.game.MainScene;
-import com.github.ummo93.framework.Scene;
-import com.github.ummo93.game.ai.AiBehaviourStrategy;
-import com.github.ummo93.game.ai.ChaserBehaviour;
 import com.google.inject.AbstractModule;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.github.ummo93.utils.StreamUtils;
+import com.github.ummo93.framework.utils.StreamUtils;
 
 
 public class AppModule extends AbstractModule {
@@ -43,7 +39,5 @@ public class AppModule extends AbstractModule {
         bind(TaskQueueService.class).to(TaskQueueImpl.class).asEagerSingleton();
         bind(GameClient.class).to(PollingGameClient.class).asEagerSingleton();
         bind(GameServer.class).to(SimpleServer.class).asEagerSingleton();
-        bind(AiBehaviourStrategy.class).to(ChaserBehaviour.class);
-        bind(Scene.class).to(MainScene.class).asEagerSingleton();
     }
 }

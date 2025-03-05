@@ -8,9 +8,8 @@ import com.github.ummo93.game.Damagable;
 import com.raylib.Raylib;
 import lombok.NoArgsConstructor;
 
-import static com.github.ummo93.utils.RaylibUtils.*;
 import static com.raylib.Jaylib.*;
-
+import static com.github.ummo93.framework.utils.RaylibUtils.*;
 
 @NoArgsConstructor
 public class ChaserBehaviour implements AiBehaviourStrategy {

@@ -1,4 +1,4 @@
-package com.github.ummo93.config;
+package com.github.ummo93.framework.config;
 
 import lombok.Data;
 

@@ -4,7 +4,7 @@ import com.raylib.Raylib;
 import lombok.Getter;
 import lombok.Setter;
 
-import static com.github.ummo93.utils.RaylibUtils.*;
+import static com.github.ummo93.framework.utils.RaylibUtils.*;
 import static com.raylib.Jaylib.*;
 import static com.raylib.Raylib.Vector2;
 import static com.raylib.Raylib.BoundingBox;
