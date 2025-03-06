@@ -2,3 +2,4 @@
 redist
 target
 dependency-reduced-pom.xml
+.env

@@ -16,7 +16,7 @@
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <main.class>com.github.ummo93.Application</main.class>
+        <main.class>com.github.ummo93.Launcher</main.class>
     </properties>
     <dependencies>
         <dependency>

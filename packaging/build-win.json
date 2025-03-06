@@ -5,7 +5,7 @@
     "classpath": [
         "../sample-game/target/jaygin.jar"
     ],
-    "mainclass": "com.github.ummo93.Application",
+    "mainclass": "com.github.ummo93.Launcher",
     "vmargs": [
         "-Xmx1G"
     ],
