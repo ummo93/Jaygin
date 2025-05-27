@@ -6,7 +6,7 @@ import com.github.ummo93.framework.Timer
 import com.github.ummo93.framework.utils.RaylibUtils
 import com.github.ummo93.game.Controllable
 import com.github.ummo93.game.Damagable
-import com.raylib.Jaylib
+import com.raylib.Jaylib.*
 
 class ChaserBehaviour : AiBehaviourStrategy {
     private var shootTimer: Timer? = null
@@ -36,11 +36,11 @@ class ChaserBehaviour : AiBehaviourStrategy {
             subject.rotateClockwise()
         }
 
-        if (Jaylib.vector2Distance(subject.position, target.position) > DISTANCE_TO_CONTACT) {
+        if (vector2Distance(subject.position, target.position) > DISTANCE_TO_CONTACT) {
             subject.moveForward()
         }
 
-        val rayOnTarget = RaylibUtils.ray(subject.position, Jaylib.vector2Scale(subject.forward, HIT_DISTANCE))
+        val rayOnTarget = RaylibUtils.ray(subject.position, vector2Scale(subject.forward, HIT_DISTANCE))
         val collisionInfo = scene!!.raycastOne(rayOnTarget, HIT_DISTANCE, subject)
         val subjectAlignedToTarget = collisionInfo.isPresent && collisionInfo.get().other is Damagable
 

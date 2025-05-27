@@ -11,7 +11,7 @@ import com.github.ummo93.framework.utils.RaylibUtils
 import com.github.ummo93.game.ai.AiBehaviourStrategy
 import com.google.inject.Inject
 import com.raylib.Colors
-import com.raylib.Jaylib
+import com.raylib.Jaylib.*
 import com.raylib.Raylib.*
 import org.bytedeco.javacpp.FloatPointer
 import java.io.IOException
@@ -96,13 +96,13 @@ class MainScene : Scene() {
     }
 
     override fun onDraw() {
-        Jaylib.drawText("WASD to move", 20, ctx!!.windowHeight - 40, 20, Colors.YELLOW)
-        Jaylib.drawText("SPACE to shoot", 20, ctx.windowHeight - 65, 20, Colors.YELLOW)
-        Jaylib.drawText("SCORE: $killedEnemiesCounter", ctx.windowWidth - 120, 20, 20, Colors.GREEN)
-        Jaylib.drawFPS(ctx.windowWidth - 100, ctx.windowHeight - 30)
+        drawText("WASD to move", 20, ctx!!.windowHeight - 40, 20, Colors.YELLOW)
+        drawText("SPACE to shoot", 20, ctx.windowHeight - 65, 20, Colors.YELLOW)
+        drawText("SCORE: $killedEnemiesCounter", ctx.windowWidth - 120, 20, 20, Colors.GREEN)
+        drawFPS(ctx.windowWidth - 100, ctx.windowHeight - 30)
         if (player == null || player!!.isDestructed) {
-            Jaylib.drawText("GAME OVER", ctx.windowWidth / 2 - 100, ctx.windowHeight / 2 - 20, 30, Colors.RED)
-            if (!settings!!.isMultiplayer && Jaylib.guiButton(
+            drawText("GAME OVER", ctx.windowWidth / 2 - 100, ctx.windowHeight / 2 - 20, 30, Colors.RED)
+            if (!settings!!.isMultiplayer && guiButton(
                     RaylibUtils.rectangle(
                         ctx.windowWidth / 2f - 100,
                         ctx.windowHeight / 2f + 130,
@@ -114,7 +114,7 @@ class MainScene : Scene() {
                 this.reload()
             }
         } else {
-            Jaylib.guiProgressBar(
+            guiProgressBar(
                 RaylibUtils.rectangle(24f, 24f, 120f, 20f),
                 "",
                 "HP",
@@ -232,8 +232,8 @@ class MainScene : Scene() {
         killedEnemiesCounter++
         val offset = 1000
         val playerPos = player!!.position
-        val randomX = Jaylib.getRandomValue(playerPos.x().toInt() - offset, playerPos.x().toInt() + offset)
-        val randomY = Jaylib.getRandomValue(playerPos.y().toInt() - offset, playerPos.y().toInt() + offset)
+        val randomX = getRandomValue(playerPos.x().toInt() - offset, playerPos.x().toInt() + offset)
+        val randomY = getRandomValue(playerPos.y().toInt() - offset, playerPos.y().toInt() + offset)
         spawnEnemy(RaylibUtils.vector2(randomX.toFloat(), randomY.toFloat()))
     }
 
@@ -253,27 +253,27 @@ class MainScene : Scene() {
         }
         playerHpPtr!!.put(player!!.hp.toFloat())
         val camera2D = camera
-        camera2D.zoom(Jaylib.clamp(camera2D.zoom() + Jaylib.getMouseWheelMove() * .1f, 1f, 2.5f))
+        camera2D.zoom(clamp(camera2D.zoom() + getMouseWheelMove() * .1f, 1f, 2.5f))
         camera2D.target(RaylibUtils.vector2(player!!.position.x(), player!!.position.y()))
         camera2D.offset(RaylibUtils.vector2(ctx!!.windowWidth / 2f, ctx.windowHeight / 2f))
 
-        if (Jaylib.isKeyDown(KEY_W)) {
+        if (isKeyDown(KEY_W)) {
             player!!.moveForward()
-            if (!Jaylib.isSoundPlaying(playerEngineSound)) Jaylib.playSound(playerEngineSound)
+            if (!isSoundPlaying(playerEngineSound)) playSound(playerEngineSound)
         }
-        if (Jaylib.isKeyDown(KEY_S)) {
+        if (isKeyDown(KEY_S)) {
             player!!.moveBackward()
-            if (!Jaylib.isSoundPlaying(playerEngineSound)) Jaylib.playSound(playerEngineSound)
+            if (!isSoundPlaying(playerEngineSound)) playSound(playerEngineSound)
         }
 
-        if (Jaylib.isKeyDown(KEY_A)) {
+        if (isKeyDown(KEY_A)) {
             player!!.rotateCounterClockwise()
         }
-        if (Jaylib.isKeyDown(KEY_D)) {
+        if (isKeyDown(KEY_D)) {
             player!!.rotateClockwise()
         }
 
-        if (Jaylib.isKeyPressed(KEY_SPACE)) {
+        if (isKeyPressed(KEY_SPACE)) {
             player!!.shoot()
         }
     }
