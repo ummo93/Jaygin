@@ -15,11 +15,10 @@ public abstract class Actor {
     @Getter
     private long id;
     @Getter
-    @Setter
-    protected Vector2 position;
+    private Vector2 position;
     @Getter
     @Setter
-    protected Vector2 rotation;
+    private Vector2 rotation;
     @Getter
     @Setter
     protected Scene scene;
@@ -53,15 +52,18 @@ public abstract class Actor {
         return getHeadingByRotation2D(VECTOR_RIGHT, rotation.y());
     }
 
+    public void setPosition(Vector2 position) {
+        bodyLastPos = this.position;
+        this.position = position;
+    }
+
     protected abstract void onDraw();
     protected void onInit() {}
     protected void onUpdate(float dt) {}
     protected void onDestroy() {
         destructed = true;
     }
-    protected void onBeforeUpdatePhysic(float dt) {
-        bodyLastPos = position;
-    }
+
     protected void onUpdatePhysic(float dt) {
         if (collider == null) return;
         Raylib.Vector3 offsetSinceLastUpdate = vector3(vector2Subtract(position, bodyLastPos));

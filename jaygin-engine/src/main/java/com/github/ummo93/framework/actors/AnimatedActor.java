@@ -24,6 +24,6 @@ public class AnimatedActor extends Actor {
 
     @Override
     protected void onDraw() {
-        this.animation.drawAnimation((int)position.x(), (int)position.y(), false);
+        this.animation.drawAnimation((int)getPosition().x(), (int)getPosition().y(), false);
     }
 }

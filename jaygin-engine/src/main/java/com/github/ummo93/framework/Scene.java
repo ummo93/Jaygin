@@ -56,7 +56,6 @@ public abstract class Scene {
     }
 
     public void updateHierarchy(float dt) {
-        actors.forEach((actor) -> actor.onBeforeUpdatePhysic(dt));
         actors.forEach((actor) -> actor.onUpdate(dt));
         actors.forEach((actor) -> actor.onUpdatePhysic(dt));
     }
