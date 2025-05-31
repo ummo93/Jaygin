@@ -5,15 +5,8 @@ import com.raylib.Helpers;
 import org.bytedeco.javacpp.Pointer;
 
 import static com.raylib.Jaylib.*;
-import static com.raylib.Raylib.Vector2;
-import static com.raylib.Raylib.Vector3;
-import static com.raylib.Raylib.Vector4;
-import static com.raylib.Raylib.Color;
-import static com.raylib.Raylib.Rectangle;
-import static com.raylib.Raylib.DEG2RAD;
-import static com.raylib.Raylib.Ray;
-import static com.raylib.Raylib.Texture;
-import static com.raylib.Raylib.Image;
+import static com.raylib.Raylib.*;
+
 import com.raylib.Raylib.Sound;
 
 
@@ -55,6 +48,16 @@ public class RaylibUtils {
         return new Vector3().x(vector3.x()).y(vector3.y()).z(vector3.z());
     }
 
+    public static BoundingBox bbox(float x, float y, float width, float height) {
+        return new BoundingBox()
+            .min(vector3(x, y, 0))
+            .max(vector3(x + width, y + height, 0));
+    }
+
+    public static BoundingBox bbox(Vector2 pos, float width, float height) {
+        return bbox(pos.x(), pos.y(), width, height);
+    }
+
     public static void loadGuiStyleResource(String pathToStyleFile) {
         guiLoadStyle(ResourceUtils.getAssetPath(pathToStyleFile));
     }
@@ -63,12 +66,28 @@ public class RaylibUtils {
         return loadTexture(ResourceUtils.getAssetPath(resourceFileName));
     }
 
+    public static Shader loadShaderResource(String resourceFileName) {
+        return loadShader(null, ResourceUtils.getAssetPath(resourceFileName));
+    }
+
     public static Sound loadSoundResource(String resourceFileName) {
         return loadSound(ResourceUtils.getAssetPath(resourceFileName));
     }
 
     public static Image loadImageResource(String resourceFileName) {
         return loadImage(ResourceUtils.getAssetPath(resourceFileName));
+    }
+
+    public static Texture loadTextureFromPixels(byte[] pixels, int width, int height) {
+        var byteBuffer = java.nio.ByteBuffer.wrap(pixels);
+        var bytePointer = new org.bytedeco.javacpp.BytePointer(byteBuffer);
+        var image = new Image();
+        image.data(bytePointer);
+        image.width(width);
+        image.height(height);
+        image.mipmaps(1);
+        image.format(PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+        return loadTextureFromImage(image);
     }
 
     public static Vector2 getHeadingByRotation2D(Vector2 absoluteHeading, float rotation) {
