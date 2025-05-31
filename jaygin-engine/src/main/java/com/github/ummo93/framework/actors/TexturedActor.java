@@ -29,6 +29,6 @@ public class TexturedActor extends Actor {
 
     @Override
     protected void onDraw() {
-        drawTextureInCenter(texture, position, rotation.y());
+        drawTextureInCenter(texture, getPosition(), getRotation().y());
     }
 }

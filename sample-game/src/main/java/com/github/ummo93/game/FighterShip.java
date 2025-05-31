@@ -63,8 +63,8 @@ public class FighterShip extends TexturedActor implements Controllable, Damagabl
 
     public void addCollider() {
         var collider = new BoundingBox()
-            .max(vector3(position.x() + texture.width()/2.f, position.y() + texture.height()/2.f, 0.f))
-            .min(vector3(position.x() - texture.width()/2.f, position.y() - texture.height()/2.f, 0.f));
+            .max(vector3(getPosition().x() + texture.width()/2.f, getPosition().y() + texture.height()/2.f, 0.f))
+            .min(vector3(getPosition().x() - texture.width()/2.f, getPosition().y() - texture.height()/2.f, 0.f));
         setCollider(collider);
     }
 
@@ -126,7 +126,7 @@ public class FighterShip extends TexturedActor implements Controllable, Damagabl
         var currentRotation = getRotation();
         setRotation(vector2(currentRotation.x(), currentRotation.y() + (dt*45f*newRotation)));
         setVelocity(calculateVelocity());
-        var newTranslatedPos = translate2D(position, vector2Scale(velocity, dt*75f*speed), 1f);
+        var newTranslatedPos = translate2D(getPosition(), vector2Scale(velocity, dt*75f*speed), 1f);
         setPosition(newTranslatedPos);
 
         if (controlSignals.contains(SHOOT)) {
@@ -140,10 +140,10 @@ public class FighterShip extends TexturedActor implements Controllable, Damagabl
     @Override
     protected void onDraw() {
         if (isForwardEngineActive) {
-            drawForwardExhaust(position, getForward());
+            drawForwardExhaust(getPosition(), getForward());
         }
         if (isBackwardEngineActive) {
-            drawBackwardExhaust(position, getForward());
+            drawBackwardExhaust(getPosition(), getForward());
         }
 
         drawBullets();
@@ -153,8 +153,8 @@ public class FighterShip extends TexturedActor implements Controllable, Damagabl
 
     @Override
     protected void onDestroy() {
-        var explosionPoint = vector2SubtractValue(position, explosionAnimation.getFrameWidth()/2f);
-        var explosion = new AnimatedActor(explosionPoint, rotation, explosionAnimation);
+        var explosionPoint = vector2SubtractValue(getPosition(), explosionAnimation.getFrameWidth()/2f);
+        var explosion = new AnimatedActor(explosionPoint, getRotation(), explosionAnimation);
         var scene = getScene();
         scene.spawn(explosion);
         TaskQueueService.getInstance().enqueue(() -> {
@@ -171,7 +171,7 @@ public class FighterShip extends TexturedActor implements Controllable, Damagabl
         if (bullets.size() > maxBullets - 1) {
             bullets.remove();
         }
-        bullets.add(new Bullet(position, getForward()));
+        bullets.add(new Bullet(getPosition(), getForward()));
     }
 
     protected void drawBullets() {
@@ -184,7 +184,7 @@ public class FighterShip extends TexturedActor implements Controllable, Damagabl
         if (bullets.isEmpty()) return;
         for (var bullet : bullets) {
             bullet.pos = translate2D(bullet.pos, vector2Scale(bullet.fwd, dt*800f), 1.f);
-            if (vector2Distance(bullet.pos, position) > distanceToBulletDestroy) {
+            if (vector2Distance(bullet.pos, getPosition()) > distanceToBulletDestroy) {
                 bullets.remove(bullet);
                 break;
             }
@@ -204,7 +204,7 @@ public class FighterShip extends TexturedActor implements Controllable, Damagabl
     }
 
     private void drawHeadingVector() {
-        var endPos = translate2D(position, velocity, 1);
+        var endPos = translate2D(getPosition(), velocity, 1);
         drawText("<>", (int)(endPos.x()) - 5, (int)(endPos.y() ) - 5, 14, DARKGREEN);
     }
 
