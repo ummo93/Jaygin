@@ -1,6 +1,6 @@
-package com.github.ummo93.game;
+package com.github.ummo93.game
 
-public enum ControlSignal2D {
+enum class ControlSignal2D {
     ROTATE_CLOCKWISE,
     ROTATE_COUNTERCLOCKWISE,
     MOVE_FORWARD,
