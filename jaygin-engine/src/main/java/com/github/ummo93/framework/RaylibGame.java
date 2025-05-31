@@ -48,8 +48,8 @@ public class RaylibGame {
             var isCameraMode = camera2D != null;
 
             refreshContext();
-            scene.updateHierarchy(ctx.delta);
             scene.onUpdate(ctx.delta);
+            scene.updateHierarchy(ctx.delta);
 
             beginDrawing();
             clearBackground(scene.getBackgroundColor());
