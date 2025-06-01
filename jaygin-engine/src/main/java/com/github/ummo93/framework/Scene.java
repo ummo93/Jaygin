@@ -33,6 +33,9 @@ public abstract class Scene {
     public void onUpdate(float dt) {
 
     }
+    public void drawOnBackground() {
+
+    }
     public void onDraw() {
 
     }

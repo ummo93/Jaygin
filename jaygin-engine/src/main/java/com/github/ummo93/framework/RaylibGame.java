@@ -53,6 +53,7 @@ public class RaylibGame {
 
             beginDrawing();
             clearBackground(scene.getBackgroundColor());
+            scene.drawOnBackground();
 
             if (isCameraMode) {
                 beginMode2D(camera2D);
