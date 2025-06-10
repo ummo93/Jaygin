@@ -90,6 +90,15 @@ public class RaylibUtils {
         return loadTextureFromImage(image);
     }
 
+    public static Texture generateDummyTexture(int width, int height) {
+        var image = new Image();
+        image.width(width);
+        image.height(height);
+        image.mipmaps(1);
+        image.format(PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+        return loadTextureFromImage(image);
+    }
+
     public static Vector2 getHeadingByRotation2D(Vector2 absoluteHeading, float rotation) {
         absoluteHeading = vector2Rotate(absoluteHeading, rotation * (float)DEG2RAD);
         absoluteHeading = vector2Normalize(absoluteHeading);
@@ -133,15 +142,21 @@ public class RaylibUtils {
         arrayRef.position(0);
     }
 
-    public static void drawTextureInCenter(Texture texture, Vector2 pos, float rotation) {
+    public static void drawTextureInCenter(Texture texture, Vector2 pos, float rotation, float scaleX, float scaleY, Color tint) {
+        float newWidth = texture.width() * scaleX;
+        float newHeight = texture.height() * scaleY;
         drawTexturePro(
             texture,
             rectangle(0,0, texture.width(), texture.height()),
-            rectangle(pos.x(),pos.y(), texture.width(), texture.height()),
-            vector2(texture.width()/2.f, texture.height()/2.f),
+            rectangle(pos.x(),pos.y(), newWidth, newHeight),
+            vector2(newWidth/2.f, newHeight/2.f),
             rotation,
-            Colors.WHITE
+            tint
         );
+    }
+
+    public static void drawTextureInCenter(Texture texture, Vector2 pos, float rotation) {
+        drawTextureInCenter(texture, pos, rotation, 1.0f, 1.0f, Colors.WHITE);
     }
 
     public static void drawTextureInCenterRepeat(Texture texture, Vector2 pos, float scale, float rotation, Color tint) {
