@@ -72,6 +72,10 @@ public abstract class Scene {
         return Optional.empty();
     }
 
+    public Collection<Actor> findAll(Predicate<Actor> pred) {
+        return actors.stream().filter(pred).toList();
+    }
+
     public int raycast(CollisionInfo[] ref, Ray ray, Actor self) {
         if (ref.length == 0) return 0;
         int n = 0;
