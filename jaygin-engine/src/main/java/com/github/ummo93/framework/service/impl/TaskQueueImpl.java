@@ -12,25 +12,27 @@ import static com.raylib.Jaylib.getTime;
 public class TaskQueueImpl extends TaskQueueService {
     private final Queue<EventLoopTask> queue = new ArrayDeque<>();
 
-    public long enqueue(Runnable task) {
+    public synchronized long enqueue(Runnable task) {
         return enqueue(task, 0);
     }
 
-    public long enqueue(Runnable task, double delay_sec) {
+    public synchronized long enqueue(Runnable task, double delay_sec) {
         var elt = new EventLoopTask(task, getTime(), delay_sec);
         queue.add(elt);
         return elt.getId();
     }
 
-    public void cancel(long taskId) {
-        for (EventLoopTask eventLoopTask : queue) {
-            if (eventLoopTask.getId() != taskId) continue;
-            queue.remove(eventLoopTask);
-            break;
+    public synchronized void cancel(long taskId) {
+        Iterator<EventLoopTask> iter = queue.iterator();
+        while (iter.hasNext()) {
+            if (iter.next().getId() == taskId) {
+                iter.remove();
+                break;
+            }
         }
     }
 
-    public void dequeSuitable() {
+    public synchronized void dequeSuitable() {
         var now = getTime();
         Iterator<EventLoopTask> iter = queue.iterator();
         while(iter.hasNext()){
