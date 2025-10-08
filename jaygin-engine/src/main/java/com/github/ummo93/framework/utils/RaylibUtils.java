@@ -2,6 +2,7 @@ package com.github.ummo93.framework.utils;
 
 import com.raylib.Colors;
 import com.raylib.Helpers;
+import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.Pointer;
 
 import static com.raylib.Jaylib.*;
@@ -79,15 +80,15 @@ public class RaylibUtils {
     }
 
     public static Texture loadTextureFromPixels(byte[] pixels, int width, int height) {
-        var byteBuffer = java.nio.ByteBuffer.wrap(pixels);
-        var bytePointer = new org.bytedeco.javacpp.BytePointer(byteBuffer);
-        var image = new Image();
-        image.data(bytePointer);
-        image.width(width);
-        image.height(height);
-        image.mipmaps(1);
-        image.format(PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
-        return loadTextureFromImage(image);
+        try (BytePointer bytePointer = new BytePointer(pixels)) {
+            var image = new Image();
+            image.data(bytePointer);
+            image.width(width);
+            image.height(height);
+            image.mipmaps(1);
+            image.format(PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+            return loadTextureFromImage(image);
+        }
     }
 
     public static Texture generateDummyTexture(int width, int height) {
