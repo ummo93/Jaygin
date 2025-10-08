@@ -20,7 +20,9 @@ public abstract class Scene {
         if (!actors.isEmpty()) {
             actors.forEach(this::remove);
         }
-        onEndFrame();
+        for (var i = 0; i < actors.size(); i++) {
+            onEndFrame();
+        }
         actors.clear();
         actorToDestroyQueue.clear();
         camera = null;
